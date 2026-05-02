@@ -7,8 +7,9 @@ export const createNote = async (req, res, next) => {
       title,
       content,
       tags,
-    });yu
-    console.log(newNote)
+      author: req.user._id,
+    });
+    await newNote.save();
     res.status(200).send("Successful")
   } catch (error) {
     next(error);
@@ -17,9 +18,8 @@ export const createNote = async (req, res, next) => {
 
 export const getNotes = async (req, res, next) => {
   try {
-    const notes = await Note.findAll()
-    
-    
+    const notes = await Note.find().sort({ createdAt: -1 })
+    res.status(200).json(notes)
   } catch (error) {
     next(error)
   }
