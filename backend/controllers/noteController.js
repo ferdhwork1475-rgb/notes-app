@@ -24,3 +24,12 @@ export const getNotes = async (req, res, next) => {
     next(error)
   }
 }
+
+export const editNote = async (req, res, next) => {
+  try {
+    const id = req.params.id
+    res.send(id)
+  } catch (error) {
+    next(error)
+  }
+}
