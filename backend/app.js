@@ -5,6 +5,7 @@ import express from "express";
 import router from "./routes/routes.js";
 import { connectDB } from "./config/connectDB.js";
 import protectedRoutes from "./routes/protectedRoutes.js";
+import authenticateToken from "./middlewares/authMiddleware.js";
 
 const app = express();
 connectDB();
@@ -13,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use("/api/protected", protectedRoutes);
+app.use("/api/protected", authenticateToken, protectedRoutes);
 app.use(router);
 
 // Global error handler catches any error that is passed into next()
