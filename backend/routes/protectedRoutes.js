@@ -7,7 +7,7 @@ import {
 import express from "express";
 const router = express.Router();
 
-router.post("/notes", createNote);
+router.post("/notes", validateNote, checkNoteValidation, createNote);
 router.get("/notes", getNotes);
 
 export default router;

@@ -10,7 +10,7 @@ export const createNote = async (req, res, next) => {
       author: req.user._id,
     });
     await newNote.save();
-    res.status(200).send("Successful")
+    res.status(200).send("Successful");
   } catch (error) {
     next(error);
   }

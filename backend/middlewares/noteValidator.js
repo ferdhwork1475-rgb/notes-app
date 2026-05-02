@@ -1,7 +1,7 @@
 import { validationResult, body } from "express-validator";
 import Note from "../models/noteSchema.js";
 
-export const validateNote = async () => [
+export const validateNote = [
   body("title")
     .trim()
     .escape()
@@ -17,7 +17,12 @@ export const checkNoteValidation = (req, res, next) => {
   const errMsgs = [];
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    errors.errors.map((err) => errMsgs.push(err.msg));
+    console.log("Note validation passed");
+    return next();
   }
+  errors.array().forEach((error) => {
+    errMsgs.push(error.msg);
+  });
   return res.status(400).json({ errors: errMsgs });
 };
+
