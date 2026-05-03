@@ -1,12 +1,18 @@
-import Navbar from '../components/Navbar';
-import Hero from '../components/Hero';
+import { useState } from "react";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import notepad from "../assets/notepad.png";
+import notetab from "../assets/notetabs.png";
+import elena from "../assets/elena_pfp.png";
+import laptopNote from "../assets/laptop-note.png";
+import markus from "../assets/markus_pfp.png";
 
 const IndexPage = () => {
   return (
     <div>
       <Navbar />
       <Hero />
-            <section className="max-w-7xl mx-auto px-4 md:px-12 py-16">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 py-16">
         <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
           {/* Primary Preview (60%) */}
           <div className="w-full md:w-[60%] group">
@@ -35,29 +41,166 @@ const IndexPage = () => {
               />
             </div>
 
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 transform md:translate-x-4">
-              <div className="mb-4">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#4F46E5]">
-                  Think Clearly.
-                </span>
+            {/* Card 1: Focus on the Writing Process */}
+            <div className="bg-[#00020f] p-8 rounded-2xl border border-[#0e0f23] shadow-xl hover:shadow-2xl transition-all duration-300 transform md:-translate-y-4 group">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-[#4F46E5]/10 rounded-lg">
+                  {/* Simple Pen Icon for Writing */}
+                  <svg
+                    className="w-6 h-6 text-[#4F46E5]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-white text-xl font-semibold tracking-tight">
+                  Write in Flow
+                </h3>
               </div>
-              <p className="text-[#00020f] text-lg leading-relaxed font-medium">
-                Write down experiences and ideas, and share it publicly or keep it private.{" "}
-                <span className="text-[#4F46E5]">All in one platform</span>.
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                A calm, distraction-free space designed to help you capture your
+                thoughts exactly as they come, without worrying about the tools.
               </p>
-              <div className="mt-6 flex gap-2">
-                <span className="px-3 py-1 bg-gray-50 text-gray-500 text-xs rounded-md border border-gray-100">
-                  Simple •
-                </span>
-                <span className="px-3 py-1 bg-gray-50 text-gray-500 text-xs rounded-md border border-gray-100">
-                  Clean •
-                </span>
-                <span className="px-3 py-1 bg-gray-50 text-gray-500 text-xs rounded-md border border-gray-100">
-                  Yours
-                </span>
+              {/* Animated accent line */}
+              <div className="h-1 w-12 bg-[#4F46E5] rounded-full transition-all duration-500 group-hover:w-full"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="max-w-7xl mx-auto px-6 md:px-12 py-24 bg-white">
+        {/* Header Section */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#00020f] mb-4">
+            Everything you need, nothing you don't.
+          </h2>
+          <p className="text-gray-500 max-w-2xl mx-auto text-lg">
+            We've stripped away the clutter to give you a focused writing
+            environment that adapts to your workflow.
+          </p>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {/* Feature 1: Instant Sync */}
+          <div className="flex flex-col items-start group">
+            <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-6 text-[#4F46E5] group-hover:bg-[#4F46E5] group-hover:text-white transition-all duration-300">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-[#00020f] mb-3">
+              Instant Sync
+            </h3>
+            <p className="text-gray-600 leading-relaxed text-sm">
+              Your thoughts move with you. Zero-latency synchronization across
+              mobile, desktop, and web platforms.
+            </p>
+          </div>
+
+          {/* Feature 2: Privacy */}
+          <div className="flex flex-col items-start group">
+            <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-6 text-[#4F46E5] group-hover:bg-[#4F46E5] group-hover:text-white transition-all duration-300">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-[#00020f] mb-3">
+              Privacy by Design
+            </h3>
+            <p className="text-gray-600 leading-relaxed text-sm">
+              End-to-end encryption ensures your private notes stay private. We
+              can't read them, and no one else can either.
+            </p>
+          </div>
+
+          {/* Feature 3: Global Search */}
+          <div className="flex flex-col items-start group">
+            <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-6 text-[#4F46E5] group-hover:bg-[#4F46E5] group-hover:text-white transition-all duration-300">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-[#00020f] mb-3">
+              Global Search
+            </h3>
+            <p className="text-gray-600 leading-relaxed text-sm">
+              Lightning-fast search results across all your notebooks, tags, and
+              archived snippets in milliseconds.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div>
+          <h3>Trusted by thinkers around the globe.</h3>
+          <div>
+            <p>
+              "Stillness Notes is the first app that actually lets me think
+              without being interrupted by a thousand tiny features I don't
+              need."
+            </p>
+            <div>
+              <img src={elena} alt="user profile pic" />
+              <div>
+                <p>Elena Rossi</p>
+                <p>Product Designer</p>
               </div>
             </div>
           </div>
+
+          <div>
+            <p>
+              "The markdown support is the best I've seen. It feels native and
+              invisible, exactly how a writing tool should feel."
+            </p>
+            <div>
+              <img src={markus} alt="user profile pic" />
+              <div>
+                <p>Marcus Thorne</p>
+                <p>Tech Journalist</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <img src={laptopNote} alt="a laptop for writing noted" />
         </div>
       </section>
     </div>

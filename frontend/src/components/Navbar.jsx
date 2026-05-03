@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [activePage, setActivePage] = useState("home");
+
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-12">
@@ -17,26 +19,29 @@ const Navbar = () => {
 
         {/* Navigation Links - Hidden on Mobile, Flex on Desktop */}
         <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-          <li>
+          <li className={activePage === "home" ? "text-[#4F46E5]" : ""}>
             <Link
-              to="/features"
+              to="/"
               className="hover:text-[#4F46E5] transition-colors"
+              onClick={() => setActivePage("home")}
             >
               Features
             </Link>
           </li>
-          <li>
+          <li className={activePage === "pricing" ? "text-[#4F46E5]" : ""}>
             <Link
               to="/pricing"
               className="hover:text-[#4F46E5] transition-colors"
+              onClick={() => setActivePage("pricing")}
             >
               Pricing
             </Link>
           </li>
-          <li>
+          <li className={activePage === "about" ? "text-[#4F46E5]" : ""}>
             <Link
               to="/about"
               className="hover:text-[#4F46E5] transition-colors"
+              onClick={() => setActivePage("about")}
             >
               About
             </Link>
