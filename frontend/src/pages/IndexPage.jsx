@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import notepad from "../assets/notepad.png";
@@ -7,10 +8,10 @@ import elena from "../assets/elena_pfp.png";
 import laptopNote from "../assets/laptop-note.png";
 import markus from "../assets/markus_pfp.png";
 
-const IndexPage = () => {
+const IndexPage = ({ setActivePage }) => {
   return (
     <div>
-      <Navbar />
+      <Navbar setActivePage={setActivePage} />
       <Hero />
       <section className="max-w-7xl mx-auto px-4 md:px-12 py-16">
         <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
@@ -167,40 +168,112 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
-      <section>
-        <div>
-          <h3>Trusted by thinkers around the globe.</h3>
-          <div>
-            <p>
-              "Stillness Notes is the first app that actually lets me think
-              without being interrupted by a thousand tiny features I don't
-              need."
-            </p>
-            <div>
-              <img src={elena} alt="user profile pic" />
-              <div>
-                <p>Elena Rossi</p>
-                <p>Product Designer</p>
+      <section className="bg-[#334155] py-20 px-6 md:px-12 flex flex-col md:flex-row items-center gap-12 overflow-hidden">
+        {/* Left Side: Content & Testimonials */}
+        <div className="w-full md:w-1/2 flex flex-col gap-8">
+          <h3 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+            Trusted by thinkers around the globe.
+          </h3>
+
+          <div className="space-y-6">
+            {/* Testimonial 1 */}
+            <div className="bg-slate-700/40 backdrop-blur-sm p-6 rounded-2xl border border-slate-500/30 hover:border-indigo-400 transition-colors duration-300">
+              <p className="text-slate-200 text-lg italic mb-6 leading-relaxed">
+                "Stillness Notes is the first app that actually lets me think
+                without being interrupted by a thousand tiny features I don't
+                need."
+              </p>
+              <div className="flex items-center gap-4">
+                <img
+                  src={elena}
+                  alt="Elena Rossi"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-indigo-400"
+                />
+                <div>
+                  <p className="text-white font-semibold">Elena Rossi</p>
+                  <p className="text-slate-400 text-sm">Product Designer</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div>
-            <p>
-              "The markdown support is the best I've seen. It feels native and
-              invisible, exactly how a writing tool should feel."
-            </p>
-            <div>
-              <img src={markus} alt="user profile pic" />
-              <div>
-                <p>Marcus Thorne</p>
-                <p>Tech Journalist</p>
+            {/* Testimonial 2 */}
+            <div className="bg-slate-700/40 backdrop-blur-sm p-6 rounded-2xl border border-slate-500/30 hover:border-indigo-400 transition-colors duration-300">
+              <p className="text-slate-200 text-lg italic mb-6 leading-relaxed">
+                "The markdown support is the best I've seen. It feels native and
+                invisible, exactly how a writing tool should feel."
+              </p>
+              <div className="flex items-center gap-4">
+                <img
+                  src={markus}
+                  alt="Marcus Thorne"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-indigo-400"
+                />
+                <div>
+                  <p className="text-white font-semibold">Marcus Thorne</p>
+                  <p className="text-slate-400 text-sm">Tech Journalist</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div>
-          <img src={laptopNote} alt="a laptop for writing noted" />
+
+        {/* Right Side: Large Image */}
+        <div className="w-full md:w-1/2 relative">
+          <div className="absolute -inset-4 bg-indigo-500/10 blur-3xl rounded-full"></div>
+          <img
+            src={laptopNote}
+            alt="a laptop for writing noted"
+            className="relative w-full h-auto rounded-2xl shadow-2xl transform md:rotate-2 hover:rotate-0 transition-transform duration-500"
+          />
+        </div>
+      </section>
+      <section className="bg-[#334155] text-white">
+        {/* CTA Section */}
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 text-center border-b border-slate-500/30">
+          <h3 className="text-3xl md:text-5xl font-bold mb-6">
+            Ready to find your focus?
+          </h3>
+          <p className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+            Join 50,000+ thinkers who have simplified their digital life with
+            Stillness Notes.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Link
+              to="/signup"
+              className="text-white hover:text-indigo-300 font-medium transition-colors border-b border-transparent hover:border-indigo-300 pb-1"
+            >
+              Get Started for Free
+            </Link>
+            <Link
+              to="/pricing"
+              className="bg-white text-[#334155] px-8 py-3.5 rounded-full font-bold hover:bg-indigo-50 transition-all shadow-lg hover:scale-105"
+              onClick={() => setActivePage("pricing")}
+            >
+              View Pricing
+            </Link>
+          </div>
+        </div>
+
+        {/* Footer Section */}
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-8 text-sm text-slate-400">
+            <p className="hover:text-white cursor-pointer transition-colors">
+              Privacy policy
+            </p>
+            <p className="hover:text-white cursor-pointer transition-colors">
+              Terms of service
+            </p>
+            <p className="hover:text-white cursor-pointer transition-colors">
+              Contact
+            </p>
+          </div>
+
+          <p className="text-slate-400 text-sm font-light">
+            © 2024{" "}
+            <span className="text-white font-medium">Stillness Notes</span>.
+            Designed for thinkers.
+          </p>
         </div>
       </section>
     </div>
