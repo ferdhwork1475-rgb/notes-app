@@ -17,7 +17,6 @@ export const checkNoteValidation = (req, res, next) => {
   const errMsgs = [];
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    console.log("Note validation passed");
     return next();
   }
   errors.array().forEach((error) => {

@@ -28,7 +28,25 @@ export const getNotes = async (req, res, next) => {
 export const editNote = async (req, res, next) => {
   try {
     const id = req.params.id
-    res.send(id)
+    const { title, content, tags } = req.body
+    const note = await Note.findById(id)
+    if (!note) {
+      return res.status(404).send("Note not found")
+    }
+
+    note.title = title
+    note.content = content
+    note.tags = tags
+    await note.save()
+    res.status(200).json(note)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteNote = async (req, res, next) => {
+  try {
+
   } catch (error) {
     next(error)
   }
