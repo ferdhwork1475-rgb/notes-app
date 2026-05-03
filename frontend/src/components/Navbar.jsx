@@ -1,21 +1,66 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <header>
-        <nav className='flex justify-evenly items-center'>
-            <p className="font-bold">Stillness Notes</p>
-            <ul>
-                <Link >Features</Link >
-                <Link >Pricing</Link >
-                <Link >About</Link >
-            </ul>
-            <div>
-                
-            </div>
-        </nav>
-    </header>
-  )
-}
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-12">
+        {/* Logo Area */}
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-[#4F46E5] rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-sm">S</span>
+          </div>
+          <p className="text-xl font-bold tracking-tight text-[#00020f]">
+            Stillness <span className="text-[#4F46E5]">Notes</span>
+          </p>
+        </div>
 
-export default Navbar
+        {/* Navigation Links - Hidden on Mobile, Flex on Desktop */}
+        <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+          <li>
+            <Link
+              to="/features"
+              className="hover:text-[#4F46E5] transition-colors"
+            >
+              Features
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/pricing"
+              className="hover:text-[#4F46E5] transition-colors"
+            >
+              Pricing
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/about"
+              className="hover:text-[#4F46E5] transition-colors"
+            >
+              About
+            </Link>
+          </li>
+        </ul>
+
+        {/* Auth Buttons */}
+        <div className="flex items-center gap-6">
+          <Link
+            to="/login"
+            className="text-sm font-medium text-gray-700 hover:text-[#4F46E5] transition-colors"
+          >
+            Login
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-[#4F46E5] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#4338ca] transition-all shadow-sm hover:shadow-md"
+          >
+            Get Started
+          </Link>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default Navbar;
