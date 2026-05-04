@@ -28,8 +28,7 @@ const Signup = () => {
       setIsLoading(true);
       const apiUrl = `${import.meta.env.VITE_BACKEND_API_URL}suggest-usernames`;
       const response = await axios.post(apiUrl, { fullname });
-      const suggestions = response.data.suggestions;
-      console.log(suggestions)
+      const suggestions = response.data;
       setSuggestedUsernames(suggestions);
       setIsLoading(false);
     } catch (error) {
@@ -146,13 +145,17 @@ const Signup = () => {
                 </button>
               </div>
               {/* Username Suggestions Div */}
-              {suggestedUsernames.map((username) => {
-                  <div className="mt-2 flex flex-wrap gap-2 min-h-6">
-                    <span className="text-[10px] bg-indigo-50 text-[#4F46E5] px-2 py-1 rounded-md cursor-pointer hover:bg-indigo-100 border border-indigo-100 transition-colors">
-                      {username}
-                    </span>
-                  </div>;
-                })}
+              {suggestedUsernames.map((username) => (
+                <div
+                  className="mt-2 flex flex-wrap gap-2 min-h-6 w-full"
+                  key={username}
+                  onClick={(e) => setUsername(username)}
+                >
+                  <span className="text-[10px] bg-indigo-50 text-[#4F46E5] px-2 py-1 rounded-md cursor-pointer hover:bg-indigo-100 border border-indigo-100 transition-colors">
+                    {username}
+                  </span>
+                </div>
+              ))}
             </div>
 
             {/* Email */}

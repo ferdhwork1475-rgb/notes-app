@@ -55,7 +55,7 @@ export const getSuggestedUsernames = async (req, res, next) => {
     const filteredSuggestions = rawSuggestions.filter(
       (username) => !existingUsernames.includes(username),
     );
-    res.status(200).json({ suggestions: filteredSuggestions });
+    res.status(200).send(filteredSuggestions);
   } catch (error) {
     // throw new Error("Error generating usernames")
     // next(error);
