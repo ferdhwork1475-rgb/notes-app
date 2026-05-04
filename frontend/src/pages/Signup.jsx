@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios"
+import { ClipLoader } from "react-spinners";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import stillness_sign from "../assets/stillness_sign.png";
 
@@ -11,7 +12,8 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profileImg, setProfileImg] = useState("");
-  const [suggestedUsernames, setSuggestedUsernames] = ([])
+  const [suggestedUsernames, setSuggestedUsernames] = useState([]);
+  const [loading, setIsLoading] = useState(false);
 
   const generateUsernames = async () => {
     if (fullname === "") {
@@ -23,13 +25,24 @@ const Signup = () => {
 
     try {
       // Fetch usernames from the server
-      const apiUrl = `${import.meta.env.VITE_BACKEND_API_URL}generate-usernames`;
+      setIsLoading(true);
+      const apiUrl = `${import.meta.env.VITE_BACKEND_API_URL}suggest-usernames`;
       const response = await axios.post(apiUrl, { fullname });
-      console.log(response);
+      const suggestions = response.data.suggestions;
+      console.log(suggestions)
+      setSuggestedUsernames(suggestions);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    // Clear suggestions if fullname changes
+    setSuggestedUsernames([]);
+  }, [fullname]);
+
   return (
     <>
       <Navbar />
@@ -110,33 +123,36 @@ const Signup = () => {
                 <button
                   type="button"
                   className="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-[#4F46E5] hover:text-white transition-all font-medium text-sm flex items-center gap-2"
-                  onClick={generateUsernames}
+                  onClick={loading ? null : generateUsernames}
                 >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
-                  </svg>
-                  Generate
+                  {loading ? (
+                    <ClipLoader color="#4F46E5" size={14} />
+                  ) : (
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+                  )}
+                  {loading ? "Generating" : "Generate"}
                 </button>
               </div>
               {/* Username Suggestions Div */}
-              <div className="mt-2 flex flex-wrap gap-2 min-h-6">
-                <span className="text-[10px] bg-indigo-50 text-[#4F46E5] px-2 py-1 rounded-md cursor-pointer hover:bg-indigo-100 border border-indigo-100 transition-colors">
-                  quiet_writer_88
-                </span>
-                <span className="text-[10px] bg-indigo-50 text-[#4F46E5] px-2 py-1 rounded-md cursor-pointer hover:bg-indigo-100 border border-indigo-100 transition-colors">
-                  stillness_mind_26
-                </span>
-              </div>
+              {suggestedUsernames.map((username) => {
+                  <div className="mt-2 flex flex-wrap gap-2 min-h-6">
+                    <span className="text-[10px] bg-indigo-50 text-[#4F46E5] px-2 py-1 rounded-md cursor-pointer hover:bg-indigo-100 border border-indigo-100 transition-colors">
+                      {username}
+                    </span>
+                  </div>;
+                })}
             </div>
 
             {/* Email */}
