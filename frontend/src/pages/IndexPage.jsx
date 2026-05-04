@@ -7,6 +7,7 @@ import notetab from "../assets/notetabs.png";
 import elena from "../assets/elena_pfp.png";
 import laptopNote from "../assets/laptop-note.png";
 import markus from "../assets/markus_pfp.png";
+import Footer from "../components/Footer";
 
 const IndexPage = ({ setActivePage }) => {
   return (
@@ -254,28 +255,8 @@ const IndexPage = ({ setActivePage }) => {
             </Link>
           </div>
         </div>
-
-        {/* Footer Section */}
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-8 text-sm text-slate-400">
-            <p className="hover:text-white cursor-pointer transition-colors">
-              Privacy policy
-            </p>
-            <p className="hover:text-white cursor-pointer transition-colors">
-              Terms of service
-            </p>
-            <p className="hover:text-white cursor-pointer transition-colors">
-              Contact
-            </p>
-          </div>
-
-          <p className="text-slate-400 text-sm font-light">
-            © 2024{" "}
-            <span className="text-white font-medium">Stillness Notes</span>.
-            Designed for thinkers.
-          </p>
-        </div>
       </section>
+      <Footer />
     </div>
   );
 };

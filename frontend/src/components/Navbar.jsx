@@ -46,6 +46,15 @@ const Navbar = () => {
               About
             </Link>
           </li>
+                    <li className={activePage === "notes" ? "text-[#4F46E5]" : ""}>
+            <Link
+              to="/note"
+              className="hover:text-[#4F46E5] transition-colors"
+              onClick={() => setActivePage("notes")}
+            >
+              Notes
+            </Link>
+          </li>
         </ul>
 
         {/* Auth Buttons */}

@@ -4,11 +4,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export const generateUsernames = async (firstname, lastname) => {
+export const generateUsernames = async (fullname) => {
   try {
     const response = await openai.responses.create({
       model: "gpt-5.4-mini",
-      input: `Use the provided First Name and Last Name to generate 5 unique, high-quality username suggestions. "${firstname} ${lastname}". Output only the usernames separated by commas.`,
+      input: `Use the provided Full Name to generate 3 unique, high-quality username suggestions. "${fullname}". Output only the usernames separated by commas.`,
       store: true,
     });
 

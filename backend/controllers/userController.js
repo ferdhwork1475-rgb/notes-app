@@ -5,13 +5,12 @@ import { generateUsernames } from "../services/aiService.mjs"
 
 export const createUser = async (req, res, next) => {
   try {
-    const { email, firstname, lastname, password, username, profileImage } =
+    const { email, fullname, password, username, profileImage } =
       req.body;
     const hashedPassword = await hashPassword(password);
     const newUser = new User({
       email,
-      firstname,
-      lastname,
+      fullname,
       password: hashedPassword,
       username,
       profileImage,
@@ -48,8 +47,8 @@ export const loginUser = async (req, res, next) => {
 
 export const getSuggestedUsernames = async (req, res, next) => {
   try {
-    const { firstname, lastname } = req.body;
-    const rawSuggestions = await generateUsernames(firstname, lastname);
+    const { fullname } = req.body;
+    const rawSuggestions = await generateUsernames(fullname);
     // used to select documents where a specific field contains any value from a provided array
     const existingUsers = await User.find({ $in: { username: rawSuggestions } });
     const existingUsernames = existingUsers.map((user) => user.username);
