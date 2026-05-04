@@ -23,11 +23,9 @@ const Signup = () => {
 
     try {
       // Fetch usernames from the server
-      const apiUrl = import.meta.env.BACKEND_API_URL;
-      const response = await axios;
-      const usernames = response.json();
-
-      console.log("username")
+      const apiUrl = `${import.meta.env.VITE_BACKEND_API_URL}generate-usernames`;
+      const response = await axios.post(apiUrl, { fullname });
+      console.log(response);
     } catch (error) {
       console.log(error);
     }

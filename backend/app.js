@@ -2,6 +2,7 @@ import { setServers } from "node:dns";
 setServers(["8.8.8.8", "1.1.1.1"]);
 import dotenv from "dotenv/config";
 import express from "express";
+import cors from "cors"
 import router from "./routes/routes.js";
 import { connectDB } from "./config/connectDB.js";
 import protectedRoutes from "./routes/protectedRoutes.js";
@@ -13,6 +14,10 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.use(cors({
+  origin: "http://localhost:5173/"
+}))
 
 app.use("/api/protected", authenticateToken, protectedRoutes);
 app.use(router);

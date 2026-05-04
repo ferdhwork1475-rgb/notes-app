@@ -45,6 +45,14 @@ export const loginRules = [
     .withMessage("Please password should contain more than 10 characters"),
 ];
 
+export const suggestUsernameRules = [
+  body("fullname")
+    .trim()
+    .escape()
+    .isLength({ min: 2, max: 30 })
+    .withMessage("Fullname should be between 2 and 30 characters"),
+];
+
 export const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
