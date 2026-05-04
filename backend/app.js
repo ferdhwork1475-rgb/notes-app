@@ -15,9 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use(cors({
-  origin: "http://localhost:5173/"
-}))
+const corsOptions = {
+  origin: `"${process.env.FRONTEND_API_URL}"`,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"], 
+}
+app.use(cors(corsOptions));
 
 app.use("/api/protected", authenticateToken, protectedRoutes);
 app.use(router);
