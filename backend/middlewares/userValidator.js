@@ -12,8 +12,7 @@ export const userValidationRules = [
       const user = await User.findOne({ email: value });
       if (user) throw new Error("Email already in use");
     }),
-  body("firstname").trim().escape().isLength({ min: 2, max: 30 }),
-  body("lastname").trim().escape().isLength({ min: 2, max: 30 }),
+  body("fullname").escape().isLength({ min: 2, max: 30 }),
   body("username")
     .trim()
     .escape()

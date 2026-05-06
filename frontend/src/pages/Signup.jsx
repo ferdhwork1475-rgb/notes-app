@@ -7,13 +7,15 @@ import Navbar from "../components/Navbar";
 import stillness_sign from "../assets/stillness_sign.png";
 
 const Signup = () => {
+  // State variables for form fields and UI states
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profileImg, setProfileImg] = useState("");
+  const [imagePath, setImagePath] = useState("")
   const [suggestedUsernames, setSuggestedUsernames] = useState([]);
   const [loading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const generateUsernames = async () => {
     if (fullname === "") {
@@ -31,16 +33,56 @@ const Signup = () => {
       const suggestions = response.data;
       setSuggestedUsernames(suggestions);
       setIsLoading(false);
+      toast.success("Generated successfully")
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      toast.error("Cannot generate usernames. Check your internet connection")
     }
+  };
+
+  const showPassword = () => {
+    const passwordInput = document.getElementById("password");
+    passwordInput.type === "password"
+      ? (passwordInput.type = "text")
+      : (passwordInput.type = "password");
   };
 
   useEffect(() => {
     // Clear suggestions if fullname changes
     setSuggestedUsernames([]);
   }, [fullname]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setIsSubmitting(true)
+      console.log(profileImg)
+      const formData = new FormData()
+      formData.append("fullname", fullname)
+      formData.append("username", username)
+      formData.append("email", email)
+      formData.append("password", password)
+      formData.append("profileImage", imagePath)
+
+      for (const [key, value] of formData) {
+        console.log(key, value)
+      }
+
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}register`, {
+        formData,
+        headers: {
+          'Content-Type': "multipart/form-data"
+        }
+      })
+
+      console.log(response.data)
+      // setIsSubmitting(false)
+    } catch (error) {
+      toast.error("An error occurred");
+      console.log(error)
+      setIsSubmitting(false)
+    }
+  };
 
   return (
     <>
@@ -57,7 +99,7 @@ const Signup = () => {
             </p>
           </div>
 
-          <form action="" method="POST" className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Full Name */}
             <div className="group">
               <label
@@ -238,6 +280,7 @@ const Signup = () => {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    onClick={showPassword}
                   >
                     <path
                       strokeLinecap="round"
@@ -269,29 +312,33 @@ const Signup = () => {
                   name="profileImg"
                   id="profileImg"
                   className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-[#4F46E5] hover:file:bg-indigo-100 cursor-pointer"
-                  onChange={(e) => setProfileImg(e.target.value)}
+                  onChange={(e) => setImagePath(e.target.files[0])}
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-[#4F46E5] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4338ca] transition-all shadow-lg shadow-indigo-100 mt-4"
+              className={`${isSubmitting ? "bg-[#4338ca]" : "bg-[#4F46E5]"} w-full bg-[#4F46E5] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4338ca] transition-all shadow-lg shadow-indigo-100 mt-4`}
             >
-              Create Account
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
+              {isSubmitting ? "Creating Account..." : "Create Account"}
+              {isSubmitting ? (
+                <ClipLoader color="#fff" size={18} />
+              ) : (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              )}
             </button>
           </form>
 

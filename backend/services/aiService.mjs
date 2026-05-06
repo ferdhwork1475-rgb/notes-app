@@ -17,6 +17,6 @@ export const generateUsernames = async (fullname) => {
       .map((username) => username.trim()); //".split" usually refers to the programming method used to divide a string into an array of substrings based on a specified delimiter
     return suggestions.map((username) => `${username}_${Math.floor(Math.random() * 1000)}`); 
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 };
