@@ -4,10 +4,8 @@ import User from "../models/userSchema.js";
 export const userValidationRules = [
   body("email")
     .isEmail()
-    .trim()
-    .escape()
+    .withMessage("Invalid Email")
     .normalizeEmail()
-    .withMessage("Email is invalid")
     .custom(async (value) => {
       const user = await User.findOne({ email: value });
       if (user) throw new Error("Email already in use");
@@ -30,10 +28,8 @@ export const userValidationRules = [
 export const loginRules = [
   body("email")
     .isEmail()
-    .trim()
-    .escape()
-    .normalizeEmail()
     .withMessage("Email is invalid")
+    .normalizeEmail()
     .custom(async (value) => {
       const user = await User.findOne({ email: value });
       if (!user) throw new Error("Invalid email or password");
@@ -57,10 +53,9 @@ export const validate = (req, res, next) => {
   if (errors.isEmpty()) {
     return next(); //move on to the controller
   }
-  const errMsgs = []
+  const errMsgs = [];
   errors.errors.map((err) => {
-    errMsgs.push(err.msg)
+    errMsgs.push(err.msg);
   });
   return res.status(400).json({ errors: errMsgs });
-
 };

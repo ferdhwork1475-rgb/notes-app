@@ -12,7 +12,7 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [imagePath, setImagePath] = useState("")
+  const [profileImage, setProfileImage] = useState("")
   const [suggestedUsernames, setSuggestedUsernames] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,24 +56,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       setIsSubmitting(true)
-      console.log(profileImg)
-      const formData = new FormData()
-      formData.append("fullname", fullname)
-      formData.append("username", username)
-      formData.append("email", email)
-      formData.append("password", password)
-      formData.append("profileImage", imagePath)
-
-      for (const [key, value] of formData) {
-        console.log(key, value)
-      }
-
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_API}register`, {
-        formData,
-        headers: {
-          'Content-Type': "multipart/form-data"
-        }
-      })
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}register`, {fullname, username, email, password, profileImage})
 
       console.log(response.data)
       // setIsSubmitting(false)
@@ -99,7 +82,7 @@ const Signup = () => {
             </p>
           </div>
 
-          <form className="space-y-5" onSubmit={handleSubmit}>
+          <form className="space-y-5" onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
             {/* Full Name */}
             <div className="group">
               <label
@@ -312,7 +295,7 @@ const Signup = () => {
                   name="profileImg"
                   id="profileImg"
                   className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-[#4F46E5] hover:file:bg-indigo-100 cursor-pointer"
-                  onChange={(e) => setImagePath(e.target.files[0])}
+                  onChange={(e) => setProfileImage(e.target.files[0])}
                 />
               </div>
             </div>
