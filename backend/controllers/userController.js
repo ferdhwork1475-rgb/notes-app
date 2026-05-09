@@ -5,7 +5,8 @@ import { generateUsernames } from "../services/aiService.mjs"
 
 export const createUser = async (req, res, next) => {
   try {
-    console.log(req.body)
+    console.log("Body:", req.body)
+    console.log("File:", req.file)
     // const { email, fullname, password, username, profileImage } = req.body;
     // const hashedPassword = await hashPassword(password);
     // const newUser = new User({

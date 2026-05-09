@@ -12,7 +12,7 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profileImage, setProfileImage] = useState("")
+  const [profileImage, setProfileImage] = useState(null);
   const [suggestedUsernames, setSuggestedUsernames] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,10 +33,10 @@ const Signup = () => {
       const suggestions = response.data;
       setSuggestedUsernames(suggestions);
       setIsLoading(false);
-      toast.success("Generated successfully")
+      toast.success("Generated successfully");
     } catch (error) {
       setIsLoading(false);
-      toast.error("Cannot generate usernames. Check your internet connection")
+      toast.error("Cannot generate usernames. Check your internet connection");
     }
   };
 
@@ -54,27 +54,33 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData()
-    formData.append("fullname", fullname)
-    formData.append("username", username)
-    formData.append("email", email)
-    formData.append("password", password)
-    formData.append("profileImage", profileImage)
+    const formData = new FormData();
+    formData.append("fullname", fullname);
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
+    if (profileImage) {
+      formData.append("profileImage", profileImage);
+    }
 
     try {
-      setIsSubmitting(true)
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}register`, {formData})
-      toast.success("Registration successful")
+      setIsSubmitting(true);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}register`, formData)
+      for (const [key, value] of formData) {
+        console.log(`${key}: ${value}`);
+      }
+      toast.success("Registration successful");
     } catch (error) {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
 
       if (error.response && error.response.data) {
-        const backendError = error.response.data.error
-        if(Array.isArray(backendError)) {
-          backendError.map(err => toast.error(err))
+        const backendError = error.response.data.error;
+        if (Array.isArray(backendError)) {
+          backendError.map((err) => toast.error(err));
         }
       } else {
         toast.error("Network error or server is down");
+        console.log(error);
       }
     }
   };
@@ -94,7 +100,7 @@ const Signup = () => {
             </p>
           </div>
 
-          <form className="space-y-5" onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             {/* Full Name */}
             <div className="group">
               <label
