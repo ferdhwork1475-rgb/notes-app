@@ -1,9 +1,33 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_API_URL}login`,
+        {
+          email,
+          password,
+        },
+      );
+      console.log(response.data);
+      toast.success("Login successful");
+    } catch (error) {
+      toast.error("An error occurred");
+      console.log(error.response);
+      if (error.response && error.response.data) {
+        // const backendErr = 
+    }
+  };
   return (
     <>
       <Navbar />
@@ -17,7 +41,7 @@ const Login = () => {
             <p className="text-gray-500">Return to your space of clarity.</p>
           </div>
 
-          <form action="" method="POST" className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {" "}
             {/* Email Input Group */}
             <div className="group">
@@ -48,6 +72,8 @@ const Login = () => {
                   name="email"
                   id="email"
                   placeholder="john@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:bg-white focus:border-[#4F46E5] focus:ring-4 focus:ring-[#4F46E5]/10 transition-all"
                   required
                 />
@@ -57,13 +83,10 @@ const Login = () => {
             <div className="group">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors"
+                className="flex justify-between text-sm font-medium text-gray-700 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors"
               >
                 Password
-                <Link
-                  to="/forgot-password"
-                  className="text-[#4F46E5] hover:text-[#4338ca]"
-                >
+                <Link to="/forgot-password" className="text-gray">
                   Forgot Password?
                 </Link>
               </label>
@@ -88,6 +111,8 @@ const Login = () => {
                   name="password"
                   id="password"
                   placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-12 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:bg-white focus:border-[#4F46E5] focus:ring-4 focus:ring-[#4F46E5]/10 transition-all"
                   required
                 />

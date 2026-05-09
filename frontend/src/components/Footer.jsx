@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
+    <section className="bg-[#334155] max-w-full mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
       <div className="flex items-center gap-8 text-sm text-slate-400">
         <p className="hover:text-white cursor-pointer transition-colors">
           Privacy policy

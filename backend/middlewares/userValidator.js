@@ -36,9 +36,16 @@ export const userValidationRules = [
 export const loginRules = [
   body("email")
     .isEmail()
-    .withMessage("Invalid login credentials") // Generic message
-    .normalizeEmail(),
-  body("password").trim().notEmpty().withMessage("Password is required"),
+    .withMessage("Please provide a valid email address")
+    .normalizeEmail()
+    .custom(async (value) => {
+      const user = await User.findOne({ email: value });
+      if (!user) throw new Error("Invalid email or password");
+    }),
+  body("password")
+    .trim()
+    .isLength({ min: 10, max: 20 })
+    .withMessage("Password must be between 10 and 20 characters"),
 ];
 
 export const suggestUsernameRules = [
