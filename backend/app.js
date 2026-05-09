@@ -28,16 +28,16 @@ app.use("/api/protected", authenticateToken, protectedRoutes);
 app.use(router);
 
 // Global error handler catches any error that is passed into next()
-// app.use(function (err, req, res, next) {
-//   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+app.use(function (err, req, res, next) {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
 
-//   if(statusCode === 422) {
-//     res.status(statusCode).json({
-//     message: err.message,
-//     stack: process.env.NODE_ENV === "production" ? null : err.stack,
-//   })
-//   }
-// });
+  if(statusCode === 422) {
+    res.status(statusCode).json({
+    message: err.message,
+    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+  })
+  }
+});
 
 const port = process.env.PORT;
 
