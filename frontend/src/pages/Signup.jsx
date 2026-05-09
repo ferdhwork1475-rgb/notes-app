@@ -52,6 +52,18 @@ const Signup = () => {
     setSuggestedUsernames([]);
   }, [fullname]);
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; 
+    const allowedTypes = ["image/png", "image/webp", "image/jpeg"]
+
+    if (file && !allowedTypes.includes(file.type)) {
+      toast.error("Please select a valid image (PNG/JPG/WebP)");
+    e.target.value = null; // Clear the input
+    setProfileImage(null);
+    return;
+  }
+   setProfileImage(file)
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -309,7 +321,7 @@ const Signup = () => {
                   name="profileImg"
                   id="profileImg"
                   className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-[#4F46E5] hover:file:bg-indigo-100 cursor-pointer"
-                  onChange={(e) => setProfileImage(e.target.files[0])}
+                  onChange={handleFileChange}
                 />
               </div>
             </div>

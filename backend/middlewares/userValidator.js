@@ -16,7 +16,6 @@ export const userValidationRules = [
   body("username")
     .trim()
     .escape()
-    .isAlphanumeric().withMessage("Username should only contain letters and numbers") // Added for URL safety
     .isLength({ min: 2, max: 30 }).withMessage("Username must be 2-30 characters")
     .custom(async (value) => {
       const user = await User.findOne({ username: value });
