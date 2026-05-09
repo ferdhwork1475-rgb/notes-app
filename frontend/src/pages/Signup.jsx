@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+// const
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import stillness_sign from "../assets/stillness_sign.png";
 
 const Signup = () => {
+  const navigate = useNavigate();
   // State variables for form fields and UI states
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
@@ -53,17 +55,17 @@ const Signup = () => {
   }, [fullname]);
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0]; 
-    const allowedTypes = ["image/png", "image/webp", "image/jpeg"]
+    const file = e.target.files[0];
+    const allowedTypes = ["image/png", "image/webp", "image/jpeg"];
 
     if (file && !allowedTypes.includes(file.type)) {
       toast.error("Please select a valid image (PNG/JPG/WebP)");
-    e.target.value = null; // Clear the input
-    setProfileImage(null);
-    return;
-  }
-   setProfileImage(file)
-  }
+      e.target.value = null; // Clear the input
+      setProfileImage(null);
+      return;
+    }
+    setProfileImage(file);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -77,8 +79,12 @@ const Signup = () => {
 
     try {
       setIsSubmitting(true);
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}register`, formData)
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_API_URL}register`,
+        formData,
+      );
       toast.success("Registration successful");
+      navigate("/login");
     } catch (error) {
       setIsSubmitting(false);
 

@@ -1,7 +1,7 @@
 import User from "../models/userSchema.js";
 import jwt from "jsonwebtoken";
 import { hashPassword, comparePassword } from "../models/userSchema.js";
-import { generateUsernames } from "../services/aiService.mjs"
+import { generateUsernames } from "../services/aiService.mjs";
 
 export const createUser = async (req, res, next) => {
   try {
@@ -49,7 +49,9 @@ export const getSuggestedUsernames = async (req, res, next) => {
     const { fullname } = req.body;
     const rawSuggestions = await generateUsernames(fullname);
     // used to select documents where a specific field contains any value from a provided array
-    const existingUsers = await User.find({ username: { $in: rawSuggestions } });
+    const existingUsers = await User.find({
+      username: { $in: rawSuggestions },
+    });
     const existingUsernames = existingUsers.map((user) => user.username);
     const filteredSuggestions = rawSuggestions.filter(
       (username) => !existingUsernames.includes(username),
@@ -58,6 +60,6 @@ export const getSuggestedUsernames = async (req, res, next) => {
   } catch (error) {
     // throw new Error("Error generating usernames")
     // next(error);
-    console.log(error)
+    console.log(error);
   }
 };

@@ -1,20 +1,20 @@
-import multer from "multer"
-import fs from "node:fs"
+import multer from "multer";
+import fs from "node:fs";
 
-const folderName = 'uploads'
+const folderName = "uploads";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    if(!fs.existsSync(folderName)) {
-        fs.mkdirSync(folderName, { recursive: true });
+    if (!fs.existsSync(folderName)) {
+      fs.mkdirSync(folderName, { recursive: true });
     }
-    cb(null, folderName)
+    cb(null, folderName);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname)
-  }
-})
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage });
 
-export default upload
+export default upload;

@@ -3,7 +3,8 @@ import User from "../models/userSchema.js";
 
 export const userValidationRules = [
   body("email")
-    .isEmail().withMessage("Please provide a valid email address")
+    .isEmail()
+    .withMessage("Please provide a valid email address")
     .normalizeEmail()
     .custom(async (value) => {
       const user = await User.findOne({ email: value });
@@ -12,11 +13,13 @@ export const userValidationRules = [
   body("fullname")
     .trim() // Added trim
     .escape()
-    .isLength({ min: 2, max: 30 }).withMessage("Full name must be 2-30 characters"),
+    .isLength({ min: 2, max: 30 })
+    .withMessage("Full name must be 2-30 characters"),
   body("username")
     .trim()
     .escape()
-    .isLength({ min: 2, max: 30 }).withMessage("Username must be 2-30 characters")
+    .isLength({ min: 2, max: 30 })
+    .withMessage("Username must be 2-30 characters")
     .custom(async (value) => {
       const user = await User.findOne({ username: value });
       if (user) throw new Error("Username is already taken");
@@ -26,16 +29,16 @@ export const userValidationRules = [
     .isLength({ min: 10, max: 20 })
     .withMessage("Password must be between 10 and 20 characters")
     // Senior tip: Add a regex to ensure a mix of letters/numbers
-    .matches(/\d/).withMessage("Password must contain at least one number"),
+    .matches(/\d/)
+    .withMessage("Password must contain at least one number"),
 ];
 
 export const loginRules = [
   body("email")
-    .isEmail().withMessage("Invalid login credentials") // Generic message
+    .isEmail()
+    .withMessage("Invalid login credentials") // Generic message
     .normalizeEmail(),
-  body("password")
-    .trim()
-    .notEmpty().withMessage("Password is required")
+  body("password").trim().notEmpty().withMessage("Password is required"),
 ];
 
 export const suggestUsernameRules = [
@@ -50,9 +53,9 @@ export const validate = (req, res, next) => {
   const errors = validationResult(req);
 
   if (errors.isEmpty()) {
-    return next()
+    return next();
   }
-  
-  const extractedErrors = errors.errors.map((err) => err.msg)
-  return res.status(422).json({error: extractedErrors})
+
+  const extractedErrors = errors.errors.map((err) => err.msg);
+  return res.status(422).json({ error: extractedErrors });
 };
