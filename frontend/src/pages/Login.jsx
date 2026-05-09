@@ -19,13 +19,18 @@ const Login = () => {
           password,
         },
       );
-      console.log(response.data);
       toast.success("Login successful");
     } catch (error) {
       toast.error("An error occurred");
       console.log(error.response);
       if (error.response && error.response.data) {
-        // const backendErr = 
+        const backendError = error.response.data.error;
+        if (Array.isArray(backendError)) {
+          backendError.map((err) => toast.error(err));
+        }
+      } else {
+        toast.error("Network error or server is down");
+      }
     }
   };
   return (

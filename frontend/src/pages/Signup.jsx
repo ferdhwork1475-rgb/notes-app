@@ -82,7 +82,7 @@ const Signup = () => {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_API_URL}register`,
         formData,
-      );
+      )
       toast.success("Registration successful");
       navigate("/login");
     } catch (error) {
