@@ -66,9 +66,6 @@ const Signup = () => {
     try {
       setIsSubmitting(true);
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_API_URL}register`, formData)
-      for (const [key, value] of formData) {
-        console.log(`${key}: ${value}`);
-      }
       toast.success("Registration successful");
     } catch (error) {
       setIsSubmitting(false);
@@ -80,7 +77,6 @@ const Signup = () => {
         }
       } else {
         toast.error("Network error or server is down");
-        console.log(error);
       }
     }
   };

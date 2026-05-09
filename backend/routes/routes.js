@@ -4,7 +4,7 @@ import { userValidationRules, loginRules, suggestUsernameRules, validate } from 
 import upload from "../middlewares/multer.js"
 const router = express.Router();
 
-router.post("/api/register", upload.single("profileImage"), createUser);
+router.post("/api/register", upload.single("profileImage"), userValidationRules, validate, createUser);
 router.post("/api/login", loginRules, validate, loginUser);
 router.post("/api/suggest-usernames", suggestUsernameRules, validate, getSuggestedUsernames);
 export default router;

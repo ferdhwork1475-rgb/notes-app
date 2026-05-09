@@ -5,20 +5,18 @@ import { generateUsernames } from "../services/aiService.mjs"
 
 export const createUser = async (req, res, next) => {
   try {
-    console.log("Body:", req.body)
-    console.log("File:", req.file)
-    // const { email, fullname, password, username, profileImage } = req.body;
-    // const hashedPassword = await hashPassword(password);
-    // const newUser = new User({
-    //   email,
-    //   fullname,
-    //   password: hashedPassword,
-    //   username,
-    //   profileImage,
-    // });
-    // // await newUser.save();
-    // // res.status(201).json({ success: "User created successfully" });
-    // console.log(newUser)
+    const { email, fullname, password, username, profileImage } = req.body;
+    const hashedPassword = await hashPassword(password);
+    const newUser = new User({
+      email,
+      fullname,
+      password: hashedPassword,
+      username,
+      profileImage,
+    });
+    await newUser.save();
+    res.status(201).json({ success: "User created successfully" });
+    console.log(newUser)
   } catch (error) {
     next(error);
   }
