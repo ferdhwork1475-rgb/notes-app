@@ -8,10 +8,12 @@ import Footer from "../components/Footer";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true)
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_API_URL}login`,
         {
@@ -21,6 +23,7 @@ const Login = () => {
       );
       toast.success("Login successful");
     } catch (error) {
+      setIsLoading(false)
       if (error.response && error.response.data) {
         const backendError = error.response.data.error;
         if (Array.isArray(backendError)) {
