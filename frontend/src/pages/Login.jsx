@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners"
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -163,7 +164,8 @@ const Login = () => {
               className="w-full bg-[#4F46E5] text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4338ca] transition-all shadow-lg shadow-indigo-200"
             >
               Sign In
-              <svg
+              {isLoading ? <ClipLoader color="#4F46E5" size={14} />
+               :<svg
                 className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
@@ -175,7 +177,7 @@ const Login = () => {
                   strokeWidth="2"
                   d="M14 5l7 7m0 0l-7 7m7-7H3"
                 />
-              </svg>
+              </svg>}
             </button>
           </form>
 
