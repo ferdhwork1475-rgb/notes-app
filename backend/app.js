@@ -2,7 +2,7 @@ import { setServers } from "node:dns";
 setServers(["8.8.8.8", "1.1.1.1"]);
 import dotenv from "dotenv/config";
 import express from "express";
-import cors from "cors"
+import cors from "cors";
 import router from "./routes/routes.js";
 import { connectDB } from "./config/connectDB.js";
 import protectedRoutes from "./routes/protectedRoutes.js";
@@ -12,8 +12,8 @@ const app = express();
 const corsOptions = {
   origin: `${process.env.FRONTEND_API_URL}`,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"], 
-}
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 app.use(cors(corsOptions));
 
 connectDB();
@@ -28,15 +28,19 @@ app.use(router);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
-
-  console.error(`[Error] ${message}`);
-
+  
   res.status(statusCode).json({
     success: false,
     message: message,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : {}
+    stack: process.env.NODE_ENV === "development" ? err.stack : {},
   });
-})
+});
+
+// app.use("*", (req, res) => {
+//   res.status(404).json({
+//     message: "No such directory on the backend",
+//   });
+// });
 
 const port = process.env.PORT;
 

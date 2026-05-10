@@ -25,12 +25,11 @@ const Login = () => {
       toast.success("Login successful");
     } catch (error) {
       setIsLoading(false);
-      console.log(error.message)
       if (error.response && error.response.data) {
-        const backendError = error.response.data.error;
-        if (Array.isArray(backendError)) {
-          backendError.map((err) => toast.error(err));
-        }
+        const backendError = error.response.data;
+        Array.isArray(backendError)
+          ? backendError.map((err) => toast.error(err))
+          : toast.error(error.response.data.message);
       } else {
         toast.error("Network error or server is down");
       }

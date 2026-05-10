@@ -28,7 +28,8 @@ export const loginUser = async (req, res, next) => {
 
     const isMatched = await comparePassword(password, user.password);
     if (!isMatched) {
-      return next(new Error("Invalid email or password"))
+      throw new Error("Invalid email or password")
+      return next(error)
     }
 
     const token = jwt.sign(
@@ -56,8 +57,7 @@ export const getSuggestedUsernames = async (req, res, next) => {
     );
     res.status(200).send(filteredSuggestions);
   } catch (error) {
-    // throw new Error("Error generating usernames")
-    // next(error);
-    console.log(error);
+    throw new Error("Error generating usernames")
+    next(error);
   }
 };
