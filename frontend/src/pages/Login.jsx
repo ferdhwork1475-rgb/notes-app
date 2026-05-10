@@ -21,8 +21,6 @@ const Login = () => {
       );
       toast.success("Login successful");
     } catch (error) {
-      toast.error("An error occurred");
-      console.log(error.response);
       if (error.response && error.response.data) {
         const backendError = error.response.data.error;
         if (Array.isArray(backendError)) {
@@ -33,6 +31,15 @@ const Login = () => {
       }
     }
   };
+
+  const handleShowPassword = () => {
+    const passwordInput = document.getElementById("password");
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {    
+      passwordInput.type = "password"
+    }
+  }
   return (
     <>
       <Navbar />
@@ -124,6 +131,7 @@ const Login = () => {
                 <button
                   type="button"
                   className="absolute right-4 text-gray-400 hover:text-gray-600"
+                  onClick={handleShowPassword}
                 >
                   <svg
                     className="w-5 h-5"
