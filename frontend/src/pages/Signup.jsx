@@ -334,7 +334,7 @@ const Signup = () => {
 
             <button
               type="submit"
-              className={`${isSubmitting ? "bg-[#4338ca]" : "bg-[#4F46E5]"} w-full bg-[#4F46E5] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4338ca] transition-all shadow-lg shadow-indigo-100 mt-4`}
+              className={`${isSubmitting ? "bg-[#4338ca]" : "bg-[#4F46E5]"} w-full text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4338ca] transition-all shadow-lg shadow-indigo-100 mt-4`}
             >
               {isSubmitting ? "Creating Account..." : "Create Account"}
               {isSubmitting ? (

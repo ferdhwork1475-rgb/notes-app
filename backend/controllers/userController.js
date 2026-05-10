@@ -23,23 +23,20 @@ export const createUser = async (req, res, next) => {
 
 export const loginUser = async (req, res, next) => {
   try {
-    console.log(req.body)
-    // const { email, password } = req.body;
-    // const user = await User.findOne({ email });
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
-    // const isMatched = await comparePassword(password, user.password);
-    // if (!isMatched) {
-    //   res.status(400);
-    //   throw new Error("Invalid email or password");
-    //   return;
-    // }
+    const isMatched = await comparePassword(password, user.password);
+    if (!isMatched) {
+      return next(new Error("Invalid email or password"))
+    }
 
-    // const token = jwt.sign(
-    //   { userId: user.id, username: user.username },
-    //   process.env.JWT_SECRET,
-    //   { expiresIn: "1h" },
-    // );
-    // res.status(200).json({ success: "User logged in successfully", token });
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" },
+    );
+    res.status(200).json({ success: "User logged in successfully", token });
   } catch (error) {
     next(error);
   }

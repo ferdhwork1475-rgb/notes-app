@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ClipLoader } from "react-spinners"
+import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -9,12 +9,12 @@ import Footer from "../components/Footer";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_API_URL}login`,
         {
@@ -24,7 +24,8 @@ const Login = () => {
       );
       toast.success("Login successful");
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
+      console.log(error.message)
       if (error.response && error.response.data) {
         const backendError = error.response.data.error;
         if (Array.isArray(backendError)) {
@@ -40,10 +41,10 @@ const Login = () => {
     const passwordInput = document.getElementById("password");
     if (passwordInput.type === "password") {
       passwordInput.type = "text";
-    } else {    
-      passwordInput.type = "password"
+    } else {
+      passwordInput.type = "password";
     }
-  }
+  };
   return (
     <>
       <Navbar />
@@ -161,23 +162,26 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#4F46E5] text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4338ca] transition-all shadow-lg shadow-indigo-200"
+              className={`${isLoading ? "bg-[#4338ca]" : "bg-[#4F46E5]"} w-full text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#4338ca] transition-all shadow-lg shadow-indigo-200`}
             >
               Sign In
-              {isLoading ? <ClipLoader color="#4F46E5" size={14} />
-               :<svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>}
+              {isLoading ? (
+                <ClipLoader color="#fff" size={14} />
+              ) : (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              )}
             </button>
           </form>
 
