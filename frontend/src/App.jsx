@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Dashboard from "./pages/protected/Dashboard";
 
 const App = () => {
   return (
@@ -14,6 +15,9 @@ const App = () => {
           <Route path="/" element={<IndexPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="dashboard" element={<Dashboard />}>
+            <Route path="create-note" element={<CreateNote />}>
+          </Route>
         </Routes>
       </Router>
       <ToastContainer
