@@ -90,9 +90,7 @@ const Signup = () => {
 
       if (error.response && error.response.data) {
         const backendError = error.response.data.error;
-        if (Array.isArray(backendError)) {
-          backendError.map((err) => toast.error(err));
-        }
+        Array.isArray(backendError) && backendError.map((err) => toast.error(err));
       } else {
         toast.error("Network error or server is down");
       }

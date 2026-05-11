@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
 
 const Login = ({ setActive }) => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +25,9 @@ const Login = ({ setActive }) => {
       navigate("/dashboard");
     } catch (error) {
       setIsLoading(false);
+
       if (error.response && error.response.data) {
-        const backendError = error.response.data;
+        const backendError = error.response.data.error;
         Array.isArray(backendError)
           ? backendError.map((err) => toast.error(err))
           : toast.error(error.response.data.message);

@@ -40,7 +40,7 @@ export const loginRules = [
     .normalizeEmail()
     .custom(async (value) => {
       const user = await User.findOne({ email: value });
-      if (!user) throw new Error("Invalid email or password");
+      if (!user) throw new Error("Invalid email or password")
     }),
   body("password")
     .trim()
