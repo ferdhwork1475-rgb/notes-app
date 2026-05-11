@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 const Navbar = ({ setActivePage, activePage }) => {
+  const {theme, toggleTheme} = useContext(ThemeContext)
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-12">
@@ -21,7 +23,7 @@ const Navbar = ({ setActivePage, activePage }) => {
             <Link
               to="/"
               className="hover:text-[#4F46E5] transition-colors"
-              onClick={() => setActivePage("home")}
+              onClick={toggleTheme}
             >
               Features
             </Link>
