@@ -1,20 +1,13 @@
-import {
-  Plus,
-  Search,
-  User,
-} from "lucide-react";
-import { Outlet } from "react-router-dom"
+import { Plus, Search, User } from "lucide-react";
 import Sidebar from "../../components/protected/Sidebar";
 import StatItem from "../../components/protected/StatItem";
 import NoteCard from "../../components/protected/NoteCard";
 
 const Dashboard = () => {
   return (
-    <div className="flex h-screen bg-[#f8fafc] text-slate-900 font-sans">
-      <Sidebar />
+    <>
       {/* 2. Main Content Area */}
-      <main className="flex-1 flex flex-col overflow-hidden">
-        <Outlet />
+      <section className="flex-1 flex flex-col overflow-hidden">
         {/* Header / Search */}
         <header className="h-20 border-b border-slate-200 bg-white flex items-center justify-between px-8">
           <div className="relative w-96">
@@ -73,7 +66,7 @@ const Dashboard = () => {
             />
           </div>
         </section>
-      </main>
+      </section>
 
       {/* 3. Right Profile/Stats Panel */}
       <section className="w-80 bg-white border-l border-slate-200 p-8 hidden xl:flex flex-col">
@@ -94,7 +87,7 @@ const Dashboard = () => {
           <StatItem label="Shared Links" value="5" color="bg-amber-500" />
         </div>
       </section>
-    </div>
+    </>
   );
 };
 

@@ -7,4 +7,5 @@ const StatItem = ({ label, value, color }) => (
     <span className="font-bold text-slate-800">{value}</span>
   </div>
 );
+
 export default StatItem;

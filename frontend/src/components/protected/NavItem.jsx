@@ -6,4 +6,5 @@ const NavItem = ({ icon, label, active = false }) => (
     <span className="text-sm font-medium">{label}</span>
   </div>
 );
+
 export default NavItem;

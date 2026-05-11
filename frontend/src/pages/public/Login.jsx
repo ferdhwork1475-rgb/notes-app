@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
-const Login = () => {
+const Login = ({ setActive }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +21,7 @@ const Login = () => {
         },
       );
       toast.success("Login successful");
+      navigate("/dashboard");
     } catch (error) {
       setIsLoading(false);
       if (error.response && error.response.data) {
@@ -46,7 +45,6 @@ const Login = () => {
   };
   return (
     <>
-      <Navbar />
       <section className="min-h-screen flex flex-col md:flex-row bg-white justify-center">
         {/* Left Side: Signup Form */}
         <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-24 py-12">
@@ -208,7 +206,6 @@ const Login = () => {
           </div>
         </div>
       </section>
-      <Footer />
     </>
   );
 };

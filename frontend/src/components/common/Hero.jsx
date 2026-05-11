@@ -1,6 +1,6 @@
 import React from "react";
-import notepad from "../assets/notepad.png";
-import notetab from "../assets/notetabs.png";
+import notepad from "../../assets/images/notepad.png";
+import notetab from "../../assets/images/notetabs.png";
 import { Link } from "react-router-dom";
 
 const Hero = () => {

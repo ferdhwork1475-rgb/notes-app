@@ -1,18 +1,10 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import notepad from "../assets/notepad.png";
-import notetab from "../assets/notetabs.png";
-import elena from "../assets/elena_pfp.png";
-import laptopNote from "../assets/laptop-note.png";
-import markus from "../assets/markus_pfp.png";
-import Footer from "../components/Footer";
+import Hero from "../../components/common/Hero";
+import { notepad, notetab, elena, laptopNote, markus } from "../../assets/index"
 
-const IndexPage = ({ setActivePage }) => {
+const IndexPage = () => {
   return (
     <div>
-      <Navbar setActivePage={setActivePage} />
       <Hero />
       <section className="max-w-7xl mx-auto px-4 md:px-12 py-16">
         <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
@@ -256,7 +248,6 @@ const IndexPage = ({ setActivePage }) => {
           </div>
         </div>
       </section>
-      <Footer />
     </div>
   );
 };

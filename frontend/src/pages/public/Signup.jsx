@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 // const
 import axios from "axios";
-import Navbar from "../components/Navbar";
-import stillness_sign from "../assets/stillness_sign.png";
+import Navbar from "../../components/common/Navbar";
+import stillness_sign from "../../assets/images/stillness_sign.png";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -82,7 +82,7 @@ const Signup = () => {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_API_URL}register`,
         formData,
-      )
+      );
       toast.success("Registration successful");
       navigate("/login");
     } catch (error) {
@@ -101,7 +101,6 @@ const Signup = () => {
 
   return (
     <>
-      <Navbar />
       <section className="min-h-screen flex flex-col md:flex-row bg-white">
         {/* Left Side: Signup Form */}
         <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-24 py-12">

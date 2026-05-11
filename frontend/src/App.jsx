@@ -1,22 +1,26 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import IndexPage from "./pages/IndexPage";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import MainLayout from "./layouts/MainLayout";
+import IndexPage from "./pages/public/IndexPage";
+import Signup from "./pages/public/Signup";
+import Login from "./pages/public/Login";
+import Dashboard from "./pages/protected/Dashboard";
+import DashLayout from "./layouts/DashLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Dashboard from "./pages/protected/Dashboard";
 
 const App = () => {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<IndexPage />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="dashboard" element={<Dashboard />}>
-            <Route path="create-note" element={<CreateNote />}>
+          <Route element={<MainLayout />}>
+            <Route index element={<IndexPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Route>
+          <Route element={<DashLayout />}>
+            <Route index element={<Dashboard />} />{" "}
           </Route>
         </Routes>
       </Router>
