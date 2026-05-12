@@ -15,7 +15,7 @@ export const createUser = async (req, res, next) => {
       profileImage,
     });
     await newUser.save();
-    res.status(201).json({ success: "User created successfully" });
+    res.status(201).json({ success: "Registration successfully" });
   } catch (error) {
     next(error);
   }

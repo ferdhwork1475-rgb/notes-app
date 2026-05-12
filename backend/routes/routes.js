@@ -11,6 +11,7 @@ import {
   validate,
 } from "../middlewares/userValidator.js";
 import upload from "../middlewares/multer.js";
+import User from "../models/userSchema.js"
 const router = express.Router();
 
 router.post(
@@ -27,4 +28,9 @@ router.post(
   validate,
   getSuggestedUsernames,
 );
+
+router.get("/users", async (req, res) => {
+  const users = await User.find()
+  res.json({ users })
+})
 export default router;

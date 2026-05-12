@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-// const
-import axios from "axios";
 import Navbar from "../../components/common/Navbar";
 import stillness_sign from "../../assets/images/stillness_sign.png";
+import { signupUser, suggestUsernames } from "../../../services/auhService";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -26,19 +25,15 @@ const Signup = () => {
       );
       return;
     }
-
+    setIsLoading(true);
     try {
-      // Fetch usernames from the server
-      setIsLoading(true);
-      const apiUrl = `${import.meta.env.VITE_BACKEND_API_URL}suggest-usernames`;
-      const response = await axios.post(apiUrl, { fullname });
-      const suggestions = response.data;
-      setSuggestedUsernames(suggestions);
+      const response = await suggestUsernames(fullname);
+      setSuggestedUsernames(response);
+      toast.success("Username generated successfully");
       setIsLoading(false);
-      toast.success("Generated successfully");
     } catch (error) {
       setIsLoading(false);
-      toast.error("Cannot generate usernames. Check your internet connection");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -66,6 +61,7 @@ const Signup = () => {
     }
     setProfileImage(file);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -73,28 +69,11 @@ const Signup = () => {
     formData.append("username", username);
     formData.append("email", email);
     formData.append("password", password);
-    if (profileImage) {
-      formData.append("profileImage", profileImage);
-    }
-
-    try {
-      setIsSubmitting(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_API_URL}register`,
-        formData,
-      );
-      toast.success("Registration successful");
-      navigate("/login");
-    } catch (error) {
-      setIsSubmitting(false);
-
-      if (error.response && error.response.data) {
-        const backendError = error.response.data.error;
-        Array.isArray(backendError) && backendError.map((err) => toast.error(err));
-      } else {
-        toast.error("Network error or server is down");
-      }
-    }
+    profileImage && formData.append("profileImage", profileImage);
+    setIsSubmitting(true);
+    await signupUser(formData);
+    toast.success("Registration successful");
+    navigate("/login");
   };
 
   return (
