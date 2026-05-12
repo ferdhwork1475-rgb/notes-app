@@ -28,9 +28,11 @@ router.post(
   validate,
   getSuggestedUsernames,
 );
+// router.post("", validateNote, checkNoteValidation, editNote);
 
-router.get("/users", async (req, res) => {
-  const users = await User.find()
+
+router.delete("/users", async (req, res) => {
+  const users = await User.deleteMany({})
   res.json({ users })
 })
 export default router;

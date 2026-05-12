@@ -37,6 +37,12 @@ export const loginUser = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" },
     );
+    res.cookie("token", token, {
+      maxAge: 3600000,
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict"
+    })
     res.status(200).json({ success: "User logged in successfully", token });
   } catch (error) {
     next(error);

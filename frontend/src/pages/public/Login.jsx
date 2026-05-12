@@ -2,39 +2,21 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { loginUser } from "../../../services/auhService"
 import axios from "axios";
 
 const Login = ({ setActive }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_API_URL}login`,
-        {
-          email,
-          password,
-        },
-      );
-      toast.success("Login successful");
-      navigate("/dashboard");
-    } catch (error) {
-      setIsLoading(false);
-
-      if (error.response && error.response.data) {
-        const backendError = error.response.data.error;
-        Array.isArray(backendError)
-          ? backendError.map((err) => toast.error(err))
-          : toast.error(error.response.data.message);
-      } else {
-        toast.error("Network error or server is down");
-      }
-    }
+    setIsLoading(true);
+    await loginUser(email, password)
+    toast.success("Login successful");
+    navigate("/dashboard");
   };
 
   const handleShowPassword = () => {
