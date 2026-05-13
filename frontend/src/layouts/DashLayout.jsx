@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, UNSAFE_DataWithResponseInit, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import StatItem from "../components/protected/StatItem";
 import Sidebar from "../components/protected/Sidebar";
@@ -14,7 +14,7 @@ const DashLayout = () => {
     const checkAuth = async () => {
       try {
         const response = await verifyUser();
-        setUser(response);
+        setUser({...user, UNSAFE_DataWithResponseInit});
       } catch (error) {
         navigate("/login");
         console.log(error);
@@ -32,15 +32,12 @@ const DashLayout = () => {
       <section className="w-80 bg-white border-l border-slate-200 p-8 hidden xl:flex flex-col">
         <div className="flex flex-col items-center text-center mb-10">
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-4 border-4 border-white shadow-sm overflow-hidden">
-            {user.profile ? (
-              <img
-                src={user.profile}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <User size={40} className="text-indigo-600" />
-            )}
+            {console.log(user)}
+            {/* <img
+              src={`${user.profile}`}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            /> */}
           </div>
           <h3 className="font-bold text-lg">{user.fullname}</h3>
           <p className="text-slate-500 text-sm">Free Plan</p>
