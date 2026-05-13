@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import { loginUser } from "../../../services/auhService";
+import { loginUser } from "../../services/authService";
 import axios from "axios";
 
 const Login = ({ setActive }) => {
@@ -28,7 +28,7 @@ const Login = ({ setActive }) => {
       await loginUser(email, password);
 
       toast.success("Login successful");
-      // navigate("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login attempt failed in component");
     } finally {

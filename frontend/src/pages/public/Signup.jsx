@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import Navbar from "../../components/common/Navbar";
 import stillness_sign from "../../assets/images/stillness_sign.png";
-import { signupUser, suggestUsernames } from "../../../services/auhService";
+import { signupUser, suggestUsernames } from "../../services/authService";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ const Signup = () => {
       toast.success("Registration successful");
       navigate("/login");
     } catch (error) {
-      console.error("Failed registration attempt in component")
+      console.error("Failed registration attempt in component");
     } finally {
       setIsSubmitting(false);
     }

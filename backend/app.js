@@ -14,7 +14,7 @@ const corsOptions = {
   origin: `${process.env.FRONTEND_API_URL}`,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentails: true,
+  credentials: true,
 };
 app.use(cors(corsOptions));
 

@@ -24,26 +24,25 @@ export const createUser = async (req, res, next) => {
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password)
     const user = await User.findOne({ email });
 
     const isMatched = await comparePassword(password, user.password);
     if (!isMatched) {
-      throw new Error("Invalid email or password")
-      return next(error)
+      throw new Error("Invalid email or password");
+      return next(error);
     }
 
     const token = jwt.sign(
-      { userId: user.id, username: user.username },
+      { userId: user.id, username: user.username, profile: user.profileImage },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" },
     );
-    res.cookie("token", token, {
-      maxAge: 3600000,
-      httpOnly: true,
-      secure: false,
-      sameSite: "None"
-    }).status(200).json({ success: "User logged in successfully" });
+    res
+      .cookie("token", token, {
+        maxAge: 3600000,
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ success: "User logged in successfully" });
   } catch (error) {
     next(error);
   }
@@ -63,7 +62,7 @@ export const getSuggestedUsernames = async (req, res, next) => {
     );
     res.status(200).send(filteredSuggestions);
   } catch (error) {
-    throw new Error("Error generating usernames")
+    throw new Error("Error generating usernames");
     next(error);
   }
 };

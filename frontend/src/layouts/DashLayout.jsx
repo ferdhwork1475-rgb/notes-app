@@ -1,22 +1,27 @@
-import { useContext, useEffect } from "react"
+import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
-import { AuthContext } from "../../context/AuthContext";
 import StatItem from "../components/protected/StatItem";
 import Sidebar from "../components/protected/Sidebar";
-import { verifyUser } from "../../services/auhService";
+import { verifyUser } from "../services/authService";
 
 const DashLayout = () => {
-  const navigate = useNavigate()
-  const { isLoggedIn } = useContext(AuthContext)
-  
-  useEffect(() => {
-    const response = verifyUser()
-    if (!response.ok) {
+  const navigate = useNavigate();
+  // const [username, setUsername] = useState("")
+
+  const checkAuth = async () => {
+    try {
+      const response = await verifyUser()
+      if (response.ok) {
+        console.log(response.userId)
+      console.log("hello")
+      }
+    } catch (error) {
       navigate("/login")
     }
-    return;
-  }, [])
+  }
+  checkAuth()
+  
 
   return (
     <div className="flex h-screen bg-[#f8fafc] text-slate-900 font-sans">
@@ -29,7 +34,7 @@ const DashLayout = () => {
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-4 border-4 border-white shadow-sm">
             <User size={40} className="text-indigo-600" />
           </div>
-          <h3 className="font-bold text-lg">Alex River</h3>
+          <h3 className="font-bold text-lg">{"Alex Joh5"}</h3>
           <p className="text-slate-500 text-sm">Free Plan</p>
         </div>
 
