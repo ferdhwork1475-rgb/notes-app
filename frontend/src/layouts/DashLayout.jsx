@@ -1,9 +1,23 @@
-import { Outlet } from "react-router-dom";
+import { useContext, useEffect } from "react"
+import { Outlet, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
+import { AuthContext } from "../../context/AuthContext";
 import StatItem from "../components/protected/StatItem";
 import Sidebar from "../components/protected/Sidebar";
+import { verifyUser } from "../../services/auhService";
 
 const DashLayout = () => {
+  const navigate = useNavigate()
+  const { isLoggedIn } = useContext(AuthContext)
+  
+  useEffect(() => {
+    const response = verifyUser()
+    if (!response.ok) {
+      navigate("/login")
+    }
+    return;
+  }, [])
+
   return (
     <div className="flex h-screen bg-[#f8fafc] text-slate-900 font-sans">
       <Sidebar />

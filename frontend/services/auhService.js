@@ -1,5 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthContext";
 const backendAPI = import.meta.env.VITE_BACKEND_API_URL;
 
 export const suggestUsernames = async (fullname) => {
@@ -33,3 +35,13 @@ export const loginUser = async (email, password) => {
     }
   }
 };
+
+export const verifyUser = async () => {
+    try {
+      const { setIsLoggedIn } = useContext(AuthContext)
+        const response = await axios.get(`${backendAPI}protected/login`);
+      console.log(response)
+    } catch (error) {
+        console.log(error.response.data)
+    }
+}
