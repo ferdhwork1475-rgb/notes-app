@@ -24,6 +24,7 @@ export const createUser = async (req, res, next) => {
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    console.log(email, password)
     const user = await User.findOne({ email });
 
     const isMatched = await comparePassword(password, user.password);
@@ -43,7 +44,7 @@ export const loginUser = async (req, res, next) => {
       secure: false,
       sameSite: "None"
     })
-    // res.status(200).json({ success: "User logged in successfully", token });
+    res.status(200).json({ success: "User logged in successfully", token });
   } catch (error) {
     next(error);
   }

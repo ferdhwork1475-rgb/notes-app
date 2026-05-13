@@ -35,7 +35,7 @@ export const loginUser = async (email, password) => {
       email,
       password,
     });
-    return response.data;
+    console.log(response)
   } catch (error) {
     const backendError = error.response?.data?.error;
     const message = error.response?.data?.message || "Login failed";

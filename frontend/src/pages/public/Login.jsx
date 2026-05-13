@@ -28,7 +28,7 @@ const Login = ({ setActive }) => {
       await loginUser(email, password);
 
       toast.success("Login successful");
-      navigate("/dashboard");
+      // navigate("/dashboard");
     } catch (error) {
       console.error("Login attempt failed in component");
     } finally {
