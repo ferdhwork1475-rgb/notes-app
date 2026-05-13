@@ -1,27 +1,27 @@
-import { useState } from "react";
+import { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import StatItem from "../components/protected/StatItem";
 import Sidebar from "../components/protected/Sidebar";
 import { verifyUser } from "../services/authService";
+import { AuthContext } from "../context/AuthContext";
 
 const DashLayout = () => {
   const navigate = useNavigate();
-  // const [username, setUsername] = useState("")
+  const { user, setUser } = useContext(AuthContext);
 
-  const checkAuth = async () => {
-    try {
-      const response = await verifyUser()
-      if (response.ok) {
-        console.log(response.userId)
-      console.log("hello")
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await verifyUser();
+        setUser(response);
+      } catch (error) {
+        navigate("/login");
+        console.log(error);
       }
-    } catch (error) {
-      navigate("/login")
-    }
-  }
-  checkAuth()
-  
+    };
+    checkAuth();
+  }, []);
 
   return (
     <div className="flex h-screen bg-[#f8fafc] text-slate-900 font-sans">
@@ -31,10 +31,18 @@ const DashLayout = () => {
       </main>
       <section className="w-80 bg-white border-l border-slate-200 p-8 hidden xl:flex flex-col">
         <div className="flex flex-col items-center text-center mb-10">
-          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-4 border-4 border-white shadow-sm">
-            <User size={40} className="text-indigo-600" />
+          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-4 border-4 border-white shadow-sm overflow-hidden">
+            {user?.profileImage ? (
+              <img
+                src={user.profileImage}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User size={40} className="text-indigo-600" />
+            )}
           </div>
-          <h3 className="font-bold text-lg">{"Alex Joh5"}</h3>
+          <h3 className="font-bold text-lg">{user.fullname}</h3>
           <p className="text-slate-500 text-sm">Free Plan</p>
         </div>
 

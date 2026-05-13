@@ -33,7 +33,7 @@ export const loginUser = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { userId: user.id, username: user.username, profile: user.profileImage },
+      { userId: user.id, fullname: user.fullname, profile: user.profileImage },
       process.env.JWT_SECRET,
     );
     res

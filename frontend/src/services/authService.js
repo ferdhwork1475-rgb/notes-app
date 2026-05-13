@@ -60,8 +60,9 @@ export const verifyUser = async () => {
     const response = await axios.get(`${backendAPI}protected/login`, {
       withCredentials: true,
     });
-    return response.data;
+    return response.data.user;
   } catch (error) {
+    console.log(error)
     toast.error("Login again!");
 
     throw error;

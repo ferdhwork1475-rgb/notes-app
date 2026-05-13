@@ -16,8 +16,8 @@ router.post("/notes", validateNote, checkNoteValidation, createNote);
 router.get("/notes", getNotes);
 router.put("/notes/:id", validateNote, checkNoteValidation, editNote);
 router.delete("/notes/:id", validateNote, checkNoteValidation, deleteNote);
-router.get("/login", authenticateToken, (req, res) => {
-  console.log(req.user)
-})
+router.get("/login", authenticateToken, (req, res) =>
+  res.status(200).json({ user: req.user }),
+);
 
 export default router;
