@@ -31,11 +31,16 @@ export const signupUser = async (formData) => {
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(`${backendAPI}login`, {
-      email,
-      password,
-    });
-    console.log(response)
+    const response = await axios.post(
+      `${backendAPI}login`,
+      {
+        email,
+        password,
+      },
+      {
+        withCredentials: true,
+      },
+    );
   } catch (error) {
     const backendError = error.response?.data?.error;
     const message = error.response?.data?.message || "Login failed";
@@ -52,9 +57,7 @@ export const loginUser = async (email, password) => {
 
 export const verifyUser = async () => {
   try {
-    const response = await axios.get(`${backendAPI}protected/login`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(`${backendAPI}protected/login`);
     console.log(response.data);
   } catch (error) {
     console.log(error.response?.data?.message);
