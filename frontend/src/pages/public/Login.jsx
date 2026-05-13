@@ -11,12 +11,13 @@ const Login = ({ setActive }) => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    await loginUser(email, password);
-    toast.success("Login successful");
-    navigate("/dashboard");
+  const handleShowPassword = () => {
+    const passwordInput = document.getElementById("password");
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -34,7 +35,6 @@ const Login = ({ setActive }) => {
       setIsLoading(false);
     }
   };
-
   return (
     <>
       <section className="min-h-screen flex flex-col md:flex-row bg-white justify-center">

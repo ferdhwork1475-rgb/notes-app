@@ -52,12 +52,11 @@ export const loginUser = async (email, password) => {
 
 export const verifyUser = async () => {
   try {
-    // const { setIsLoggedIn } = useContext(AuthContext)
     const response = await axios.get(`${backendAPI}protected/login`, {
       withCredentials: true,
     });
-    console.log(response);
+    console.log(response.data);
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log(error.response?.data?.message);
   }
 };
