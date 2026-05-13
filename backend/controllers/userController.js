@@ -41,9 +41,9 @@ export const loginUser = async (req, res, next) => {
       maxAge: 3600000,
       httpOnly: true,
       secure: false,
-      sameSite: "strict"
+      sameSite: "None"
     })
-    res.status(200).json({ success: "User logged in successfully", token });
+    // res.status(200).json({ success: "User logged in successfully", token });
   } catch (error) {
     next(error);
   }

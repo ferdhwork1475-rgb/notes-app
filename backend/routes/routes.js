@@ -28,7 +28,7 @@ router.post(
   validate,
   getSuggestedUsernames,
 );
-// router.post("", validateNote, checkNoteValidation, editNote);
+// router.postpr("", validateNote, checkNoteValidation, editNote);
 
 
 router.delete("/users", async (req, res) => {

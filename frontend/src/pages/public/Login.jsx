@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import { loginUser } from "../../../services/auhService"
+import { loginUser } from "../../../services/auhService";
 import axios from "axios";
 
 const Login = ({ setActive }) => {
@@ -14,19 +14,27 @@ const Login = ({ setActive }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    await loginUser(email, password)
+    await loginUser(email, password);
     toast.success("Login successful");
     navigate("/dashboard");
   };
 
-  const handleShowPassword = () => {
-    const passwordInput = document.getElementById("password");
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-    } else {
-      passwordInput.type = "password";
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      await loginUser(email, password);
+
+      toast.success("Login successful");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login attempt failed in component");
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
     <>
       <section className="min-h-screen flex flex-col md:flex-row bg-white justify-center">

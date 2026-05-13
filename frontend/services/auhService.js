@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useContext } from "react"
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 const backendAPI = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -13,35 +13,51 @@ export const suggestUsernames = async (fullname) => {
 
 export const signupUser = async (formData) => {
   try {
-    await axios.post(`${backendAPI}register`, formData);
+    const response = await axios.post(`${backendAPI}register`, formData);
+    return response.data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      const backendError = error.response.data.error;
-      Array.isArray(backendError) &&
-        backendError.map((err) => console.log(err));
+    const backendError = error.response?.data?.error;
+    const message = error.response?.data?.message || "Registration failed";
+
+    if (Array.isArray(backendError)) {
+      backendError.forEach((err) => toast.error(err));
+    } else {
+      toast.error(message);
     }
+
+    throw error;
   }
 };
 
 export const loginUser = async (email, password) => {
   try {
-    await axios.post(`${backendAPI}login`, { email, password });
+    const response = await axios.post(`${backendAPI}login`, {
+      email,
+      password,
+    });
+    return response.data;
   } catch (error) {
-    if (error.response && error.response.data) {
-      const backendError = error.response.data.error;
-      Array.isArray(backendError)
-        ? backendError.map((err) => toast.error(err))
-        : toast.error(error.response.data.message);
+    const backendError = error.response?.data?.error;
+    const message = error.response?.data?.message || "Login failed";
+
+    if (Array.isArray(backendError)) {
+      backendError.forEach((err) => toast.error(err));
+    } else {
+      toast.error(message);
     }
+
+    throw error;
   }
 };
 
 export const verifyUser = async () => {
-    try {
-      const { setIsLoggedIn } = useContext(AuthContext)
-        const response = await axios.get(`${backendAPI}protected/login`);
-      console.log(response)
-    } catch (error) {
-        console.log(error.response.data)
-    }
-}
+  try {
+    // const { setIsLoggedIn } = useContext(AuthContext)
+    const response = await axios.get(`${backendAPI}protected/login`, {
+      withCredentials: true,
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error.response.data.message);
+  }
+};

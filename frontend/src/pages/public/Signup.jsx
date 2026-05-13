@@ -71,9 +71,17 @@ const Signup = () => {
     formData.append("password", password);
     profileImage && formData.append("profileImage", profileImage);
     setIsSubmitting(true);
-    await signupUser(formData);
-    toast.success("Registration successful");
-    navigate("/login");
+
+    try {
+      await signupUser(formData);
+
+      toast.success("Registration successful");
+      navigate("/login");
+    } catch (error) {
+      console.error("Failed registration attempt in component")
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
