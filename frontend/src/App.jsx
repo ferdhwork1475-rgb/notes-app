@@ -8,12 +8,10 @@ import Dashboard from "./pages/protected/Dashboard";
 import DashLayout from "./layouts/DashLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
     <>
-      <AuthProvider>
         <Router>
           <Routes>
             <Route element={<MainLayout />}>
@@ -38,7 +36,6 @@ const App = () => {
           pauseOnHover
           theme="light"
         />
-      </AuthProvider>
     </>
   );
 };
