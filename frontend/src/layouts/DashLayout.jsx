@@ -7,24 +7,16 @@ import { verifyUser } from "../services/authService";
 import { AuthContext } from "../context/AuthContext";
 
 const DashLayout = () => {
-  const [fullname, setFullname] = useState("");
-  const [profileImage, setProfileImage] = useState("");
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const checkAuth = async () => {
-    try {
-      const response = await verifyUser();
-      if (!response.user) {
-        toast.error("Login agian");
-        return;
-      }
-      setFullname(response.user.fullname);
-      setProfileImage(response.user.profileImage);
-      setIsLoggedIn(true);
-    } catch (error) {
-      navigate("/login");
+    if(user == null) {
+      toast.error("Login again null")
+      navigate("/login")
+      return
     }
+    console.log(user)
   };
 
   checkAuth();
@@ -38,7 +30,7 @@ const DashLayout = () => {
       <section className="w-80 bg-white border-l border-slate-200 p-8 hidden xl:flex flex-col">
         <div className="flex flex-col items-center text-center mb-10">
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-4 border-4 border-white shadow-sm overflow-hidden">
-            {profileImage ? (
+            {user.profileImage ? (
               <img
                 src={profileImage}
                 alt="Profile"
@@ -48,7 +40,7 @@ const DashLayout = () => {
               <User size={40} className="text-indigo-600" />
             )}
           </div>
-          <h3 className="font-bold text-lg">{fullname}</h3>
+          <h3 className="font-bold text-lg">{user.fullname}</h3>
           <p className="text-slate-500 text-sm">Free Plan</p>
         </div>
 
