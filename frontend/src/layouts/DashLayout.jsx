@@ -38,11 +38,15 @@ const DashLayout = () => {
       <section className="w-80 bg-white border-l border-slate-200 p-8 hidden xl:flex flex-col">
         <div className="flex flex-col items-center text-center mb-10">
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-4 border-4 border-white shadow-sm overflow-hidden">
-            <img
-              src={profileImage}
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
+            {profileImage ? (
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User size={40} className="text-indigo-600" />
+            )}
           </div>
           <h3 className="font-bold text-lg">{fullname}</h3>
           <p className="text-slate-500 text-sm">Free Plan</p>
