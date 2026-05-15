@@ -32,10 +32,7 @@ export const loginUser = async (req, res, next) => {
       return next(error);
     }
 
-    const token = jwt.sign(
-      { userId: user.id, fullname: user.fullname, profile: user.profileImage },
-      process.env.JWT_SECRET,
-    );
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
     res
       .cookie("token", token, {
         maxAge: 3600000,
