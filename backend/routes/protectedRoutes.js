@@ -5,6 +5,7 @@ import {
   editNote,
   deleteNote,
 } from "../controllers/noteController.js";
+import { findUserDetails } from "../controllers/userController.js";
 import {
   checkNoteValidation,
   validateNote,
@@ -16,8 +17,6 @@ router.post("/notes", validateNote, checkNoteValidation, createNote);
 router.get("/notes", getNotes);
 router.put("/notes/:id", validateNote, checkNoteValidation, editNote);
 router.delete("/notes/:id", validateNote, checkNoteValidation, deleteNote);
-router.get("/login", authenticateToken, (req, res) =>
-  res.status(200).json({ user: req.user }),
-);
+router.get("/login", authenticateToken, findUserDetails);
 
 export default router;

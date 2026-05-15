@@ -45,6 +45,23 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
+export const findUserDetails = async (req, res, next) => {
+  try {
+    const userId = req.user.userId;
+    console.log(userId);
+
+    const user = await User.findOne({ userId });
+    if (!user) {
+      throw new Error("Invalid user id");
+      return next(error);
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getSuggestedUsernames = async (req, res, next) => {
   try {
     const { fullname } = req.body;
