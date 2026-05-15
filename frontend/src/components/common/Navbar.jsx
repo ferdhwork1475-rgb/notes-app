@@ -4,8 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = ({ setActivePage, activePage }) => {
   const { isLoggedIn } = useContext(AuthContext);
-  console.log(isLoggedIn);
-  return (
+   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-12">
         {/* Logo Area */}
@@ -80,8 +79,8 @@ const Navbar = ({ setActivePage, activePage }) => {
         ) : (
           <Link
             to="/dashboard"
-            className="text-sm font-medium text-gray-700 hover:text-[#4F46E5] transition-colors"
-            onClick={() => setActivePage("login")}
+            className="bg-[#4F46E5] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#4338ca] transition-all shadow-sm hover:shadow-md"
+            onClick={() => setActivePage("dashboard")}
           >
             Dashboard
           </Link>

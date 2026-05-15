@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -62,9 +63,6 @@ export const verifyUser = async () => {
     });
     return response.data;
   } catch (error) {
-    console.log(error);
-    toast.error("Login again!");
-
     throw error;
   }
 };
