@@ -50,14 +50,14 @@ export const findUserDetails = async (req, res, next) => {
     const userId = req.user.userId;
     console.log(userId);
 
-    const user = await User.findOne({ userId });
+    const user = await User.findById(userId);
+    console.log(user)
     if (!user) {
       throw new Error("Invalid user id");
       return next(error);
     }
 
-    res.status(200).json({ user });
-    console.log(user)
+    // res.status(200).json({ user });
   } catch (error) {
     next(error);
   }

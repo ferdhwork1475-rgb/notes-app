@@ -9,8 +9,8 @@ const DashLayout = () => {
 
   const checkAuth = async () => {
     try {
-      const response = await verifyUser();
-      console.log(response)
+      await verifyUser();
+      // console.log(response)
       // if (!response.user.userId) {
       //   toast.error("Login agian")
       //   return
