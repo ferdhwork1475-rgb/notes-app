@@ -48,16 +48,14 @@ export const loginUser = async (req, res, next) => {
 export const findUserDetails = async (req, res, next) => {
   try {
     const userId = req.user.userId;
-    console.log(userId);
 
     const user = await User.findById(userId);
-    console.log(user)
     if (!user) {
       throw new Error("Invalid user id");
       return next(error);
     }
 
-    // res.status(200).json({ user });
+    res.status(200).json({ user });
   } catch (error) {
     next(error);
   }

@@ -74,7 +74,7 @@ export const findUserDetails = async () => {
     const response = await axios.get(`${backendAPI}protected/login`, {
       withCredentials: true,
     });
-   console.log(response);
+    return response.data;
   } catch (error) {
     console.log(error);
     toast.error("Login again!");
