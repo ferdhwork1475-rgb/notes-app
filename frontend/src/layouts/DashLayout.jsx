@@ -10,11 +10,12 @@ const DashLayout = () => {
   const checkAuth = async () => {
     try {
       const response = await verifyUser();
-      if (!response.user.userId) {
-        toast.error("Login agian")
-        return
-      }
-      
+      console.log(response)
+      // if (!response.user.userId) {
+      //   toast.error("Login agian")
+      //   return
+      // }
+
     } catch (error) {
       navigate("/login")
     }

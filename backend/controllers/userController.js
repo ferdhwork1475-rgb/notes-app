@@ -57,6 +57,7 @@ export const findUserDetails = async (req, res, next) => {
     }
 
     res.status(200).json({ user });
+    console.log(user)
   } catch (error) {
     next(error);
   }
