@@ -83,11 +83,12 @@ export const findUserDetails = async () => {
 
 export const createNote = async (title, tags, content) => {
   try {
-    await axios.post(
+    const response = await axios.post(
       `${backendAPI}protected/notes`,
       { title, tags, content },
       { withCredentials: true },
     );
+    return response.data
     toast.success("Note added successfully");
   } catch (error) {
     console.log(error)

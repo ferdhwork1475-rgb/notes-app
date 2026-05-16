@@ -3,15 +3,14 @@ import Note from "../models/noteSchema.js";
 export const createNote = async (req, res, next) => {
   try {
     const { title, content, tags } = req.body;
-    console.log(req.user)
     const newNote = new Note({
       title,
       content,
       tags,
-      author: req.user._id,
+      author: req.user.userId,
     });
     await newNote.save();
-    res.status(200)
+    res.status(200).json({ success: "true" })
   } catch (error) {
     next(error);
   }

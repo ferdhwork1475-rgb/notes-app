@@ -14,8 +14,11 @@ const CreateNote = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await createNote(title, tags, content);
-      navigate("/dashboard");
+      const response = await createNote(title, tags, content);
+      if(!response.ok) {
+        return
+      }
+      toast.success("Note added successfully")
     } catch (error) {
       console.log("Error creating note:", error.response);
     } finally {
