@@ -13,7 +13,7 @@ import {
 import express from "express";
 const router = express.Router();
 
-router.post("/notes", validateNote, checkNoteValidation, createNote);
+router.post("/notes", authenticateToken ,validateNote, checkNoteValidation, createNote);
 router.get("/notes", getNotes);
 router.put("/notes/:id", validateNote, checkNoteValidation, editNote);
 router.delete("/notes/:id", validateNote, checkNoteValidation, deleteNote);

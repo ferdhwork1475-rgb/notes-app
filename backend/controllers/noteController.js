@@ -3,6 +3,7 @@ import Note from "../models/noteSchema.js";
 export const createNote = async (req, res, next) => {
   try {
     const { title, content, tags } = req.body;
+    console.log(req.user)
     const newNote = new Note({
       title,
       content,

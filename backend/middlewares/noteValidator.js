@@ -6,7 +6,6 @@ export const validateNote = [
     .escape()
     .isLength({ max: 100 }).withMessage("Title must be less than 100 characters"),
   body("content").trim().escape(),
-  body("tags").optional().isArray(),
 ];
 
 export const checkNoteValidation = (req, res, next) => {
