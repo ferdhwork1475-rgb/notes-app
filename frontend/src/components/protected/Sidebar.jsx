@@ -1,5 +1,5 @@
 import { FileText, Hash, Settings, LogOut, PlusCircle } from "lucide-react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SidebarLink from "./SidebarLink"
 
 const Sidebar = () => {
