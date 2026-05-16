@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FiSave, FiX, FiTag } from 'react-icons/fi';
+// import { FiSave, FiX, FiTag } from 'react-icons/fi';
 
 const CreateNote = () => {
     const [title, setTitle] = useState('');
@@ -41,7 +41,7 @@ const CreateNote = () => {
                         onClick={() => navigate(-1)}
                         className="text-slate-400 hover:text-white transition-colors"
                     >
-                        <FiX size={24} />
+                        {/* <FiX size={24} /> */}
                     </button>
                 </div>
 
@@ -57,7 +57,7 @@ const CreateNote = () => {
                     />
 
                     <div className="flex items-center space-x-2 bg-[#1e293b] w-max px-4 py-2 rounded-full border border-slate-700">
-                        <FiTag className="text-[#4F46E5]" />
+                        {/* <FiTag className="text-[#4F46E5]" /> */}
                         <input
                             type="text"
                             placeholder="Add tag..."
@@ -82,7 +82,7 @@ const CreateNote = () => {
                             disabled={loading}
                             className={`flex items-center space-x-2 bg-[#4F46E5] hover:bg-[#4338ca] text-white px-8 py-4 rounded-full font-semibold shadow-lg transition-all transform hover:scale-105 active:scale-95 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                            <FiSave size={20} />
+                            {/* <FiSave size={20} /> */}
                             <span>{loading ? 'Saving to Cloud...' : 'Save Note'}</span>
                         </button>
                     </div>

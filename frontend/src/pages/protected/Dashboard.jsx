@@ -1,9 +1,11 @@
 import { Plus, Search, User } from "lucide-react";
-import { Link } from "react-router-dom"
+import { Link, useOutletContext } from "react-router-dom";
+import StatItem from  "../../components/protected/StatItem"
 import Sidebar from "../../components/protected/Sidebar";
 import NoteCard from "../../components/protected/NoteCard";
 
 const Dashboard = () => {
+  const { user } = useOutletContext()
   return (
     <section className="flex-1 flex flex-col overflow-hidden">
       {/* Header / Search */}
@@ -19,7 +21,10 @@ const Dashboard = () => {
             className="w-full pl-10 pr-4 py-2 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
           />
         </div>
-        <Link to="/dashboard/create-note" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 transition-all shadow-md active:scale-95">
+        <Link
+          to="/dashboard/create-note"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 transition-all shadow-md active:scale-95"
+        >
           <Plus size={18} /> New Note
         </Link>
       </header>
@@ -56,6 +61,32 @@ const Dashboard = () => {
             tag="Work"
             date="2 days ago"
           />
+        </div>
+      </section>
+
+      <section className="w-80 bg-white border-l border-slate-200 p-8 hidden xl:flex flex-col">
+        <div className="flex flex-col items-center text-center mb-10">
+          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-4 border-4 border-white shadow-sm overflow-hidden">
+            {user.profileImage ? (
+              <img
+                src={user.profileImage}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User size={40} className="text-indigo-600" />
+            )}
+          </div>
+          <h3 className="font-bold text-lg">{user.fullname}</h3>
+          <p className="text-slate-500 text-sm">Free Plan</p>
+        </div>
+
+        <div className="space-y-6">
+          <h4 className="font-semibold text-sm uppercase tracking-wider text-slate-400">
+            Activity Stats
+          </h4>
+          <StatItem label="Total Notes" value="124" color="bg-indigo-500" />
+          <StatItem label="Tags Created" value="18" color="bg-emerald-500" />
         </div>
       </section>
     </section>
