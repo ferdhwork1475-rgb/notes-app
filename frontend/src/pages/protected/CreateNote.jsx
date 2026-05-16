@@ -6,7 +6,7 @@ import { createNote } from "../../services/authService";
 const CreateNote = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -14,11 +14,10 @@ const CreateNote = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Points clean to the target backend route config
-      const response = await createNote(title, tags, content);
+      await createNote(title, tags, content);
       navigate("/dashboard");
     } catch (error) {
-      console.error("Error creating note:", error);
+      console.log("Error creating note:", error.response);
     } finally {
       setLoading(false);
     }
@@ -60,8 +59,8 @@ const CreateNote = () => {
           <input
             type="text"
             placeholder="Categorize with a tag..."
-            value={tag}
-            onChange={(e) => setTag(e.target.value)}
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
             className="bg-transparent border-none text-xs focus:outline-none focus:ring-0 text-slate-600 font-medium placeholder-slate-400 p-0"
           />
         </div>

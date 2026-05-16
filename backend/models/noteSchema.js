@@ -12,11 +12,11 @@ const noteSchema = new mongoose.Schema(
       type: String,
     },
     tags:[{ type: String }],
-    // author: {
-    //   ref: "User",
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   required: true,
-    // }
+    author: {
+      ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    }
   },
   {
     timestamps: true,

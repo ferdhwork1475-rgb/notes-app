@@ -8,7 +8,6 @@ import { AuthContext } from "../context/AuthContext";
 const DashLayout = () => {
   const navigate = useNavigate();
   const { user, isLoggedIn } = useContext(AuthContext);
-  console.log(isLoggedIn)
 
   useEffect(() => {
     if (isLoggedIn == false) return navigate("/login");
