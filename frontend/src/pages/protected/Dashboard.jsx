@@ -1,4 +1,5 @@
 import { Plus, Search, User } from "lucide-react";
+import { Link } from "react-router-dom"
 import Sidebar from "../../components/protected/Sidebar";
 import NoteCard from "../../components/protected/NoteCard";
 
@@ -18,9 +19,9 @@ const Dashboard = () => {
             className="w-full pl-10 pr-4 py-2 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
           />
         </div>
-        <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 transition-all shadow-md active:scale-95">
+        <Link to="/dashboard/create-note" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 transition-all shadow-md active:scale-95">
           <Plus size={18} /> New Note
-        </button>
+        </Link>
       </header>
 
       {/* Dashboard Grid */}

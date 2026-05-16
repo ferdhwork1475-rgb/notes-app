@@ -5,6 +5,7 @@ import IndexPage from "./pages/public/IndexPage";
 import Signup from "./pages/public/Signup";
 import Login from "./pages/public/Login";
 import Dashboard from "./pages/protected/Dashboard";
+import CreateNote from "./pages/protected/CreateNote";
 import DashLayout from "./layouts/DashLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +24,7 @@ const App = () => {
             </Route>
             <Route path="/dashboard" element={<DashLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path="create-note" element={<CreateNote />} />
             </Route>
           </Routes>
         </Router>
