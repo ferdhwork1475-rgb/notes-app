@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Save, X, Tag } from 'lucide-react';
-import axios from 'axios';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Save, X, Tag } from "lucide-react";
+import { createNote } from "../../services/authService";
 
 const CreateNote = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tag, setTag] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [tag, setTag] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -15,8 +15,8 @@ const CreateNote = () => {
     setLoading(true);
     try {
       // Points clean to the target backend route config
-      await axios.post('http://localhost:5000/api/notes', { title, content, tag });
-      navigate('/dashboard'); 
+      const response = await createNote(title, tags, content);
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error creating note:", error);
     } finally {
@@ -29,9 +29,11 @@ const CreateNote = () => {
       {/* Editor Header Navigation controls */}
       <header className="h-20 border-b border-slate-200 px-8 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">Draft Mode</span>
+          <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+            Draft Mode
+          </span>
         </div>
-        <button 
+        <button
           onClick={() => navigate(-1)}
           className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all"
         >
@@ -40,7 +42,10 @@ const CreateNote = () => {
       </header>
 
       {/* Creative Writing Canvas */}
-      <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden p-8 max-w-4xl w-full mx-auto space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="flex-1 flex flex-col overflow-hidden p-8 max-w-4xl w-full mx-auto space-y-6"
+      >
         <input
           type="text"
           placeholder="Untitled Document..."
@@ -75,11 +80,11 @@ const CreateNote = () => {
             type="submit"
             disabled={loading}
             className={`flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-medium shadow-md shadow-indigo-100 transition-all active:scale-95 ${
-              loading ? 'opacity-50 cursor-not-allowed' : ''
+              loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             <Save size={18} />
-            <span>{loading ? 'Securing to Cloud...' : 'Commit Note'}</span>
+            <span>{loading ? "Securing to Cloud..." : "Commit Note"}</span>
           </button>
         </div>
       </form>
