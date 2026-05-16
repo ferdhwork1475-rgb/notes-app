@@ -1,4 +1,5 @@
 import { FileText, Hash, BarChart2, Settings } from "lucide-react";
+import {Link}  from "react-router-dom"
 import NavItem from "./NavItem";
 
 const Sidebar = () => {
@@ -8,9 +9,9 @@ const Sidebar = () => {
         <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
           <span className="text-white font-bold">S</span>
         </div>
-        <h1 className="text-white font-bold text-xl tracking-tight">
+        <Link to="/" className="text-white font-bold text-xl tracking-tight">
           Stillness
-        </h1>
+        </Link>
       </div>
 
       <nav className="flex-1 space-y-2">

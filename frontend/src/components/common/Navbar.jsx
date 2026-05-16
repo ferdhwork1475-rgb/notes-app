@@ -59,7 +59,7 @@ const Navbar = ({ setActivePage, activePage }) => {
 
         {/* Auth Buttons */}
 
-        {!isLoggedIn ? (
+        {isLoggedIn == false ? (
           <div className="flex items-center gap-6">
             <Link
               to="/login"
