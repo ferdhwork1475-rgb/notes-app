@@ -25,7 +25,7 @@ const Navbar = ({ setActivePage, activePage }) => {
               className="hover:text-[#4F46E5] transition-colors"
               onClick={() => setActivePage("home")}
             >
-              Features
+              Home
             </Link>
           </li>
           <li className={activePage === "pricing" ? "text-[#4F46E5]" : ""}>

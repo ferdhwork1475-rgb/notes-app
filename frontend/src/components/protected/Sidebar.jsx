@@ -15,7 +15,7 @@ const Sidebar = () => {
         <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-indigo-900/30">
           <span className="text-white font-black text-lg tracking-wider">S</span>
         </div>
-        <Link to="/dashboard" className="text-white font-bold text-xl tracking-tight hover:opacity-90 transition-opacity">
+        <Link to="/" className="text-white font-bold text-xl tracking-tight hover:opacity-90 transition-opacity">
           Stillness
         </Link>
       </div>

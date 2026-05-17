@@ -14,7 +14,7 @@ const Hero = () => {
           Organize your thoughts, ideas, and notes in one place.
         </p>
         <Link
-          to="/notes/new"
+          to="/dashboard/create-note"
           className="inline-block bg-[#4F46E5] text-white px-6 py-3 rounded-lg hover:bg-[#4338ca] transition-colors font-semibold shadow-md hover:shadow-lg"
         >
           Start writing for Free

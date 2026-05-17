@@ -63,6 +63,7 @@ export const verifyUser = async () => {
     });
     return response.data;
   } catch (error) {
+    toast.error("Login again")
     throw error;
   }
 };

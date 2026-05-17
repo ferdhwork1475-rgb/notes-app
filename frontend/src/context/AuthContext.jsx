@@ -16,7 +16,8 @@ export const AuthProvider = ({ children }) => {
         setUser(response.user);
         setIsLoggedIn(true);
       } catch (error) {
-        setIsLoggedIn(false);     
+        setIsLoggedIn(false); 
+        throw error    
       }
     };
 
