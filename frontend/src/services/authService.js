@@ -75,7 +75,6 @@ export const findUserDetails = async () => {
     });
     return response.data;
   } catch (error) {
-    console.log(error);
     toast.error("Login again!");
 
     throw error;
@@ -89,10 +88,9 @@ export const createNote = async (title, tags, content) => {
       { title, tags, content },
       { withCredentials: true },
     );
-    return response.data
     toast.success("Note added successfully");
+    return response.data
   } catch (error) {
-    console.log(error)
     toast.error("An error occured while creating your note.");
 
     throw error;

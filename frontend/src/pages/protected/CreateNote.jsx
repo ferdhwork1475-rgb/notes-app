@@ -15,10 +15,9 @@ const CreateNote = () => {
     setLoading(true);
     try {
       const response = await createNote(title, tags, content);
-      if(!response.ok) {
-        return
-      }
-      toast.success("Note added successfully")
+      setTitle("")
+      setContent("")
+      setTags("")
     } catch (error) {
       console.log("Error creating note:", error.response);
     } finally {

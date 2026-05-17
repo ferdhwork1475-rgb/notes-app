@@ -7,7 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const DashLayout = () => {
   const { user, isLoggedIn } = useContext(AuthContext);
-  if (!isLoggedIn == false) return <Navigate to="/login" replace />;
+  if (isLoggedIn == false) return <Navigate to="/login" replace />;
 
   return (
     <div className="flex h-screen w-screen bg-[#f8fafc] text-slate-900 font-sans overflow-hidden">
