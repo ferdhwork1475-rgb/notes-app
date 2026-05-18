@@ -10,7 +10,7 @@ const MainLayout = () => {
     <div>
         <Navbar setActivePage={setActivePage} activePage={activePage} />
         <main>
-            <Outlet setActivePage={{setActivePage}} />
+            <Outlet context={[setActivePage]} />
         </main>
         <Footer />
     </div>

@@ -88,10 +88,25 @@ export const createNote = async (title, tags, content) => {
       { withCredentials: true },
     );
     toast.success("Note added successfully");
-    return response.data
+    console.log(response.data)
   } catch (error) {
     toast.error("An error occured while creating your note.");
 
     throw error;
+  }
+};
+
+export const fetchNotes = async () => {
+  try {
+    const response = await axios.get(
+      `${backendAPI}protected/notes`,
+      { withCredentials: true },
+    );
+    toast.success("Up to date");
+    console.log(response)
+  } catch (error) {
+    toast.error("Check your internet connection.");
+    console.log(error.response)
+    // throw error;
   }
 };

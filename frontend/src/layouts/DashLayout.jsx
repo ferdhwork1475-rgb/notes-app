@@ -1,13 +1,22 @@
 import { useContext, useEffect } from "react";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 import Sidebar from "../components/protected/Sidebar";
 import StatItem from "../components/protected/StatItem";
 import { AuthContext } from "../context/AuthContext";
 
 const DashLayout = () => {
+  const navigate = useNavigate();
   const { user, isLoggedIn } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (isLoggedIn !== true) {
+      navigate("/login");
+      toast.error("Please sign in");
+      return;
+    }
+  }, []);
   
   return (
     <div className="flex h-screen w-screen bg-[#f8fafc] text-slate-900 font-sans overflow-hidden">

@@ -1,11 +1,10 @@
 import React from "react";
 import notepad from "../../assets/images/notepad.png";
 import notetab from "../../assets/images/notetabs.png";
-import { Link } from "react-router-dom";
-// import { useOutletContext } from "react-router";
+import { Link, useOutletContext } from "react-router-dom";
 
 const Hero = () => {
-  // const [setActivePage] = useOutletContext();
+  const [setActivePage] = useOutletContext()
   return (
     <section>
       <div className="container mx-auto px-4 py-16 text-center">
@@ -18,7 +17,7 @@ const Hero = () => {
         <Link
           to="/dashboard/create-note"
           className="inline-block bg-[#4F46E5] text-white px-6 py-3 rounded-lg hover:bg-[#4338ca] transition-colors font-semibold shadow-md hover:shadow-lg"
-          // onClick={setActivePage("create")}
+          onClick={setActivePage("create")}
         >
           Start writing for Free
         </Link>

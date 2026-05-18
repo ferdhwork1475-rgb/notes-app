@@ -30,6 +30,7 @@ const Login = ({ setActive }) => {
       toast.success("Login successful");
       navigate("/dashboard");
     } catch (error) {
+      console.log(error.response)
       console.error("Login attempt failed in component");
     } finally {
       setIsLoading(false);
