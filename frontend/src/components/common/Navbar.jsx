@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = ({ setActivePage, activePage }) => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const {  } = useContext(AuthContext);
    return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-12">
@@ -59,7 +59,7 @@ const Navbar = ({ setActivePage, activePage }) => {
 
         {/* Auth Buttons */}
 
-        {isLoggedIn == false ? (
+        {/* { false ? (
           <div className="flex items-center gap-6">
             <Link
               to="/login"
@@ -84,7 +84,7 @@ const Navbar = ({ setActivePage, activePage }) => {
           >
             Dashboard
           </Link>
-        )}
+        )} */}
       </nav>
     </header>
   );

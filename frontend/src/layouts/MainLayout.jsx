@@ -4,7 +4,7 @@ import Navbar from "../components/common/Navbar"
 import Footer from "../components/common/Footer";
 
 const MainLayout = () => {
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState("");
 
   return (
     <div>
