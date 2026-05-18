@@ -1,14 +1,14 @@
 import { useContext, useEffect } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { User } from "lucide-react";
+import { toast } from "react-toastify"
 import Sidebar from "../components/protected/Sidebar";
 import StatItem from "../components/protected/StatItem";
 import { AuthContext } from "../context/AuthContext";
 
 const DashLayout = () => {
   const { user, isLoggedIn } = useContext(AuthContext);
-  if (isLoggedIn == false) return <Navigate to="/login" replace />;
-
+  
   return (
     <div className="flex h-screen w-screen bg-[#f8fafc] text-slate-900 font-sans overflow-hidden">
       {/* 1. Left Navigation Sidebar */}

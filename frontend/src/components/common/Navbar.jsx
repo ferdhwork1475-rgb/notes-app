@@ -8,14 +8,14 @@ const Navbar = ({ setActivePage, activePage }) => {
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-12">
         {/* Logo Area */}
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2" onClick={() => setActivePage("home")}>
           <div className="w-8 h-8 bg-[#4F46E5] rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">S</span>
           </div>
           <p className="text-xl font-bold tracking-tight text-[#00020f]">
             Stillness <span className="text-[#4F46E5]">Notes</span>
           </p>
-        </div>
+        </Link>
 
         {/* Navigation Links - Hidden on Mobile, Flex on Desktop */}
         <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">

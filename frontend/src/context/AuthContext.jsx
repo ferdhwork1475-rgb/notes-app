@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     const auth = async () => {
       try {
         const response = await verifyUser();
-        if (!response) return
         setUser(response.user);
         setIsLoggedIn(true);
       } catch (error) {

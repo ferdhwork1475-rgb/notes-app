@@ -63,23 +63,22 @@ export const verifyUser = async () => {
     });
     return response.data;
   } catch (error) {
-    toast.error("Login again")
     throw error;
   }
 };
 
-export const findUserDetails = async () => {
-  try {
-    const response = await axios.get(`${backendAPI}protected/login`, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    toast.error("Login again!");
+// export const findUserDetails = async () => {
+//   try {
+//     const response = await axios.get(`${backendAPI}protected/login`, {
+//       withCredentials: true,
+//     });
+//     return response.data;
+//   } catch (error) {
+//     toast.error("Login again!");
 
-    throw error;
-  }
-};
+//     throw error;
+//   }
+// };
 
 export const createNote = async (title, tags, content) => {
   try {

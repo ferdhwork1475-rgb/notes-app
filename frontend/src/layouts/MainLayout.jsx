@@ -4,13 +4,13 @@ import Navbar from "../components/common/Navbar"
 import Footer from "../components/common/Footer";
 
 const MainLayout = () => {
-  const [activePage, setActivePage] = useState("");
+  const [activePage, setActivePage] = useState("home");
 
   return (
     <div>
         <Navbar setActivePage={setActivePage} activePage={activePage} />
         <main>
-            <Outlet />
+            <Outlet setActivePage={{setActivePage}} />
         </main>
         <Footer />
     </div>
