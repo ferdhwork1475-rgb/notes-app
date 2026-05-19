@@ -1,91 +1,113 @@
-import { useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const Navbar = ({ setActivePage, activePage }) => {
-  const {  } = useContext(AuthContext);
-   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-12">
-        {/* Logo Area */}
-        <Link to="/" className="flex items-center gap-2" onClick={() => setActivePage("home")}>
-          <div className="w-8 h-8 bg-[#4F46E5] rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">S</span>
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navigationItems = [
+    { name: "Home", path: "/", key: "home" },
+    { name: "All News", path: "/newslibrary", key: "news" },
+    { name: "Pricing", path: "/pricing", key: "pricing" },
+    { name: "About", path: "/about", key: "about" },
+  ];
+
+  const handleNavClick = (key) => {
+    setActivePage(key);
+    setIsMobileMenuOpen(false);
+  };
+
+  return (
+    <header className="sticky top-0 z-50 bg-[#0b0f19]/90 backdrop-blur-md border-b border-slate-800/80">
+      <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-4 sm:px-8">
+        
+        {/* Editorial Logo Area */}
+        <Link 
+          to="/" 
+          className="flex items-center gap-3 group" 
+          onClick={() => handleNavClick("home")}
+        >
+          <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center transform group-hover:rotate-6 transition-transform">
+            <span className="text-white font-black text-sm tracking-wider">S</span>
           </div>
-          <p className="text-xl font-bold tracking-tight text-[#00020f]">
-            Stillness <span className="text-[#4F46E5]">Notes</span>
+          <p className="text-lg font-serif font-black tracking-tight text-white uppercase">
+            Stillness <span className="text-red-500 font-sans font-medium text-xs bg-slate-900 border border-slate-800 px-1.5 py-0.5 ml-1 rounded-sm tracking-normal normal-case">Digest</span>
           </p>
         </Link>
 
-        {/* Navigation Links - Hidden on Mobile, Flex on Desktop */}
-        <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-          <li className={activePage === "home" ? "text-[#4F46E5]" : ""}>
-            <Link
-              to="/"
-              className="hover:text-[#4F46E5] transition-colors"
-              onClick={() => setActivePage("home")}
-            >
-              Home
-            </Link>
-          </li>
-          <li className={activePage === "pricing" ? "text-[#4F46E5]" : ""}>
-            <Link
-              to="/pricing"
-              className="hover:text-[#4F46E5] transition-colors"
-              onClick={() => setActivePage("pricing")}
-            >
-              Pricing
-            </Link>
-          </li>
-          <li className={activePage === "about" ? "text-[#4F46E5]" : ""}>
-            <Link
-              to="/about"
-              className="hover:text-[#4F46E5] transition-colors"
-              onClick={() => setActivePage("about")}
-            >
-              About
-            </Link>
-          </li>
-          <li className={activePage === "notes" ? "text-[#4F46E5]" : ""}>
-            <Link
-              to="/note"
-              className="hover:text-[#4F46E5] transition-colors"
-              onClick={() => setActivePage("notes")}
-            >
-              Notes
-            </Link>
-          </li>
+        {/* Desktop Navigation Links */}
+        <ul className="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider">
+          {navigationItems.map((item) => (
+            <li key={item.key}>
+              <Link
+                to={item.path}
+                className={`transition-colors duration-200 relative py-1 hover:text-white ${
+                  activePage === item.key 
+                    ? "text-red-500 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-red-500" 
+                    : "text-slate-400"
+                }`}
+                onClick={() => handleNavClick(item.key)}
+              >
+                {item.name}
+              </Link>
+            </li>
+          ))}
         </ul>
 
-        {/* Auth Buttons */}
+        {/* Action Button - Editorial Style CTA */}
+        <div className="hidden md:flex items-center">
+          <Link
+            to="/signup"
+            className="flex items-center gap-1 bg-slate-900 text-white border border-slate-800 hover:border-slate-700 px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-slate-800/50 transition-all"
+            onClick={() => handleNavClick("signup")}
+          >
+            <span>Subscribe</span>
+            <ArrowUpRight size={14} className="text-slate-500" />
+          </Link>
+        </div>
 
-        {/* { false ? (
-          <div className="flex items-center gap-6">
-            <Link
-              to="/login"
-              className="text-sm font-medium text-gray-700 hover:text-[#4F46E5] transition-colors"
-              onClick={() => setActivePage("login")}
-            >
-              Login
-            </Link>
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden p-2 text-slate-400 hover:text-white focus:outline-none transition-colors"
+          aria-label="Toggle navigation menu"
+        >
+          {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </nav>
+
+      {/* Mobile Dropdown Menu Drawer */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-b border-slate-800 bg-[#0b0f19] px-4 pt-2 pb-6 space-y-4 animate-fadeIn">
+          <ul className="flex flex-col space-y-3 text-sm font-medium tracking-wide">
+            {navigationItems.map((item) => (
+              <li key={item.key}>
+                <Link
+                  to={item.path}
+                  className={`block py-2 px-3 rounded-sm transition-colors ${
+                    activePage === item.key
+                      ? "bg-slate-900 text-red-500 font-bold border-l-2 border-red-500"
+                      : "text-slate-400 hover:text-white hover:bg-slate-900/50"
+                  }`}
+                  onClick={() => handleNavClick(item.key)}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          
+          <div className="pt-4 border-t border-slate-900 px-3">
             <Link
               to="/signup"
-              className="bg-[#4F46E5] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#4338ca] transition-all shadow-sm hover:shadow-md"
-              onClick={() => setActivePage("signup")}
+              className="block w-full text-center bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-sm text-xs font-bold uppercase tracking-widest transition-colors"
+              onClick={() => handleNavClick("signup")}
             >
-              Get Started
+              Subscribe Now
             </Link>
           </div>
-        ) : (
-          <Link
-            to="/dashboard"
-            className="bg-[#4F46E5] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#4338ca] transition-all shadow-sm hover:shadow-md"
-            onClick={() => setActivePage("dashboard")}
-          >
-            Dashboard
-          </Link>
-        )} */}
-      </nav>
+        </div>
+      )}
     </header>
   );
 };

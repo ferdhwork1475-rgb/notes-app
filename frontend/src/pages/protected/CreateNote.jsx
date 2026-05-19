@@ -18,6 +18,7 @@ const CreateNote = () => {
       setTitle("")
       setContent("")
       setTags("")
+      navigate("/notes")
     } catch (error) {
       console.log("Error creating note:", error.response);
     } finally {

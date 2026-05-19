@@ -4,6 +4,7 @@ import MainLayout from "./layouts/MainLayout";
 import IndexPage from "./pages/public/IndexPage";
 import Signup from "./pages/public/Signup";
 import Login from "./pages/public/Login";
+import NewsLibrary from "./pages/public/NewsLibrary";
 import Dashboard from "./pages/protected/Dashboard";
 import CreateNote from "./pages/protected/CreateNote";
 import DashLayout from "./layouts/DashLayout";
@@ -19,6 +20,7 @@ const App = () => {
           <Routes>
             <Route element={<MainLayout />}>
               <Route index element={<IndexPage />} />
+              <Route path="/newslibrary" element={<NewsLibrary />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
             </Route>
