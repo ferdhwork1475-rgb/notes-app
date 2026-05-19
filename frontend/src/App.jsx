@@ -5,12 +5,14 @@ import IndexPage from "./pages/public/IndexPage";
 import Signup from "./pages/public/Signup";
 import Login from "./pages/public/Login";
 import NewsLibrary from "./pages/public/NewsLibrary";
+import AboutPage from "./pages/public/AboutPage";
 import Dashboard from "./pages/protected/Dashboard";
 import CreateNote from "./pages/protected/CreateNote";
 import DashLayout from "./layouts/DashLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContext";
+import ContactPage from "./pages/public/ContactPage";
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
             <Route element={<MainLayout />}>
               <Route index element={<IndexPage />} />
               <Route path="/newslibrary" element={<NewsLibrary />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
             </Route>
