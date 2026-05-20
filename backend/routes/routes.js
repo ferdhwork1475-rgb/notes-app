@@ -11,7 +11,7 @@ import {
   validate,
 } from "../middlewares/userValidator.js";
 import upload from "../middlewares/multer.js";
-import User from "../models/userSchema.js"
+import User from "../models/userSchema.js";
 const router = express.Router();
 
 router.post(
@@ -30,9 +30,8 @@ router.post(
 );
 // router.postpr("", validateNote, checkNoteValidation, editNote);
 
-
 router.delete("/users", async (req, res) => {
-  const users = await User.deleteMany({})
-  res.json({ users })
-})
+  const users = await User.deleteMany({});
+  res.json({ users });
+});
 export default router;

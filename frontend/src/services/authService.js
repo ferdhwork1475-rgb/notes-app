@@ -88,7 +88,7 @@ export const createNote = async (title, tags, content) => {
       { withCredentials: true },
     );
     toast.success("Note added successfully");
-    console.log(response.data)
+    console.log(response.data);
   } catch (error) {
     toast.error("An error occured while creating your note.");
 
@@ -98,15 +98,25 @@ export const createNote = async (title, tags, content) => {
 
 export const fetchNotes = async () => {
   try {
-    const response = await axios.get(
-      `${backendAPI}protected/notes`,
-      { withCredentials: true },
-    );
+    const response = await axios.get(`${backendAPI}protected/notes`, {
+      withCredentials: true,
+    });
     toast.success("Up to date");
-    console.log(response)
+    console.log(response);
   } catch (error) {
     toast.error("Check your internet connection.");
-    console.log(error.response)
+    console.log(error.response);
     // throw error;
+  }
+};
+
+export const fetchNews = async () => {
+  try {
+    const response = await axios.get(
+      "https://api.mediastack.com/v1/news?access_key=f60821b65876d2c141298fd246355e29&limit=10",
+    );
+    console.log(response);
+  } catch (error) {
+    console.log(error);
   }
 };

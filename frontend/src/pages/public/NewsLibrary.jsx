@@ -9,9 +9,11 @@ import {
   Share2,
 } from "lucide-react";
 import NewsLibraryHeaderSection from "../../components/common/NewsLibraryHeaderSection";
+import { fetchNews } from "../../services/authService"
 
 const NewsLibrary = () => {
   const [selectedTag, setSelectedTag] = useState("All Stories");
+
 
   // Premium hardcoded news editorial data with modern placeholder images
   const articles = [
@@ -138,7 +140,7 @@ const NewsLibrary = () => {
                   <img
                     src={featuredArticle.imageUrl}
                     alt={featuredArticle.title}
-                    className="w-full h-[300px] sm:h-[420px] object-cover group-hover:scale-[1.01] transition-transform duration-500 opacity-90"
+                    className="w-full h-75 sm:h-105 object-cover group-hover:scale-[1.01] transition-transform duration-500 opacity-90"
                   />
                 </div>
                 <div className="lg:col-span-5 flex flex-col justify-between py-2">
