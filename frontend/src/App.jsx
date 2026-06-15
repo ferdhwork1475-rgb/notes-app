@@ -36,6 +36,7 @@ const App = () => {
               <Route path="create-note" element={<CreateNote />} />
               <Route path="notes" element={<NoteEditor />} />
               <Route path="notes/:id" element={<ViewNote />} />
+              <Route path="notes/edit-note/:id" element={<ViewNote />} />
             </Route>
           </Routes>
         </Router>
