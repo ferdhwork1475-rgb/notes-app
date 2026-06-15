@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-const backendAPI = import.meta.env.VITE_BACKEND_API_URL;
+const backendAPI = import.meta.env.VITE_BACKEND_API;
 
 export const suggestUsernames = async (fullname) => {
   const response = await axios.post(`${backendAPI}suggest-usernames`, {
@@ -67,24 +67,22 @@ export const verifyUser = async () => {
   }
 };
 
-// export const findUserDetails = async () => {
-//   try {
-//     const response = await axios.get(`${backendAPI}protected/login`, {
-//       withCredentials: true,
-//     });
-//     return response.data;
-//   } catch (error) {
-//     toast.error("Login again!");
+export const fetchNotes = async () => {
+  try {
+    const response = await axios.get(`${backendAPI}notes`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-//     throw error;
-//   }
-// };
-
-export const createNote = async (title, tags, content) => {
+export const createNote = async (title, tags, content, thumbnail) => {
   try {
     const response = await axios.post(
-      `${backendAPI}protected/notes`,
-      { title, tags, content },
+      `${backendAPI}notes`,
+      { title, tags, content, thumbnail },
       { withCredentials: true },
     );
     toast.success("Note added successfully");
@@ -93,30 +91,5 @@ export const createNote = async (title, tags, content) => {
     toast.error("An error occured while creating your note.");
 
     throw error;
-  }
-};
-
-export const fetchNotes = async () => {
-  try {
-    const response = await axios.get(`${backendAPI}protected/notes`, {
-      withCredentials: true,
-    });
-    toast.success("Up to date");
-    console.log(response);
-  } catch (error) {
-    toast.error("Check your internet connection.");
-    console.log(error.response);
-    // throw error;
-  }
-};
-
-export const fetchNews = async () => {
-  try {
-    const response = await axios.get(
-      "https://api.mediastack.com/v1/news?access_key=f60821b65876d2c141298fd246355e29&limit=10",
-    );
-    console.log(response);
-  } catch (error) {
-    console.log(error);
   }
 };

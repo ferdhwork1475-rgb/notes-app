@@ -6,8 +6,6 @@ import cors from "cors";
 import cookieParser from "cookie-parser"
 import router from "./routes/routes.js";
 import { connectDB } from "./config/connectDB.js";
-import protectedRoutes from "./routes/protectedRoutes.js";
-import authenticateToken from "./middlewares/authMiddleware.js";
 
 const app = express();
 const corsOptions = {
@@ -25,7 +23,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use("/api/protected", authenticateToken, protectedRoutes);
 app.use(router);
 
 app.use((err, req, res, next) => {

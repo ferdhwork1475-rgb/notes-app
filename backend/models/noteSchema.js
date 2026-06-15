@@ -11,11 +11,10 @@ const noteSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
-    tags:[{ type: String }],
-    author: {
-      ref: "User",
-      type: mongoose.Schema.Types.ObjectId,
+    tags: [{ type: String }],
+    thumbnail: {
       required: true,
+      type: String
     }
   },
   {
