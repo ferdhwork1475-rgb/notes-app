@@ -2,12 +2,12 @@ import Note from "../models/noteSchema.js";
 
 export const createNote = async (req, res, next) => {
   try {
-    const { title, content, tags, thumbnail } = req.body;
+    const { title, content, tags } = req.body;
     const newNote = new Note({
       title,
       content,
       tags,
-      thumbnail,
+      // thumbnail: req.file ? req.file.path : null,
     });
     await newNote.save();
     res.status(200).json({ success: "true" })

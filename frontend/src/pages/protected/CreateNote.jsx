@@ -29,14 +29,17 @@ const CreateNote = () => {
   };
 
   const handleSubmit = async (e) => {
+    const formData = new FormData();
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await createNote(title, tags, content, thumbnail);
-      setTitle("");
-      setContent("");
-      setTags("");
-      setThumbnail(null);
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("tags", tags);
+      formData.append("thumbnail", thumbnail);
+
+      await createNote(formData);
+
       navigate("/dashboard");
       toast.success("News article created successfully");
     } catch (error) {

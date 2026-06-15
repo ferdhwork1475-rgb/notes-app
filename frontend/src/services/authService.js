@@ -78,15 +78,11 @@ export const fetchNotes = async () => {
   }
 };
 
-export const createNote = async (title, tags, content, thumbnail) => {
+export const createNote = async (formData) => {
   try {
     const response = await axios.post(
-      `${backendAPI}notes`,
-      { title, tags, content, thumbnail },
-      { withCredentials: true },
+      `${backendAPI}notes`, formData
     );
-    toast.success("Note added successfully");
-    console.log(response.data);
   } catch (error) {
     toast.error("An error occured while creating your note.");
 
