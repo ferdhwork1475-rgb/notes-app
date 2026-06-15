@@ -8,11 +8,13 @@ import NewsLibrary from "./pages/public/NewsLibrary";
 import AboutPage from "./pages/public/AboutPage";
 import Dashboard from "./pages/protected/Dashboard";
 import CreateNote from "./pages/protected/CreateNote";
+import NoteEditor from "./pages/protected/NoteEditor";
 import DashLayout from "./layouts/DashLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContext";
 import ContactPage from "./pages/public/ContactPage";
+import ViewNote from "./pages/protected/ViewNote";
 
 const App = () => {
   return (
@@ -27,10 +29,13 @@ const App = () => {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="notes/:id" element={<ViewNote />} />
             </Route>
             <Route path="/dashboard" element={<DashLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="create-note" element={<CreateNote />} />
+              <Route path="notes" element={<NoteEditor />} />
+              <Route path="notes/:id" element={<ViewNote />} />
             </Route>
           </Routes>
         </Router>

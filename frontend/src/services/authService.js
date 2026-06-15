@@ -67,17 +67,6 @@ export const verifyUser = async () => {
   }
 };
 
-export const fetchNotes = async () => {
-  try {
-    const response = await axios.get(`${backendAPI}notes`, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const createNote = async (formData) => {
   try {
     const response = await axios.post(
@@ -89,3 +78,27 @@ export const createNote = async (formData) => {
     throw error;
   }
 };
+
+
+export const fetchNotes = async () => {
+  try {
+    const response = await axios.get(`${backendAPI}notes`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getNoteById = async (id) => {
+  try {
+    const response = await axios.get(`${backendAPI}notes/${id}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+

@@ -10,6 +10,7 @@ import {
 import {
   createNote,
   getNotes,
+  getNote,
   editNote,
   deleteNote,
 } from "../controllers/noteController.js";
@@ -42,14 +43,9 @@ router.get("/api/login", findUserDetails);
 
 // PROTECTED ROUTES
 router.post("/api/notes", upload.single("thumbnail"), validateNote, checkNoteValidation, createNote);
-
+router.get("/api/notes/:id", getNote);
 router.put("/api/notes/:id", authenticateToken, validateNote, checkNoteValidation, editNote);
 router.delete("/api/notes/:id", authenticateToken, validateNote, checkNoteValidation, deleteNote);
-
-
-
-
-
 
 // router.delete("/users", async (req, res) => {
 //   const users = await User.deleteMany({});
