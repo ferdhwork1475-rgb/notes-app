@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "react-toastify";
-import { getNoteById } from "../../services/authService";
+import { getNoteById, deleteNote } from "../../services/authService";
 
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
@@ -51,7 +51,7 @@ const ViewNote = () => {
       )
     ) {
       try {
-        // await deleteNote(id);
+        await deleteNote(id);
         toast.success("Article deleted successfully");
         navigate("/dashboard");
       } catch (error) {

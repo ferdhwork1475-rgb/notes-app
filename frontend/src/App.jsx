@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContext";
 import ContactPage from "./pages/public/ContactPage";
 import ViewNote from "./pages/protected/ViewNote";
+import EditNote from "./pages/protected/EditNote";
 
 const App = () => {
   return (
@@ -36,7 +37,7 @@ const App = () => {
               <Route path="create-note" element={<CreateNote />} />
               <Route path="notes" element={<NoteEditor />} />
               <Route path="notes/:id" element={<ViewNote />} />
-              <Route path="notes/edit-note/:id" element={<ViewNote />} />
+              <Route path="notes/edit-note/:id" element={<EditNote />} />
             </Route>
           </Routes>
         </Router>

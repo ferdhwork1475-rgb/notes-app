@@ -1,8 +1,9 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Save, X, Tag, HelpCircle, Eye } from "lucide-react";
+import { Save, X, Tag, HelpCircle, Eye, ImageIcon, Loader2 } from "lucide-react";
 import { createNote } from "../../services/authService";
 import { toast } from "react-toastify";
+import ReactMarkdown from "react-markdown";
 
 const CreateNote = () => {
   const [title, setTitle] = useState("");
@@ -16,8 +17,9 @@ const CreateNote = () => {
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
   
-  // Modal toggle state for the Markdown Guide
+  // Navigation & Interactive UI Visibility Controls
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false); // Controls sliding drawer open state
   
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -83,23 +85,37 @@ const CreateNote = () => {
   return (
     <div className="flex-1 flex flex-col h-full bg-slate-50/50 overflow-y-auto relative">
       
-      {/* Header Layout */}
-      <header className="sticky top-0 z-10 h-16 sm:h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 sm:px-8 flex items-center justify-between shrink-0">
+      {/* Header Layout Component */}
+      <header className="sticky top-0 z-30 h-16 sm:h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 sm:px-8 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
             New Article
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {/* Floating Help Button Toggle */}
           <button
             type="button"
             onClick={() => setIsHelpOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all"
           >
             <HelpCircle size={16} />
             <span className="hidden sm:inline">Markdown Guide</span>
           </button>
+
+          {/* Sliding Preview Drawer Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setIsPreviewOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-xl transition-all"
+            title="Open Document Preview"
+          >
+            <Eye size={16} />
+            <span className="hidden sm:inline">Live Preview</span>
+          </button>
+
+          <div className="w-[1px] h-5 bg-slate-200 mx-1" />
+
           <button
             type="button"
             onClick={() => navigate(-1)}
@@ -110,12 +126,12 @@ const CreateNote = () => {
         </div>
       </header>
 
-      {/* Main Content Form */}
+      {/* Main Content Form Wrapper */}
       <form
         onSubmit={handleSubmit}
         className="flex-1 flex flex-col p-4 sm:p-6 md:p-8 max-w-4xl w-full mx-auto space-y-6"
       >
-        {/* Cover Image Selector */}
+        {/* Cover Image Selector Workspace */}
         <div className="w-full">
           {!preview ? (
             <div 
@@ -123,7 +139,7 @@ const CreateNote = () => {
               className="border-2 border-dashed border-slate-200 hover:border-indigo-400 bg-white p-6 sm:p-10 rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer transition-all group"
             >
               <div className="p-3 bg-slate-50 text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 rounded-xl transition-all">
-                <Save size={24} className="rotate-180" />
+                <ImageIcon size={24} />
               </div>
               <div className="text-center">
                 <p className="text-sm font-semibold text-slate-700">Upload cover image</p>
@@ -158,7 +174,7 @@ const CreateNote = () => {
           />
         </div>
 
-        {/* Title Field */}
+        {/* Title Field Input Element */}
         <input
           type="text"
           placeholder="Untitled Document..."
@@ -198,22 +214,19 @@ const CreateNote = () => {
           />
         </div>
 
-        {/* Textarea Area */}
-        <div className="grid text-base leading-relaxed text-slate-600 pt-2 min-h-[200px]">
-          <div className="invisible whitespace-pre-wrap break-words col-start-1 row-start-1 pt-0 px-0 pb-4 min-h-[200px]">
-            {content || "Briefly describe your news article..."}
-          </div>
+        {/* Raw Textarea Area Container Block */}
+        <div className="flex flex-col text-base leading-relaxed text-slate-600 pt-2 min-h-[300px]">
           <textarea
             placeholder="Briefly describe your news article (Markdown supported)..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            className="col-start-1 row-start-1 w-full h-full bg-transparent border-none text-base leading-relaxed text-slate-600 placeholder-slate-300 focus:outline-none focus:ring-0 resize-none p-0 overflow-hidden"
+            className="w-full min-h-[300px] flex-1 bg-transparent border-none text-base leading-relaxed text-slate-600 placeholder-slate-300 focus:outline-none focus:ring-0 resize-y p-0 overflow-y-auto"
           />
         </div>
 
-        {/* Footer Action Bar */}
-        <div className="flex justify-end pt-4 border-t border-slate-200 bg-transparent sticky bottom-0 mt-auto pb-4">
+        {/* Footer Action Bar Component Panel */}
+        <div className="flex justify-end pt-4 border-t border-slate-200 bg-transparent sticky bottom-0 mt-auto pb-4 z-10">
           <button
             type="submit"
             disabled={loading}
@@ -221,11 +234,82 @@ const CreateNote = () => {
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            <Save size={18} />
+            {loading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
             <span>{loading ? "Saving News..." : "Save News"}</span>
           </button>
         </div>
       </form>
+
+      {/* --- RESPONSIVE SLIDING PREVIEW DRAWER LAYOUT --- */}
+      {/* Transforms smoothly into a full screen overlay on mobile devices to optimize structural viewing layout boundaries */}
+      <div 
+        className={`fixed inset-y-0 right-0 z-40 bg-white border-l border-slate-200 shadow-2xl 
+          w-full sm:max-w-lg lg:max-w-2xl flex flex-col transform transition-transform duration-300 ease-in-out
+          ${isPreviewOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
+        {/* Drawer Header Toolbar */}
+        <div className="h-16 sm:h-20 px-6 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
+          <div className="flex items-center gap-2">
+            <Eye size={18} className="text-indigo-600" />
+            <h3 className="font-bold text-slate-800 text-sm sm:text-base">Document Live Preview</h3>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsPreviewOpen(false)}
+            className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-all"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Drawer Scrollable Content Canvas Container */}
+        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-4 prose prose-slate max-w-none">
+          {title && (
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+              {title}
+            </h1>
+          )}
+          
+          {/* Display Rendered Tags Array metadata elements if they exist */}
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {tags.map((tag, idx) => (
+                <div key={idx} className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 bg-indigo-50/70 px-2.5 py-1 rounded-md">
+                  <Tag size={10} />
+                  {tag}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {preview && (
+            <div className="w-full h-40 sm:h-52 rounded-xl overflow-hidden mb-6 shadow-sm">
+              <img 
+                src={preview} 
+                alt="Cover Preview" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+          
+          <hr className="border-slate-100 my-4" />
+          
+          {/* Dynamic Component Compilation Output Element */}
+          <div className="text-slate-700 text-sm sm:text-base leading-relaxed break-words">
+            <ReactMarkdown>
+              {content || "*No article content written yet. Use the main field input window to get started...*"}
+            </ReactMarkdown>
+          </div>
+        </div>
+      </div>
+
+      {/* Dim Overlay Backdrop Sheet component layer */}
+      {isPreviewOpen && (
+        <div 
+          onClick={() => setIsPreviewOpen(false)}
+          className="fixed inset-0 z-30 bg-slate-900/20 backdrop-blur-xs transition-opacity"
+        />
+      )}
 
       {/* Markdown Guide Overlay Modal */}
       {isHelpOpen && (

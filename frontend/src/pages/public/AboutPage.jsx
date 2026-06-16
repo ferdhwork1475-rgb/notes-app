@@ -152,7 +152,7 @@ const AboutPage = () => {
           to="/contact" 
           className="inline-block bg-white text-[#00020f] font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-sm transition-all duration-300 hover:bg-red-600 hover:text-white"
         >
-          Submit Local Wire Dispatch
+          Contact us now
         </Link>
       </section>
     </div>

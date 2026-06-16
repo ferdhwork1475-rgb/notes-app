@@ -102,3 +102,23 @@ export const getNoteById = async (id) => {
   }
 };
 
+export const updateNote = async (id, formData) => {
+  try {
+    const response = await axios.put(`${backendAPI}notes/${id}`, formData, {
+      withCredentials: true,
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteNote = async (id) => {
+  try {
+    const response = await axios.delete(`${backendAPI}notes/${id}`, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

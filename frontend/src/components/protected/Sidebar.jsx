@@ -41,21 +41,12 @@ const Sidebar = () => {
   const navItems = [
     { to: "/dashboard", icon: <FileText size={18} />, label: "All Notes", end: true },
     { to: "/dashboard/create-note", icon: <PlusCircle size={18} />, label: "Create Note" },
-    { to: "/dashboard/tags", icon: <Hash size={18} />, label: "Tags" },
-    { to: "/dashboard/settings", icon: <Settings size={18} />, label: "Settings" },
   ];
 
   return (
     <>
       {/* 1. MOBILE TOP ACTION BAR & NAVIGATION TRIGGER */}
-      <div className="md:hidden w-full bg-[#0f172a] text-slate-300 border-b border-slate-800/80 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-md shadow-indigo-900/30">
-            <span className="text-white font-black text-sm tracking-wider">S</span>
-          </div>
-          <span className="text-white font-bold text-lg tracking-tight">Stillness</span>
-        </div>
-        
+      <div className="md:hidden bg-[#0f172a] text-slate-300 border-b border-slate-800/80 px-4 py-3 sticky  top-0 z-40">
         <button
           onClick={toggleMobileDrawer}
           aria-label="Toggle navigation menu"

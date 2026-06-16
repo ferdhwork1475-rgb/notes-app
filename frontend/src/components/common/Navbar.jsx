@@ -8,7 +8,6 @@ const Navbar = ({ setActivePage, activePage }) => {
   const navigationItems = [
     { name: "Home", path: "/", key: "home" },
     { name: "All News", path: "/newslibrary", key: "news" },
-    { name: "Pricing", path: "/pricing", key: "pricing" },
     { name: "About", path: "/about", key: "about" },
   ];
 
@@ -57,11 +56,11 @@ const Navbar = ({ setActivePage, activePage }) => {
         {/* Action Button - Editorial Style CTA */}
         <div className="hidden md:flex items-center">
           <Link
-            to="/signup"
+            to="/contact"
             className="flex items-center gap-1 bg-slate-900 text-white border border-slate-800 hover:border-slate-700 px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-slate-800/50 transition-all"
             onClick={() => handleNavClick("signup")}
           >
-            <span>Subscribe</span>
+            <span>Contact us</span>
             <ArrowUpRight size={14} className="text-slate-500" />
           </Link>
         </div>
@@ -99,11 +98,11 @@ const Navbar = ({ setActivePage, activePage }) => {
           
           <div className="pt-4 border-t border-slate-900 px-3">
             <Link
-              to="/signup"
+              to="/contact"
               className="block w-full text-center bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-sm text-xs font-bold uppercase tracking-widest transition-colors"
               onClick={() => handleNavClick("signup")}
             >
-              Subscribe Now
+              Contact Us
             </Link>
           </div>
         </div>
