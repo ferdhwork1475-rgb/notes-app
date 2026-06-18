@@ -15,52 +15,22 @@ export const suggestUsernames = async (fullname) => {
 export const signupUser = async (formData) => {
   try {
     const response = await axios.post(`${backendAPI}register`, formData);
-    return response.data;
   } catch (error) {
-    const backendError = error.response?.data?.error;
-    const message = error.response?.data?.message || "Registration failed";
-
-    if (Array.isArray(backendError)) {
-      backendError.forEach((err) => toast.error(err));
-    } else {
-      toast.error(message);
-    }
-
     throw error;
   }
 };
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(
-      `${backendAPI}login`,
-      {
-        email,
-        password,
-      },
-      {
-        withCredentials: true,
-      },
-    );
+    const response = await axios.post(`${backendAPI}login`, {email, password}, { withCredentials: true} );
   } catch (error) {
-    const backendError = error.response?.data?.error;
-    const message = error.response?.data?.message || "Login failed";
-
-    if (Array.isArray(backendError)) {
-      backendError.forEach((err) => toast.error(err));
-    } else {
-      toast.error(message);
-    }
-
     throw error;
   }
 };
 
 export const verifyUser = async () => {
   try {
-    const response = await axios.get(`${backendAPI}protected/login`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(`${backendAPI}user`, { withCredentials: true });
     return response.data;
   } catch (error) {
     throw error;

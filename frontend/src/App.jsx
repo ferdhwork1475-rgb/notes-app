@@ -29,14 +29,14 @@ const App = () => {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/register" element={<Signup />} />
               <Route path="notes/:id" element={<ViewNote />} />
             </Route>
             <Route path="/dashboard" element={<DashLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="create-note" element={<CreateNote />} />
               <Route path="notes" element={<NoteEditor />} />
-              <Route path="notes/:id" element={<ViewNote />} />
+              {/* <Route path="notes/:id" element={<ViewNote />} /> */}
               <Route path="notes/edit-note/:id" element={<EditNote />} />
             </Route>
           </Routes>

@@ -19,16 +19,9 @@ const userSchema = new mongoose.Schema(
         type: String,
         required: true
     },
-    username: {
-      type: String,
-      unique: true,
-      trim: true,
-      required: true
-    },
     profileImage: {
       type: String,
-      default: "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-High-Quality-Image.png",
-      trim: true
+      required: false,
     },
   },
   { timestamps: true },

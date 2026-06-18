@@ -15,12 +15,23 @@ const noteSchema = new mongoose.Schema(
     thumbnail: {
       required: true,
       type: String
-    }
+    }, 
+    readingTime: {
+      type: Number,
+      default: 1,
+    },
   },
   {
     timestamps: true,
   },
 );
+
+// noteSchema.pre("save", async () => {
+//   if(this.isModified("content")) {
+//     // const words = this.content.split(" ")
+
+//   }
+// })
 
 const Note = mongoose.model("Note", noteSchema);
 export default Note;

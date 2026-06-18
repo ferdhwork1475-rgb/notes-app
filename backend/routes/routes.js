@@ -3,7 +3,6 @@ import express from "express";
 import {
   createUser,
   loginUser,
-  getSuggestedUsernames,
   findUserDetails,
 } from "../controllers/userController.js";
 
@@ -23,7 +22,6 @@ import {
 import {
   userValidationRules,
   loginRules,
-  suggestUsernameRules,
   validate,
 } from "../middlewares/userValidator.js";
 
@@ -36,21 +34,16 @@ const router = express.Router();
 // PUBLIC ROUTES
 router.post("/api/register", upload.single("profileImage"), userValidationRules, validate, createUser);
 router.post("/api/login", loginRules, validate, loginUser);
-router.post( "/api/suggest-usernames", suggestUsernameRules, validate, getSuggestedUsernames);
 router.get("/api/notes", getNotes);
-router.get("/api/login", findUserDetails);
+router.get("/api/user", authenticateToken, findUserDetails);
 
 
 // PROTECTED ROUTES
-router.post("/api/notes", upload.single("thumbnail"), validateNote, checkNoteValidation, createNote);
-router.get("/api/notes/:id", getNote);
+router.post("/api/notes", authenticateToken, upload.single("thumbnail"), validateNote, checkNoteValidation, createNote);
+router.get("/api/notes/:id", authenticateToken, getNote);
 router.put("/api/notes/:id", authenticateToken, validateNote, checkNoteValidation, editNote);
-router.delete("/api/notes/:id", deleteNote);
+router.delete("/api/notes/:id", authenticateToken, deleteNote);
 
-// router.delete("/users", async (req, res) => {
-//   const users = await User.deleteMany({});
-//   res.json({ users });
-// });
 
 
 export default router;

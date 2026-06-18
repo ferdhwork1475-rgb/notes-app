@@ -1,17 +1,22 @@
 import User from "../models/userSchema.js";
 import jwt from "jsonwebtoken";
 import { hashPassword, comparePassword } from "../models/userSchema.js";
-import { generateUsernames } from "../services/aiService.mjs";
 
 export const createUser = async (req, res, next) => {
   try {
-    const { email, fullname, password, username, profileImage } = req.body;
+    const { email, fullname, password, profileImage } = req.body;
+    const adminKey = process.env.ADMIN_REGISTRATION_SECRET;
+    if (adminKey !== req.body.adminKey) {
+      res.status(401);
+      throw new Error("Invalid admin key");
+      return next(error);
+    }
+
     const hashedPassword = await hashPassword(password);
     const newUser = new User({
       email,
       fullname,
       password: hashedPassword,
-      username,
       profileImage,
     });
     await newUser.save();
@@ -39,7 +44,7 @@ export const loginUser = async (req, res, next) => {
         httpOnly: true,
       })
       .status(200)
-      .json({ success: "User logged in successfully" });
+      .json(token);
   } catch (error) {
     next(error);
   }
@@ -47,35 +52,14 @@ export const loginUser = async (req, res, next) => {
 
 export const findUserDetails = async (req, res, next) => {
   try {
-    const userId = req.user.userId;
-
-    const user = await User.findById(userId);
+    const user = await User.findById(req.user.userId);
     if (!user) {
-      throw new Error("Invalid user id");
+      throw new Error("Invalid user");
       return next(error);
     }
 
-    res.status(200).json({ user });
+    res.status(200).json(user);
   } catch (error) {
-    next(error);
-  }
-};
-
-export const getSuggestedUsernames = async (req, res, next) => {
-  try {
-    const { fullname } = req.body;
-    const rawSuggestions = await generateUsernames(fullname);
-    // used to select documents where a specific field contains any value from a provided array
-    const existingUsers = await User.find({
-      username: { $in: rawSuggestions },
-    });
-    const existingUsernames = existingUsers.map((user) => user.username);
-    const filteredSuggestions = rawSuggestions.filter(
-      (username) => !existingUsernames.includes(username),
-    );
-    res.status(200).send(filteredSuggestions);
-  } catch (error) {
-    throw new Error("Error generating usernames");
     next(error);
   }
 };

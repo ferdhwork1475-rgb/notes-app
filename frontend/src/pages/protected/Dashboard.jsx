@@ -110,7 +110,7 @@ const Dashboard = () => {
               {filteredNews.map((article) => (
                 <div
                   key={article._id}
-                  onClick={() => navigate(`/dashboard/notes/${article._id}`)}
+                  onClick={() => navigate(`/notes/${article._id}`)}
                   className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 p-4 flex flex-col h-[420px] transition-all duration-300 cursor-pointer relative"
                 >
                   {/* Card Banner Image Frame Block */}
