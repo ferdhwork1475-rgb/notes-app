@@ -26,7 +26,7 @@ const noteSchema = new mongoose.Schema(
   },
 );
 
-noteSchema.pre("save", async function (next) {
+noteSchema.pre("save", async function () {
   if (this.isModified("content")) {
     const wordsCount = this.content.trim().split(/\s+/).length;
     const avgTime = 250;
@@ -34,8 +34,6 @@ noteSchema.pre("save", async function (next) {
     // Math.ceil enables you get whole numbers 
     this.readingTime = Math.ceil(total)
   }
-
-  next();
 });
 
 const Note = mongoose.model("Note", noteSchema);

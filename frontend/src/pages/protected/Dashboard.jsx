@@ -99,9 +99,9 @@ const Dashboard = () => {
               <div className="p-4 bg-slate-50 text-slate-400 rounded-2xl mb-4">
                 <BookOpen size={32} />
               </div>
-              <h3 className="font-bold text-slate-700 text-base">No notes found</h3>
+              <h3 className="font-bold text-slate-700 text-base">No news article found</h3>
               <p className="text-slate-400 text-sm mt-1 max-w-xs">
-                {searchQuery ? "Try clarifying your search terms or filter keywords." : "Create your very first knowledge card item to begin tracking records."}
+                {searchQuery ? "Try clarifying your search terms or filter keywords." : "Create your very first news article card item to begin tracking records."}
               </p>
             </div>
           ) : (

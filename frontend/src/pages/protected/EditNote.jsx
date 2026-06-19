@@ -157,15 +157,15 @@ const EditNote = () => {
     setLoading(true);
 
     try {
-      // formData.append("title", title);
-      // formData.append("content", content);
-      // formData.append("tags", tags);
-      // if (thumbnail) {
-      //   formData.append("thumbnail", thumbnail);
-      // }
-      // console.log(...formData.entries());
-      // await updateNote(id, formData);
-      // console.log(title, content, tags, thumbnail);
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("tags", tags);
+      if (thumbnail) {
+        formData.append("thumbnail", thumbnail);
+      }
+      console.log(...formData.entries());
+      await updateNote(id, formData);
+      console.log(title, content, tags, thumbnail);
       toast.success("News article updated successfully");
       // navigate("/dashboard");
     } catch (error) {

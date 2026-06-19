@@ -72,7 +72,7 @@ const CreateNote = () => {
       formData.append("thumbnail", thumbnail);
 
       await createNote(formData);
-      // navigate("/dashboard");
+      navigate("/dashboard");
       toast.success("News article created successfully");
     } catch (error) {
       console.log("Error creating note:", error.response);
