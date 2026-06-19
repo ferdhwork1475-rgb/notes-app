@@ -11,7 +11,11 @@ import {
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "react-toastify";
-import { getNoteById, deleteNote } from "../../services/authService";
+import {
+  getNoteById,
+  deleteNote,
+  verifyUser,
+} from "../../services/authService";
 
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
@@ -21,6 +25,20 @@ const ViewNote = () => {
 
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await verifyUser();
+        setAuthChecked(true);
+      } catch (error) {
+        setAuthChecked(false);
+      }
+    };
+
+    checkAuth();
+  });
 
   useEffect(() => {
     const fetchNoteData = async () => {
@@ -111,20 +129,25 @@ const ViewNote = () => {
           >
             <Share2 size={18} />
           </button>
-          <button
-            onClick={() => navigate(`/dashboard/notes/edit-note/${id}`)}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-semibold text-xs rounded-xl transition-all shadow-sm shadow-indigo-100"
-          >
-            <Edit3 size={14} />
-            <span>Edit</span>
-          </button>
-          <button
-            onClick={handleDelete}
-            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
-            title="Delete Note"
-          >
-            <Trash2 size={18} />
-          </button>
+          {authChecked && (
+            <>
+              {" "}
+              <button
+                onClick={() => navigate(`/dashboard/notes/edit-note/${id}`)}
+                className="flex items-center gap-1.5 px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-semibold text-xs rounded-xl transition-all shadow-sm shadow-indigo-100"
+              >
+                <Edit3 size={14} />
+                <span>Edit</span>
+              </button>
+              <button
+                onClick={handleDelete}
+                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
+                title="Delete Note"
+              >
+                <Trash2 size={18} />
+              </button>
+            </>
+          )}
         </div>
       </header>
 

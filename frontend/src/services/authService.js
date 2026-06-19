@@ -22,7 +22,11 @@ export const signupUser = async (formData) => {
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(`${backendAPI}login`, {email, password}, { withCredentials: true} );
+    const response = await axios.post(
+      `${backendAPI}login`,
+      { email, password },
+      { withCredentials: true },
+    );
   } catch (error) {
     throw error;
   }
@@ -30,7 +34,9 @@ export const loginUser = async (email, password) => {
 
 export const verifyUser = async () => {
   try {
-    const response = await axios.get(`${backendAPI}user`, { withCredentials: true });
+    const response = await axios.get(`${backendAPI}user`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -39,16 +45,13 @@ export const verifyUser = async () => {
 
 export const createNote = async (formData) => {
   try {
-    const response = await axios.post(
-      `${backendAPI}notes`, formData
-    );
+    const response = await axios.post(`${backendAPI}notes`, formData, {
+      withCredentials: true,
+    });
   } catch (error) {
-    toast.error("An error occured while creating your note.");
-
     throw error;
   }
 };
-
 
 export const fetchNotes = async () => {
   try {
@@ -57,7 +60,7 @@ export const fetchNotes = async () => {
     });
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
@@ -68,7 +71,7 @@ export const getNoteById = async (id) => {
     });
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
@@ -79,7 +82,7 @@ export const updateNote = async (id, formData) => {
     });
     console.log(response.data);
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
@@ -89,6 +92,6 @@ export const deleteNote = async (id) => {
       withCredentials: true,
     });
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

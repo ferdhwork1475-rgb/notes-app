@@ -40,7 +40,7 @@ router.get("/api/user", authenticateToken, findUserDetails);
 
 // PROTECTED ROUTES
 router.post("/api/notes", authenticateToken, upload.single("thumbnail"), validateNote, checkNoteValidation, createNote);
-router.get("/api/notes/:id", authenticateToken, getNote);
+router.get("/api/notes/:id", getNote);
 router.put("/api/notes/:id", authenticateToken, validateNote, checkNoteValidation, editNote);
 router.delete("/api/notes/:id", authenticateToken, deleteNote);
 

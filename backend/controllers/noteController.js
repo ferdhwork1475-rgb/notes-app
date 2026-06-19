@@ -9,8 +9,9 @@ export const createNote = async (req, res, next) => {
       tags,
       thumbnail: req.file ? req.file.filename : null,
     });
-    await newNote.save();
-    res.status(200).json({ success: "true" })
+    // await newNote.save();
+    console.log(newNote)
+    res.status(200)
   } catch (error) {
     next(error);
   }

@@ -14,8 +14,8 @@ const noteSchema = new mongoose.Schema(
     tags: [{ type: String }],
     thumbnail: {
       required: true,
-      type: String
-    }, 
+      type: String,
+    },
     readingTime: {
       type: Number,
       default: 1,
@@ -26,12 +26,17 @@ const noteSchema = new mongoose.Schema(
   },
 );
 
-// noteSchema.pre("save", async () => {
-//   if(this.isModified("content")) {
-//     // const words = this.content.split(" ")
+noteSchema.pre("save", async function (next) {
+  if (this.isModified("content")) {
+    const wordsCount = this.content.trim().split(/\s+/).length;
+    const avgTime = 250;
+    const total = wordsCount / avgTime;
+    // Math.ceil enables you get whole numbers 
+    this.readingTime = Math.ceil(total)
+  }
 
-//   }
-// })
+  next();
+});
 
 const Note = mongoose.model("Note", noteSchema);
 export default Note;

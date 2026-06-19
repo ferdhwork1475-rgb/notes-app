@@ -14,11 +14,10 @@ const DashLayout = () => {
     const checkAuth = async () => {
       try {
         const response = await verifyUser()
-        toast.success("User authenticated successfully");
         setLoading(false);
         setUser(response);
       } catch (error) {
-        toast.error("User authentication failed. Please log in.");
+        toast.error("Admin authentication failed. Please log in.");
       } finally {
         setLoading(false);
       }
@@ -56,10 +55,10 @@ const DashLayout = () => {
 
   return (
     <div className="flex h-screen w-screen bg-[#f8fafc] text-slate-900 font-sans overflow-hidden">
-      <Sidebar />
+      <Sidebar user={user} />
 
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#f8fafc]">
-        <Outlet />
+        <Outlet context={user} />
       </main>
 
     </div>

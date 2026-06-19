@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   // Mobile / Tablet Drawer State
   const [isOpen, setIsOpen] = useState(false);
   // Desktop Sidebar Persistent Collapse State (Wide vs Icon Only Mode)
@@ -29,18 +29,11 @@ const Sidebar = () => {
     closeMobileDrawer();
   };
 
-  // Mock active authenticated user data block 
-  // (Wire this contextually to your Auth state layer later)
-  const mockUser = {
-    name: "Alex Mercer",
-    email: "alex@stillness.io",
-    avatarUrl: null // set to a link string once profile uploads are working
-  };
-
   // Centralized navigation items structure
   const navItems = [
-    { to: "/dashboard", icon: <FileText size={18} />, label: "All Notes", end: true },
-    { to: "/dashboard/create-note", icon: <PlusCircle size={18} />, label: "Create Note" },
+    { to: "/dashboard", icon: <FileText size={18} />, label: "All News Article", end: true },
+    { to: "/dashboard/create-note", icon: <PlusCircle size={18} />, label: "Create News Article" },
+    { to: "/dashboard/profile", icon: <User size={18} />, label: "Profile" }
   ];
 
   return (
@@ -164,10 +157,10 @@ const Sidebar = () => {
             `}
           >
             {/* Conditional Avatar Thumbnail Framework */}
-            {mockUser.avatarUrl ? (
+            {user.profileImage ? (
               <img 
-                src={mockUser.avatarUrl} 
-                alt={mockUser.name} 
+                src={user.profileImage} 
+                alt={user.fullname} 
                 className="w-9 h-9 rounded-xl object-cover shrink-0 border border-slate-700/50"
               />
             ) : (
@@ -180,10 +173,10 @@ const Sidebar = () => {
             {(!isCollapsed || isOpen) && (
               <div className="ml-3 overflow-hidden text-left animate-fadeIn">
                 <p className="text-xs font-semibold text-slate-200 truncate leading-none mb-1">
-                  {mockUser.name}
+                  {user.fullname}
                 </p>
                 <p className="text-[10px] text-slate-500 truncate leading-none">
-                  {mockUser.email}
+                  {user.email}
                 </p>
               </div>
             )}
