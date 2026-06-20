@@ -71,7 +71,7 @@ const CreateNote = () => {
       formData.append("tags", tags.join(", "));
       formData.append("thumbnail", thumbnail);
 
-      await createNote(formData);
+      const response = await createNote(formData);
       navigate("/dashboard");
       toast.success("News article created successfully");
     } catch (error) {

@@ -16,6 +16,9 @@ import ContactPage from "./pages/public/ContactPage";
 import ViewNote from "./pages/protected/ViewNote";
 import EditNote from "./pages/protected/EditNote";
 import AdminProfile from "./pages/protected/AdminProfile";
+import ForgotPassword from "./pages/protected/ForgotPassword";
+import VerifyOtp from "./pages/protected/VerifyOtp";
+import ResetPassword from "./pages/protected/ResetPassword";
 
 const App = () => {
   return (
@@ -28,8 +31,11 @@ const App = () => {
               <Route path="/newslibrary" element={<NewsLibrary />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
-              <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/verify-otp" element={<VerifyOtp />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="notes/:id" element={<ViewNote />} />
             </Route>
             <Route path="/dashboard" element={<DashLayout />}>

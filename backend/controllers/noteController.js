@@ -10,7 +10,7 @@ export const createNote = async (req, res, next) => {
       thumbnail: req.file ? req.file.filename : null,
     });
     await newNote.save();
-    res.status(200)
+    res.status(200).json(newNote)
   } catch (error) {
     next(error);
   }
@@ -39,19 +39,15 @@ export const getNote = async (req, res, next) => {
 
 export const editNote = async (req, res, next) => {
   try {
-    const { title, content, tags, thumbnail } = req.body;
-    const note = await Note.findById(req.params.id);
-    if (!note) {
-      return res.status(404).send("Note not found");
-    }
+    const { title, content, tags } = req.body;
 
-    note.title = title;
-    note.content = content;
-    note.tags = tags;
-    note.thumbnail = thumbnail;
-    // await note.save();
-    console.log(note.title, note.content, note.tags, note.thumbnail);
-    // res.status(200).json(note);
+    const updatedNote = await Note.findByIdAndUpdate(req.params.id, {
+      title: title,
+      tags: tags,
+      content: content,
+      thumbnail: req.file ? req.file.filename : null,
+    }, { returnDocument: 'after' })
+    res.status(200).json(updatedNote);
   } catch (error) {
     next(error);
   }

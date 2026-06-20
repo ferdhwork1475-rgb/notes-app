@@ -66,8 +66,10 @@ const EditNote = () => {
         setTags(note.tags || "");
         setInitialTags(note.tags || "");
 
-          setPreview(note.thumbnail);
-          setInitialPreview(note.thumbnail);
+        if (note.thumbnail) {
+          setPreview(`${uploadPath}${note.thumbnail}`);
+          setInitialPreview(`${uploadPath}${note.thumbnail}`);
+        }
       } catch (error) {
         console.error("Error retrieving article records:", error);
         setErrorState(true);
@@ -122,7 +124,6 @@ const EditNote = () => {
     if (file) {
       const objectUrl = URL.createObjectURL(file);
       setPreview(objectUrl);
-
       setThumbnail(file);
     }
   };
@@ -160,14 +161,12 @@ const EditNote = () => {
       formData.append("title", title);
       formData.append("content", content);
       formData.append("tags", tags);
-      if (thumbnail) {
+      if (thumbnail !== null) {
         formData.append("thumbnail", thumbnail);
       }
-      console.log(...formData.entries());
       await updateNote(id, formData);
-      console.log(title, content, tags, thumbnail);
       toast.success("News article updated successfully");
-      // navigate("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error putting note update:", error.response);
       toast.error("Failed to update news article");
@@ -420,9 +419,9 @@ const EditNote = () => {
           )}
           {preview && (
             <div className="w-full h-40 sm:h-52 rounded-xl overflow-hidden mb-6">
-              <img 
+              <img
                 src={preview}
-                alt="Cover Preview" 
+                alt="Cover Preview"
                 className="w-full h-full object-cover"
               />
             </div>

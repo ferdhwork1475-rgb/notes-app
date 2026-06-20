@@ -1,6 +1,7 @@
 import User from "../models/userSchema.js";
 import jwt from "jsonwebtoken";
 import { hashPassword, comparePassword } from "../models/userSchema.js";
+import { sendOTPVerificationEmail } from "../services/emailService.js";
 
 export const createUser = async (req, res, next) => {
   try {
@@ -59,6 +60,23 @@ export const findUserDetails = async (req, res, next) => {
     }
 
     res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const passwordResetController = async (req, res, next) => {
+  try {
+    console.log(req.body.email)
+    const user = await User.findOne({ email: req.body.email })
+    if (!user) {
+      throw new Error("Invalid user");
+      return next(error);
+    }
+    const otpCode = Math.floor(Math.random() * 6);
+    console.log(otpCode, email)
+    // await sendOTPVerificationEmail(email, otpCode)
+    res.status(200).send("success")
   } catch (error) {
     next(error);
   }

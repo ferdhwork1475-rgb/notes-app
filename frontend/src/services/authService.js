@@ -43,11 +43,25 @@ export const verifyUser = async () => {
   }
 };
 
+export const sendOtpRequest = async (email) => {
+  try {
+    console.log(email)
+    const response = await axios.post(`${backendAPI}forgot-password`, email, {
+      withCredentials: true,
+    });
+    // return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const createNote = async (formData) => {
   try {
     const response = await axios.post(`${backendAPI}notes`, formData, {
       withCredentials: true,
     });
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -80,7 +94,7 @@ export const updateNote = async (id, formData) => {
     const response = await axios.put(`${backendAPI}notes/${id}`, formData, {
       withCredentials: true,
     });
-    console.log(response.data);
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -91,6 +105,7 @@ export const deleteNote = async (id) => {
     const response = await axios.delete(`${backendAPI}notes/${id}`, {
       withCredentials: true,
     });
+    return response.data
   } catch (error) {
     throw error;
   }

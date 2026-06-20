@@ -216,7 +216,7 @@ const Login = ({ setActive }) => {
         {/* Footer Navigation Link */}
         <div className="pt-4 text-center border-t border-gray-100">
           <Link
-            to="/signup"
+            to="/register"
             className="inline-flex items-center gap-2 text-xs font-bold text-[#4F46E5] hover:gap-3 transition-all group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
