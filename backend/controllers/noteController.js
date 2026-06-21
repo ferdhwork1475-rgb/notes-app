@@ -41,13 +41,13 @@ export const editNote = async (req, res, next) => {
   try {
     const { title, content, tags } = req.body;
 
-    const updatedNote = await Note.findByIdAndUpdate(req.params.id, {
+    await Note.findByIdAndUpdate(req.params.id, {
       title: title,
       tags: tags,
       content: content,
       thumbnail: req.file ? req.file.filename : null,
     }, { returnDocument: 'after' })
-    res.status(200).json(updatedNote);
+    res.status(200).send("success");
   } catch (error) {
     next(error);
   }

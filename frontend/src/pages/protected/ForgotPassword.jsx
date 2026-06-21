@@ -35,9 +35,10 @@ const ForgotPassword = () => {
   };
 
   // --- Form Submission ---
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Final defensive check before hitting the API
     const validationError = validateEmail(email);
     if (validationError) {
@@ -50,7 +51,6 @@ const ForgotPassword = () => {
     try {
       // API call to trigger the OTP route (Placeholder service logic)
       await sendOtpRequest(email);
-      
       toast.success("OTP verification code sent to your email!");
       
       // Redirect to the OTP verification view, passing email state along if needed
@@ -101,6 +101,7 @@ const ForgotPassword = () => {
               <input
                 id="email"
                 type="email"
+                name="email"
                 value={email}
                 onChange={handleEmailChange}
                 disabled={isLoading}

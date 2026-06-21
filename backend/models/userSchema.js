@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    otpCode: {
+      type: Number,
+      required: false,
+    }
   },
   { timestamps: true },
 );

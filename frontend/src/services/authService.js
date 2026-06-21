@@ -5,13 +5,6 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 const backendAPI = import.meta.env.VITE_BACKEND_API;
 
-export const suggestUsernames = async (fullname) => {
-  const response = await axios.post(`${backendAPI}suggest-usernames`, {
-    fullname,
-  });
-  return response.data;
-};
-
 export const signupUser = async (formData) => {
   try {
     const response = await axios.post(`${backendAPI}register`, formData);
@@ -22,11 +15,10 @@ export const signupUser = async (formData) => {
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(
-      `${backendAPI}login`,
-      { email, password },
-      { withCredentials: true },
-    );
+    const response = await axios.post(`${backendAPI}login`, {
+      email,
+      password,
+    });
   } catch (error) {
     throw error;
   }
@@ -45,16 +37,33 @@ export const verifyUser = async () => {
 
 export const sendOtpRequest = async (email) => {
   try {
-    console.log(email)
-    const response = await axios.post(`${backendAPI}forgot-password`, email, {
-      withCredentials: true,
+    const response = await axios.post(`${backendAPI}forgot-password`, {
+      email,
     });
-    // return response.data;
   } catch (error) {
     throw error;
   }
 };
 
+export const verifyOtpCode = async (email, fullOtpString) => {
+  try {
+    const response = await axios.post(`${backendAPI}verify-otp`, {
+      email, fullOtpString,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const finalizeResetPasswordApiCall = async (token, password) => {
+  try {
+    const response = await axios.post(`${backendAPI}password-reset`, {
+      token, password,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const createNote = async (formData) => {
   try {
@@ -105,7 +114,7 @@ export const deleteNote = async (id) => {
     const response = await axios.delete(`${backendAPI}notes/${id}`, {
       withCredentials: true,
     });
-    return response.data
+    return response.data;
   } catch (error) {
     throw error;
   }

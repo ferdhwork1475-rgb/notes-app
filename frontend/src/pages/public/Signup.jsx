@@ -2,12 +2,22 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-import { User, Mail, Lock, Eye, EyeOff, Upload, ArrowLeft, ArrowRight, KeyRound } from "lucide-react";
+import {
+  User,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  Upload,
+  ArrowLeft,
+  ArrowRight,
+  KeyRound,
+} from "lucide-react";
 import { signupUser } from "../../services/authService";
 
 const Signup = () => {
   const navigate = useNavigate();
-  
+
   // Form and UI States
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -29,7 +39,7 @@ const Signup = () => {
       setImagePreview(null);
       return;
     }
-    
+
     if (file) {
       setProfileImage(file);
       setImagePreview(URL.createObjectURL(file));
@@ -44,7 +54,7 @@ const Signup = () => {
     formData.append("password", password);
     formData.append("adminKey", adminKey);
     if (profileImage) formData.append("profileImage", profileImage);
-    
+
     setIsSubmitting(true);
 
     try {
@@ -52,8 +62,12 @@ const Signup = () => {
       toast.success("Admin account verified and created successfully");
       navigate("/login");
     } catch (error) {
-      console.error("Failed registration attempt in component");
-      toast.error(error?.response?.data?.message || "Registration rejected");
+      console.error("Failed registration attempt in component", error.response);
+      toast.error(error.response?.data?.message);
+      const backendErr = error.response?.data.error || [];
+      backendErr.map((err) => {
+        toast.error(error);
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -62,23 +76,25 @@ const Signup = () => {
   return (
     <section className="min-h-screen w-full flex items-center justify-center bg-white px-4 py-12 md:py-16">
       <div className="w-full max-w-md flex flex-col justify-center">
-        
         {/* Header Block */}
         <div className="mb-8 text-center md:text-left">
           <h3 className="text-3xl font-extrabold text-[#00020f] tracking-tight mb-2">
             Admin Workspace
           </h3>
           <p className="text-sm text-gray-500 font-medium">
-            Register a secure administrator account to access the news dashboard portal.
+            Register a secure administrator account to access the news dashboard
+            portal.
           </p>
         </div>
 
         {/* Signup Form */}
         <form className="space-y-5" onSubmit={handleSubmit}>
-          
           {/* Full Name Input */}
           <div className="group">
-            <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors">
+            <label
+              htmlFor="name"
+              className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors"
+            >
               Full Name
             </label>
             <div className="relative flex items-center">
@@ -100,7 +116,10 @@ const Signup = () => {
 
           {/* Email Address Input */}
           <div className="group">
-            <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors">
+            <label
+              htmlFor="email"
+              className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors"
+            >
               Email Address
             </label>
             <div className="relative flex items-center">
@@ -122,7 +141,10 @@ const Signup = () => {
 
           {/* Password Input */}
           <div className="group">
-            <label htmlFor="password" className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors">
+            <label
+              htmlFor="password"
+              className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors"
+            >
               Password
             </label>
             <div className="relative flex items-center">
@@ -152,7 +174,10 @@ const Signup = () => {
 
           {/* Secure System Registration Key Input */}
           <div className="group">
-            <label htmlFor="adminKey" className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors">
+            <label
+              htmlFor="adminKey"
+              className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors"
+            >
               System Authorization Token
             </label>
             <div className="relative flex items-center">
@@ -174,13 +199,23 @@ const Signup = () => {
 
           {/* Profile Image Upload */}
           <div className="group">
-            <label htmlFor="profileImg" className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors">
-              Profile Image <span className="text-gray-300 lowercase font-normal">(optional)</span>
+            <label
+              htmlFor="profileImg"
+              className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1.5 group-focus-within:text-[#4F46E5] transition-colors"
+            >
+              Profile Image{" "}
+              <span className="text-gray-300 lowercase font-normal">
+                (optional)
+              </span>
             </label>
             <div className="flex items-center gap-4 bg-gray-50 border border-gray-200 rounded-xl p-3 hover:border-gray-300 transition-colors">
               <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-indigo-50 border border-indigo-100 overflow-hidden shrink-0">
                 {imagePreview ? (
-                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
                 ) : (
                   <Upload size={18} className="text-[#4F46E5]" />
                 )}
@@ -202,8 +237,8 @@ const Signup = () => {
             type="submit"
             disabled={isSubmitting}
             className={`w-full text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md mt-6 ${
-              isSubmitting 
-                ? "bg-indigo-400 cursor-not-allowed" 
+              isSubmitting
+                ? "bg-indigo-400 cursor-not-allowed"
                 : "bg-[#4F46E5] hover:bg-[#4338ca] hover:shadow-indigo-100"
             }`}
           >

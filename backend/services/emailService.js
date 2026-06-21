@@ -10,16 +10,16 @@ const generateOTPEmailTemplate = (otpCode) => {
       <title>Verify Your Account</title>
     </head>
     <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f1f5f9; color: #1e293b; -webkit-font-smoothing: antialiased;">
-      
+
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f1f5f9; padding: 40px 10px;">
         <tr>
           <td align="center">
-            
+
             <table role="presentation" width="100%" max-width="600" cellspacing="0" cellpadding="0" border="0" style="max-width: 500px; width: 100%; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); overflow: hidden; border: 1px solid #e2e8f0;">
-              
+
               <tr>
                 <td align="center" style="background-color: #4f46e5; padding: 32px 20px;">
-                  <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">Knowledge Base Portal</h1>
+                  <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">WatchMann News</h1>
                 </td>
               </tr>
 
@@ -49,7 +49,7 @@ const generateOTPEmailTemplate = (otpCode) => {
 
               <tr>
                 <td align="center" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 24px 32px;">
-                  <p style="margin: 0 0 4px 0; font-size: 12px; color: #94a3b8;">&copy; ${new Date().getFullYear()} Personal Knowledge Base App.</p>
+                  <p style="margin: 0 0 4px 0; font-size: 12px; color: #94a3b8;">&copy; ${new Date().getFullYear()} WatchMann News.</p>
                   <p style="margin: 0; font-size: 11px; color: #cbd5e1;">Automated transactional email. Please do not reply.</p>
                 </td>
               </tr>
@@ -75,11 +75,11 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendOTPVerificationEmail = async (toEmail, otpCode) => {
+export const sendOTPVerificationEmail = async (email, otpCode) => {
   try {
     const mailOptions = {
       from: `"WatchMann News" <${process.env.SMTP_USER}>`,
-      to: toEmail,
+      to: email,
       subject: '🔑 Admin Portal Verification Code',
       text: `Your validation OTP code is: ${otpCode}. Valid for 10 minutes.`, // Fallback for pure text mail clients
       html: generateOTPEmailTemplate(otpCode), // Passing your HTML block directly here

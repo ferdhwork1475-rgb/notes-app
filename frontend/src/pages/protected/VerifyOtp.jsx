@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { verifyOtpCode, sendOtpRequest } from "../../services/authService";
 
 const VerifyOtp = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const VerifyOtp = () => {
     setIsLoading(true);
     try {
       // API invocation placeholder logic
-      // await resendOtpApiCall(email);
+      await sendOtpRequest(email);
       
       toast.success("A fresh verification code was sent!");
       setTimer(60); // Reset fallback clock metrics
@@ -107,7 +108,7 @@ const VerifyOtp = () => {
     setIsLoading(true);
     try {
       // API submission placeholder logic
-      // await verifyOtpCode(email, fullOtpString);
+      await verifyOtpCode(email, fullOtpString);
       
       toast.success("Identity verified successfully!");
       

@@ -4,7 +4,9 @@ import {
   createUser,
   loginUser,
   findUserDetails,
-  passwordResetController
+  sendOtpRequest,
+  verifyOtpCode,
+  passwordResetController,
 } from "../controllers/userController.js";
 
 import {
@@ -35,7 +37,9 @@ const router = express.Router();
 router.post("/api/register", upload.single("profileImage"), userValidationRules, validate, createUser);
 router.post("/api/login", loginRules, validate, loginUser);
 router.get("/api/notes", getNotes);
-router.post("/api/forgot-password", (req, res) => { console.log(req.body.email)})
+router.post("/api/forgot-password", sendOtpRequest)
+router.post("/api/verify-otp", verifyOtpCode)
+router.post("/api/password-reset", passwordResetController)
 
 // PROTECTED ROUTES
 router.get("/api/user", authenticateToken, findUserDetails);

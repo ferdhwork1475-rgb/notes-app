@@ -53,7 +53,7 @@ const ResetPassword = () => {
     setIsLoading(true);
     try {
       // API invocation placeholder logic targeting credentials endpoint
-      // await finalizeResetPasswordApiCall(email, token, password);
+      await finalizeResetPasswordApiCall(token, password);
 
       toast.success("Password updated successfully! Redirecting...");
       
