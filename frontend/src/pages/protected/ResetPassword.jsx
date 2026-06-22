@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { finalizeResetPasswordApiCall } from "../../services/authService";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const ResetPassword = () => {
     setIsLoading(true);
     try {
       // API invocation placeholder logic targeting credentials endpoint
-      await finalizeResetPasswordApiCall(token, password);
+      await finalizeResetPasswordApiCall(email, token, password);
 
       toast.success("Password updated successfully! Redirecting...");
       
@@ -62,6 +63,7 @@ const ResetPassword = () => {
         navigate("/login");
       }, 2000);
     } catch (err) {
+      console.log(err)
       toast.error(err.response?.data?.message || "Failed to finalize new password updates.");
     } finally {
       setIsLoading(false);

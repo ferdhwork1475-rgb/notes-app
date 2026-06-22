@@ -86,7 +86,6 @@ export const sendOTPVerificationEmail = async (email, otpCode) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Email successfully dispatched: ${info.messageId}`);
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Nodemailer service pipeline failure:', error);

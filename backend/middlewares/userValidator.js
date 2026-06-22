@@ -5,11 +5,7 @@ export const userValidationRules = [
   body("email")
     .isEmail()
     .withMessage("Please provide a valid email address")
-    .normalizeEmail()
-    .custom(async (value) => {
-      const user = await User.findOne({ email: value });
-      if (user) throw new Error("This email is already registered");
-    }),
+    .normalizeEmail(),
   body("fullname")
     .trim() // Added trim
     .escape()
@@ -28,11 +24,7 @@ export const loginRules = [
   body("email")
     .isEmail()
     .withMessage("Please provide a valid email address")
-    .normalizeEmail()
-    .custom(async (value) => {
-      const user = await User.findOne({ email: value });
-      if (!user) throw new Error("Invalid email or password")
-    }),
+    .normalizeEmail(),
   body("password")
     .trim()
     .isLength({ min: 10, max: 20 })

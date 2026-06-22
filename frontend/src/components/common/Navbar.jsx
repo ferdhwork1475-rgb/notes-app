@@ -20,17 +20,20 @@ const Navbar = ({ setActivePage, activePage }) => {
     <header className="sticky top-0 z-50 bg-[#0b0f19]/90 backdrop-blur-md border-b border-slate-800/80">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-4 sm:px-8">
         
-        {/* Editorial Logo Area */}
+        {/* Editorial Logo Area - WatchMann News */}
         <Link 
           to="/" 
           className="flex items-center gap-3 group" 
           onClick={() => handleNavClick("home")}
         >
+          {/* Brand Visual Graphic Block */}
           <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center transform group-hover:rotate-6 transition-transform">
-            <span className="text-white font-black text-sm tracking-wider">S</span>
+            <span className="text-white font-black text-sm tracking-wider">W</span>
           </div>
+          
+          {/* Brand Name Layout */}
           <p className="text-lg font-serif font-black tracking-tight text-white uppercase">
-            Stillness <span className="text-red-500 font-sans font-medium text-xs bg-slate-900 border border-slate-800 px-1.5 py-0.5 ml-1 rounded-sm tracking-normal normal-case">Digest</span>
+            WatchMann <span className="text-red-500 font-sans font-medium text-xs bg-slate-900 border border-slate-800 px-1.5 py-0.5 ml-1 rounded-sm tracking-normal normal-case">News</span>
           </p>
         </Link>
 

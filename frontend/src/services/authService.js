@@ -15,10 +15,17 @@ export const signupUser = async (formData) => {
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(`${backendAPI}login`, {
-      email,
-      password,
-    });
+    const response = await axios.post(
+      `${backendAPI}login`,
+      {
+        email,
+        password,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -40,6 +47,7 @@ export const sendOtpRequest = async (email) => {
     const response = await axios.post(`${backendAPI}forgot-password`, {
       email,
     });
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -48,20 +56,26 @@ export const sendOtpRequest = async (email) => {
 export const verifyOtpCode = async (email, fullOtpString) => {
   try {
     const response = await axios.post(`${backendAPI}verify-otp`, {
-      email, fullOtpString,
+      email,
+      fullOtpString,
     });
+    return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const finalizeResetPasswordApiCall = async (token, password) => {
+export const finalizeResetPasswordApiCall = async (email, token, password) => {
   try {
     const response = await axios.post(`${backendAPI}password-reset`, {
-      token, password,
+      email,
+      token,
+      password,
     });
+    return response.data;
   } catch (error) {
     throw error;
+    console.log(error)
   }
 };
 

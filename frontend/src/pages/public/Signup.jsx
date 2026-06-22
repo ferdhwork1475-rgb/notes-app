@@ -63,6 +63,9 @@ const Signup = () => {
       navigate("/login");
     } catch (error) {
       console.error("Failed registration attempt in component", error.response);
+      if (error.response?.data?.message.includes("getaddrinfo")) {
+        toast.error("Check your internet connection")
+      }
       toast.error(error.response?.data?.message);
       const backendErr = error.response?.data.error || [];
       backendErr.map((err) => {

@@ -68,7 +68,7 @@ const Login = ({ setActive }) => {
     setIsLoading(true);
 
     try {
-      await loginUser(email, password);
+      const response = await loginUser(email, password);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login attempt failed in component:", error.response || error);

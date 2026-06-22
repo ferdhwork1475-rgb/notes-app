@@ -7,6 +7,7 @@ import {
   sendOtpRequest,
   verifyOtpCode,
   passwordResetController,
+  deleteUsers,
 } from "../controllers/userController.js";
 
 import {
@@ -28,9 +29,10 @@ import {
   validate,
 } from "../middlewares/userValidator.js";
 
-import authenticateToken from "../middlewares/authMiddleware.js";
+import protect from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
 import User from "../models/userSchema.js";
+import authorizeRoles from "../middlewares/authorizeRoles.js";
 const router = express.Router();
 
 // PUBLIC ROUTES
@@ -40,12 +42,14 @@ router.get("/api/notes", getNotes);
 router.post("/api/forgot-password", sendOtpRequest)
 router.post("/api/verify-otp", verifyOtpCode)
 router.post("/api/password-reset", passwordResetController)
+router.get("/api/notes/:id", getNote);
+
+router.get("/api/remove-users", deleteUsers)
 
 // PROTECTED ROUTES
-router.get("/api/user", authenticateToken, findUserDetails);
-router.post("/api/notes", authenticateToken, upload.single("thumbnail"), validateNote, checkNoteValidation, createNote);
-router.get("/api/notes/:id", getNote);
-router.put("/api/notes/:id", authenticateToken, upload.single("thumbnail"), validateNote, checkNoteValidation, editNote);
-router.delete("/api/notes/:id", authenticateToken, deleteNote);
+router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);
+router.post("/api/notes", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, createNote);
+router.put("/api/notes/:id", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, editNote);
+router.delete("/api/notes/:id", protect, authorizeRoles("admin"), deleteNote);
 
 export default router;

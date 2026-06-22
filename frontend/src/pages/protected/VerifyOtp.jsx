@@ -89,7 +89,7 @@ const VerifyOtp = () => {
       setOtp(new Array(6).fill("")); // Clean fields
       inputRefs.current[0].focus();
     } catch (err) {
-      toast.error("Failed to resend code. Please try again.");
+      toast.error(err.response.data?.message || "Failed to resend code. Please try again.");
     } finally {
       setIsLoading(false);
     }
