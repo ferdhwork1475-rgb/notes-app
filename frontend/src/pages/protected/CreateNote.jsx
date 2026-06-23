@@ -360,6 +360,16 @@ const CreateNote = () => {
                   </div>
                 </div>
 
+                {/* Bold/Italics */}
+                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
+                  <div>
+                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">*Italics*</code>
+                  </div>
+                  <div>
+                    <i className="text-slate-800]">Italic Text</i>
+                  </div>
+                </div>
+
                 {/* Unordered Lists */}
                 <div className="p-3 grid grid-cols-2 gap-4 bg-white">
                   <div>

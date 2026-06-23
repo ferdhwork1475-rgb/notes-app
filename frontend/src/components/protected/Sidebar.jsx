@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { 
-  FileText, 
-  Hash, 
-  Settings, 
-  LogOut, 
-  PlusCircle, 
-  Menu, 
-  X, 
-  ChevronLeft, 
+import {
+  FileText,
+  Hash,
+  Settings,
+  LogOut,
+  PlusCircle,
+  Menu,
+  X,
+  ChevronLeft,
   ChevronRight,
-  User 
+  User,
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 
@@ -31,9 +31,18 @@ const Sidebar = ({ user }) => {
 
   // Centralized navigation items structure
   const navItems = [
-    { to: "/dashboard", icon: <FileText size={18} />, label: "All News Article", end: true },
-    { to: "/dashboard/create-note", icon: <PlusCircle size={18} />, label: "Create News Article" },
-    { to: "/dashboard/profile", icon: <User size={18} />, label: "Profile" }
+    {
+      to: "/dashboard",
+      icon: <FileText size={18} />,
+      label: "All News Article",
+      end: true,
+    },
+    {
+      to: "/dashboard/create-note",
+      icon: <PlusCircle size={18} />,
+      label: "Create News Article",
+    },
+    { to: "/dashboard/profile", icon: <User size={18} />, label: "Profile" },
   ];
 
   return (
@@ -69,18 +78,30 @@ const Sidebar = ({ user }) => {
         `}
       >
         {/* Brand Logo Header Block */}
-        <div className={`flex items-center justify-between mb-8 px-2 shrink-0 ${isCollapsed ? "md:justify-center" : ""}`}>
+        <div
+          className={`flex items-center justify-between mb-8 px-2 shrink-0 ${isCollapsed ? "md:justify-center" : ""}`}
+        >
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-indigo-900/30 shrink-0">
-              <span className="text-white font-black text-lg tracking-wider">S</span>
+            {/* Brand Visual Graphic Block */}
+            <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center transform group-hover:rotate-6 transition-transform">
+              <span className="text-white font-black text-sm tracking-wider">
+                W
+              </span>
             </div>
+
             {(!isCollapsed || isOpen) && (
               <Link
                 to="/"
+                className="flex items-center gap-3 group"
                 onClick={closeMobileDrawer}
-                className="text-white font-bold text-xl tracking-tight hover:opacity-90 transition-opacity whitespace-nowrap animate-fadeIn"
               >
-                Stillness
+                {/* Brand Name Layout */}
+                <p className="text-lg font-serif font-black tracking-tight text-white uppercase">
+                  WatchMann{" "}
+                  <span className="text-red-500 font-sans font-medium text-xs bg-slate-900 border border-slate-800 px-1.5 py-0.5 ml-1 rounded-sm tracking-normal normal-case">
+                    News
+                  </span>
+                </p>
               </Link>
             )}
           </div>
@@ -94,7 +115,7 @@ const Sidebar = ({ user }) => {
           </button>
 
           {/* Desktop Chevron Expand/Collapse Toggle Handle Button */}
-          {(!isCollapsed && !isOpen) && (
+          {!isCollapsed && !isOpen && (
             <button
               onClick={toggleDesktopCollapse}
               className="hidden md:flex p-1.5 text-slate-500 hover:text-slate-300 hover:bg-slate-800/60 rounded-lg transition-colors border border-transparent hover:border-slate-700/50"
@@ -106,7 +127,7 @@ const Sidebar = ({ user }) => {
         </div>
 
         {/* Hidden Inline Restore Button for Collapsed Desktop State */}
-        {(isCollapsed && !isOpen) && (
+        {isCollapsed && !isOpen && (
           <div className="hidden md:flex justify-center mb-6">
             <button
               onClick={toggleDesktopCollapse}
@@ -130,17 +151,22 @@ const Sidebar = ({ user }) => {
               className={({ isActive }) => `
                 w-full flex items-center rounded-xl text-sm font-medium transition-all duration-200 outline-none select-none group
                 ${isCollapsed ? "md:justify-center md:px-0 md:py-3" : "px-4 py-3"}
-                ${isActive 
-                  ? "bg-indigo-600/15 text-indigo-400 border-l-2 border-indigo-500 font-semibold" 
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 border-l-2 border-transparent"
+                ${
+                  isActive
+                    ? "bg-indigo-600/15 text-indigo-400 border-l-2 border-indigo-500 font-semibold"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 border-l-2 border-transparent"
                 }
               `}
             >
-              <span className={`shrink-0 transition-transform duration-200 group-hover:scale-105 ${isCollapsed ? "" : "mr-3.5"}`}>
+              <span
+                className={`shrink-0 transition-transform duration-200 group-hover:scale-105 ${isCollapsed ? "" : "mr-3.5"}`}
+              >
                 {item.icon}
               </span>
               {(!isCollapsed || isOpen) && (
-                <span className="whitespace-nowrap animate-fadeIn">{item.label}</span>
+                <span className="whitespace-nowrap animate-fadeIn">
+                  {item.label}
+                </span>
               )}
             </NavLink>
           ))}
@@ -148,9 +174,8 @@ const Sidebar = ({ user }) => {
 
         {/* Footer Structural Identity & Interactive Actions Container */}
         <div className="mt-auto pt-4 border-t border-slate-800/60 shrink-0 space-y-2">
-          
           {/* USER PROFILE CARD IDENTITY EXTENSION */}
-          <div 
+          <div
             className={`
               flex items-center rounded-xl transition-colors duration-200
               ${isCollapsed ? "justify-center p-0" : "bg-slate-900/40 p-2.5 border border-slate-800/40"}
@@ -158,9 +183,9 @@ const Sidebar = ({ user }) => {
           >
             {/* Conditional Avatar Thumbnail Framework */}
             {user.profileImage ? (
-              <img 
-                src={user.profileImage} 
-                alt={user.fullname} 
+              <img
+                src={user.profileImage}
+                alt={user.fullname}
                 className="w-9 h-9 rounded-xl object-cover shrink-0 border border-slate-700/50"
               />
             ) : (
@@ -191,7 +216,10 @@ const Sidebar = ({ user }) => {
               ${isCollapsed ? "md:justify-center md:px-0 md:py-3" : "px-4 py-3"}
             `}
           >
-            <LogOut size={18} className={`shrink-0 ${isCollapsed ? "" : "mr-3.5"}`} />
+            <LogOut
+              size={18}
+              className={`shrink-0 ${isCollapsed ? "" : "mr-3.5"}`}
+            />
             {(!isCollapsed || isOpen) && (
               <span className="whitespace-nowrap animate-fadeIn">Logout</span>
             )}

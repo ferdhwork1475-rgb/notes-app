@@ -36,7 +36,7 @@ export const createUser = async (req, res, next) => {
       fullname,
       password: hashedPassword,
       profileImage,
-      role: "admin"
+      role: "admin",
     });
 
     await newUser.save();
@@ -164,7 +164,7 @@ export const passwordResetController = async (req, res, next) => {
   }
 };
 
-cron.schedule("*/30 * * * *", async () => {
+cron.schedule("0 0 * * *", async () => {
   const usersOTPExpires = await User.updateMany(
     { otpExpires: { $lt: new Date() } },
     { $set: { otpCode: "", otpExpires: "" } },

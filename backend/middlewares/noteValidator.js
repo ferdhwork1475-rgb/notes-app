@@ -3,8 +3,7 @@ import { validationResult, body } from "express-validator";
 export const validateNote = [
   body("title")
     .trim()
-    .escape()
-    .isLength({ max: 100 }).withMessage("Title must be less than 100 characters"),
+    .escape(),
   body("content").trim().escape(),
 ];
 

@@ -56,7 +56,7 @@ const Dashboard = () => {
           className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all shadow-sm shadow-indigo-100 shrink-0 active:scale-95"
         >
           <Plus size={18} /> 
-          <span className="hidden sm:inline">New Note</span>
+          <span className="hidden sm:inline">New Article</span>
         </Link>
       </header>
 
