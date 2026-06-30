@@ -17,27 +17,29 @@ import { getNoteById, updateNote } from "../../services/authService";
 import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
 
+// The uploadPath for displaying images (it gives the folder url to the image)
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const EditNote = () => {
+  // Get the id from the network req
   const { id } = useParams();
+
+  // for navigation
   const navigate = useNavigate();
 
+  // using useRef here for uploading the imagine so as not to trigger a re render. Normally, in react... we use React's useState and it triggers a re render
   const fileInputRef = useRef(null);
   const titleRef = useRef(null);
+
+  // Content recieved from the backendAPI
+  const [note, setNote] = useState([]);
 
   // Form Field States
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([""]);
   const [thumbnail, setThumbnail] = useState(null);
   const [preview, setPreview] = useState("");
-
-  // History Tracking States for Reversion / Dirty Checking
-  const [initialTitle, setInitialTitle] = useState("");
-  const [initialContent, setInitialContent] = useState("");
-  const [initialTags, setInitialTags] = useState("");
-  const [initialPreview, setInitialPreview] = useState("");
 
   // System Lifecycle States
   const [fetching, setFetching] = useState(true);
@@ -48,28 +50,18 @@ const EditNote = () => {
   const [isHelpOpen, setIsHelpOpen] = useState(false); // Markdown Guide Modal toggle
   const [isPreviewOpen, setIsPreviewOpen] = useState(false); // Sliding Drawer Preview toggle
 
-  // 1. Initial Fetch Data Hook
+  // Fecth Note from API
   useEffect(() => {
     const fetchNoteData = async () => {
       try {
         setFetching(true);
         setErrorState(false);
         const response = await getNoteById(id);
-        const note = response;
-
-        setTitle(note.title || "");
-        setInitialTitle(note.title || "");
-
-        setContent(note.content || "");
-        setInitialContent(note.content || "");
-
-        setTags(note.tags || "");
-        setInitialTags(note.tags || "");
-
-        if (note.thumbnail) {
-          setPreview(`${uploadPath}${note.thumbnail}`);
-          setInitialPreview(`${uploadPath}${note.thumbnail}`);
-        }
+        setNote(response);
+        setTitle(response.title);
+        setContent(response.content);
+        setTags(response.tags);
+        setPreview(`${uploadPath}${response.thumbnail}`);
       } catch (error) {
         console.error("Error retrieving article records:", error);
         setErrorState(true);
@@ -92,64 +84,56 @@ const EditNote = () => {
     }
   }, [fetching, errorState]);
 
-  // 3. Navigation Guard & Window Dismissal Blockers (Form Is Dirty Check)
-  const isDirty =
-    title !== initialTitle ||
-    content !== initialContent ||
-    tags !== initialTags ||
-    thumbnail !== null;
+  // TODO:
+  // Determine whether the form has changed.
+  const str = JSON.stringify(tags);
+  const arr = str.split(","); // ['apple', 'banana', 'cherry']
+console.log(arr);
+// tags.split(',');
 
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (isDirty) {
-        e.preventDefault();
-        e.returnValue = "Discard updates?";
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [isDirty]);
-
-  // Handle local file validations
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const allowedTypes = ["image/png", "image/webp", "image/jpeg"];
-
-    if (file && !allowedTypes.includes(file.type)) {
-      toast.error("Please select a valid image (PNG/JPG/WebP)");
-      e.target.value = null;
-      return;
-    }
-
-    if (file) {
-      const objectUrl = URL.createObjectURL(file);
-      setPreview(objectUrl);
-      setThumbnail(file);
-    }
+  const dirtyFields = {
+    title: note.title === title ? false : true,
+    content: note.content === content ? false : true,
+    tags: note.tags === tags ? false : true,
+    // thumbnail: note.thumbnail == thumbnail ? false : true
   };
+  // console.log(note.tags, tags)
+  // const isDirty =
+  //   dirtyFields.title !== false ||
+  //   dirtyFields.content !== false ||
+  //   dirtyFields.tags !== false;
 
-  // Revert localized image state back to initial database state
-  const handleResetImage = () => {
-    setThumbnail(null);
-    setPreview(initialPreview);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-    toast.info("Restored original cover image");
-  };
+  // console.log({
+  //     noteContent: JSON.stringify(note.content),
+  //     content: JSON.stringify(content),
+  //     noteContentLength: note.content?.length,
+  //     contentLength: content.length,
+  //     equal: note.content === content
+  // });
+  // TODO
+  // User selected a new image.
+  // Validate it.
+  // Store it.
+  // Update preview.
+  // Decide whether the form is dirty.
+
+  // TODO
+  // Restore image back to original state.
 
   // Safe Close Handler checking form state
-  const handleClose = () => {
-    if (isDirty) {
-      if (
-        window.confirm(
-          "You have unsaved changes. Are you sure you want to leave?",
-        )
-      ) {
-        navigate(-1);
-      }
-    } else {
-      navigate(-1);
-    }
-  };
+  // const handleClose = () => {
+  //   if (isDirty) {
+  //     if (
+  //       window.confirm(
+  //         "You have unsaved changes. Are you sure you want to leave?",
+  //       )
+  //     ) {
+  //       navigate(-1);
+  //     }
+  //   } else {
+  //     navigate(-1);
+  //   }
+  // };
 
   // Form Submit Payload Builder
   const handleSubmit = async (e) => {
@@ -164,9 +148,9 @@ const EditNote = () => {
       if (thumbnail !== null) {
         formData.append("thumbnail", thumbnail);
       }
-      await updateNote(id, formData);
+      // await updateNote(id, formData);
       toast.success("News article updated successfully");
-      navigate("/dashboard");
+      // navigate("/dashboard");
     } catch (error) {
       console.error("Error putting note update:", error.response);
       toast.error("Failed to update news article");
@@ -217,11 +201,11 @@ const EditNote = () => {
           <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
             Editing Article
           </span>
-          {isDirty && (
+          {/* {isDirty && (
             <span className="text-[10px] font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md animate-pulse">
               Unsaved Changes
             </span>
-          )}
+          )} */}
         </div>
 
         {/* Dynamic Utility Toolbar Actions */}
@@ -248,7 +232,7 @@ const EditNote = () => {
 
           <button
             type="button"
-            onClick={handleClose}
+            // onClick={handleClose}
             className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all"
           >
             <X size={20} />
@@ -310,10 +294,11 @@ const EditNote = () => {
               </div>
             </div>
           )}
+          {/* Using a hidden file image, because it is only the input that can trigger the system file explorer */}
           <input
             type="file"
             ref={fileInputRef}
-            onChange={handleFileChange}
+            // onChange={handleFileChange}
             className="hidden"
             accept="image/png, image/jpeg, image/webp"
           />
@@ -327,12 +312,12 @@ const EditNote = () => {
             placeholder="Untitled Document..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            maxLength={120}
+            maxLength={150}
             required
             className="w-full bg-transparent border-none text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800 placeholder-slate-200 focus:outline-none focus:ring-0 tracking-tight p-0 pr-16"
           />
           <span className="absolute right-0 bottom-2 text-[10px] font-bold text-slate-300 group-focus-within:text-indigo-400 tracking-wider transition-colors">
-            {title.length}/120
+            {title.length}/150
           </span>
         </div>
 
