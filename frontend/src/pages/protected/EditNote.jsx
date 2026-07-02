@@ -32,12 +32,17 @@ const EditNote = () => {
   const titleRef = useRef(null);
 
   // Content recieved from the backendAPI
-  const [note, setNote] = useState([]);
+  const [note, setNote] = useState({
+    title: "",
+    content: "",
+    tags: [],
+    thumbnail: "",
+  });
 
   // Form Field States
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState([""]);
+  const [tags, setTags] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [preview, setPreview] = useState("");
 
@@ -60,7 +65,7 @@ const EditNote = () => {
         setNote(response);
         setTitle(response.title);
         setContent(response.content);
-        setTags(response.tags);
+        setTags(response.tags.join(","));
         setPreview(`${uploadPath}${response.thumbnail}`);
       } catch (error) {
         console.error("Error retrieving article records:", error);
@@ -84,56 +89,70 @@ const EditNote = () => {
     }
   }, [fetching, errorState]);
 
-  // TODO:
   // Determine whether the form has changed.
-  const str = JSON.stringify(tags);
-  const arr = str.split(","); // ['apple', 'banana', 'cherry']
-console.log(arr);
-// tags.split(',');
-
   const dirtyFields = {
     title: note.title === title ? false : true,
     content: note.content === content ? false : true,
-    tags: note.tags === tags ? false : true,
-    // thumbnail: note.thumbnail == thumbnail ? false : true
+    tags: note.tags.join(",") === tags ? false : true,
   };
-  // console.log(note.tags, tags)
-  // const isDirty =
-  //   dirtyFields.title !== false ||
-  //   dirtyFields.content !== false ||
-  //   dirtyFields.tags !== false;
 
-  // console.log({
-  //     noteContent: JSON.stringify(note.content),
-  //     content: JSON.stringify(content),
-  //     noteContentLength: note.content?.length,
-  //     contentLength: content.length,
-  //     equal: note.content === content
-  // });
-  // TODO
-  // User selected a new image.
-  // Validate it.
-  // Store it.
-  // Update preview.
-  // Decide whether the form is dirty.
+  const isDirty =
+    dirtyFields.title !== false ||
+    dirtyFields.content !== false ||
+    dirtyFields.tags !== false;
 
-  // TODO
+  // Handle local file validations - triggered by the fileInputRef
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const allowedTypes = ["image/png", "image/webp", "image/jpeg"];
+
+    if (file && !allowedTypes.includes(file.type)) {
+      toast.error("Please select a valid image (PNG/JPG/WebP)");
+      e.target.value = null;
+      return;
+    }
+
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreview(objectUrl);
+      setThumbnail(file);
+    }
+  };
+
   // Restore image back to original state.
+  const handleResetImage = () => {
+    setThumbnail(null);
+    setPreview(initialPreview);
+    // get the current position of the ref which makes it possible to access the value
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    toast.info("Restored original cover image");
+  };
 
   // Safe Close Handler checking form state
-  // const handleClose = () => {
-  //   if (isDirty) {
-  //     if (
-  //       window.confirm(
-  //         "You have unsaved changes. Are you sure you want to leave?",
-  //       )
-  //     ) {
-  //       navigate(-1);
-  //     }
-  //   } else {
-  //     navigate(-1);
-  //   }
-  // };
+  const handleClose = () => {
+    if (isDirty) {
+      if (
+        window.confirm(
+          "You have unsaved changes. Are you sure you want to leave?",
+        )
+      ) {
+        navigate(-1);
+      }
+    } else {
+      navigate(-1);
+    }
+  };
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = "Discard updates?";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
 
   // Form Submit Payload Builder
   const handleSubmit = async (e) => {
@@ -232,7 +251,7 @@ console.log(arr);
 
           <button
             type="button"
-            // onClick={handleClose}
+            onClick={handleClose}
             className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all"
           >
             <X size={20} />
@@ -298,7 +317,7 @@ console.log(arr);
           <input
             type="file"
             ref={fileInputRef}
-            // onChange={handleFileChange}
+            onChange={handleFileChange}
             className="hidden"
             accept="image/png, image/jpeg, image/webp"
           />
