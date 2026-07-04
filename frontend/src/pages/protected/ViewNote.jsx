@@ -153,118 +153,121 @@ const ViewNote = () => {
 
       {/* Main Reading Container Canvas Layout */}
       <article className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
-        {/* Cover Image Header Panel Frame */}
-        {note.thumbnail && (
-          <div className="w-full h-48 sm:h-64 md:h-96 rounded-2xl overflow-hidden shadow-sm border border-slate-100 bg-slate-50">
-            <img
-              src={`${uploadPath}${note.thumbnail}`}
-              alt={note.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        )}
+        {/* Cover Image */}
+{note.thumbnail && (
+  <div className="relative w-full h-64 sm:h-80 lg:h-[28rem] rounded-3xl overflow-hidden shadow-lg">
+    <img
+      src={`${uploadPath}${note.thumbnail}`}
+      alt={note.title}
+      className="w-full h-full object-cover"
+    />
 
-        {/* Metadata Banner Stream Block */}
-        <div className="space-y-4 border-b border-slate-100 pb-6 sm:pb-8">
-          {/* Active Tag Line Arrays */}
-          {note.tags && note.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {note.tags.map((tag, i) => (
-                <span
-                  key={i}
-                  className="flex items-center gap-1 text-[11px] font-bold text-indigo-600 bg-indigo-50/70 border border-indigo-100/50 px-2.5 py-0.5 rounded-md"
-                >
-                  <Tag size={10} />
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+</div>
+)}
 
-          {/* Primary News Document Title Header */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            {note.title}
-          </h1>
+<header className="space-y-6 border-b border-slate-200 pb-8">
 
-          {/* Timestamp Indicators */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-slate-400">
-            <span className="flex items-center gap-1.5">
-              <Calendar size={14} className="text-slate-300" />
-              {new Date(note.createdAt).toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </span>
-            <span className="w-1 h-1 rounded-full bg-slate-200 hidden sm:inline-block" />
-            <span className="flex items-center gap-1.5">
-              <Clock size={14} className="text-slate-300" />
-              {note.readingTime || "2 min read"}
-            </span>
-          </div>
-        </div>
+  {/* Category */}
+  <div>
+    <span className="inline-flex items-center rounded-full bg-indigo-100 px-4 py-1.5 text-sm font-semibold text-indigo-700">
+      {note.category}
+    </span>
+  </div>
 
-        {/* Beautiful Customized Markdown Article Body Wrapper */}
-        <div className="prose prose-slate max-w-none text-slate-700 text-base leading-relaxed tracking-normal space-y-4 pb-16">
-          {/* Custom fallback layout wrapper if using markdown parser directly */}
-          <ReactMarkdown
-            components={{
-              h1: ({ node, ...props }) => (
-                <h1
-                  className="text-2xl font-bold text-slate-900 mt-6 mb-3 tracking-tight"
-                  {...props}
-                />
-              ),
-              h2: ({ node, ...props }) => (
-                <h2
-                  className="text-xl font-bold text-slate-800 mt-5 mb-2 tracking-tight"
-                  {...props}
-                />
-              ),
-              p: ({ node, ...props }) => (
-                <p
-                  className="mb-4 whitespace-pre-line text-slate-600 leading-relaxed"
-                  {...props}
-                />
-              ),
-              ul: ({ node, ...props }) => (
-                <ul
-                  className="list-disc pl-5 mb-4 space-y-1.5 text-slate-600"
-                  {...props}
-                />
-              ),
-              ol: ({ node, ...props }) => (
-                <ol
-                  className="list-decimal pl-5 mb-4 space-y-1.5 text-slate-600"
-                  {...props}
-                />
-              ),
-              li: ({ node, ...props }) => (
-                <li className="text-slate-600" {...props} />
-              ),
-              blockquote: ({ node, ...props }) => (
-                <blockquote
-                  className="border-l-4 border-indigo-500 pl-4 italic text-slate-500 bg-slate-50/50 py-2 my-4 rounded-r-xl"
-                  {...props}
-                />
-              ),
-              code: ({ node, inline, ...props }) =>
-                inline ? (
-                  <code
-                    className="text-xs bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-mono"
-                    {...props}
-                  />
-                ) : (
-                  <code
-                    className="block text-xs bg-slate-900 text-slate-100 p-4 rounded-xl font-mono overflow-x-auto border border-slate-800 my-4 shadow-inner"
-                    {...props}
-                  />
-                ),
-            }}
-          >
-            {note.content}
-          </ReactMarkdown>
-        </div>
+  {/* Title */}
+  <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight text-slate-900">
+    {note.title}
+  </h1>
+
+  {/* Metadata */}
+  <div className="flex flex-wrap items-center gap-5 text-sm text-slate-500">
+
+    <div className="flex items-center gap-2">
+      <Calendar size={16} />
+      {new Date(note.createdAt).toLocaleDateString(undefined,{
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+      })}
+    </div>
+
+    <div className="flex items-center gap-2">
+      <Clock size={16}/>
+      {note.readingTime + " min read"}
+    </div>
+
+  </div>
+
+  {/* Tags */}
+  {note.tags?.length > 0 && (
+    <div className="flex flex-wrap gap-2">
+
+      {note.tags.map((tag,index)=>(
+        <span
+          key={index}
+          className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"
+        >
+          #{tag}
+        </span>
+      ))}
+
+    </div>
+  )}
+
+</header>
+
+<div className="prose prose-lg lg:prose-xl prose-slate max-w-none mt-10">
+
+    <ReactMarkdown
+      components={{
+        h1: ({...props}) => (
+          <h1
+            className="text-4xl font-black mt-10 mb-5"
+            {...props}
+          />
+        ),
+
+        h2: ({...props}) => (
+          <h2
+            className="text-3xl font-bold mt-10 mb-4"
+            {...props}
+          />
+        ),
+
+        h3: ({...props}) => (
+          <h3
+            className="text-2xl font-bold mt-8 mb-3"
+            {...props}
+          />
+        ),
+
+        p: ({...props}) => (
+          <p
+            className="leading-9 text-slate-700 mb-6"
+            {...props}
+          />
+        ),
+
+        img: ({...props}) => (
+          <img
+            className="rounded-2xl shadow-md my-8"
+            {...props}
+          />
+        ),
+
+        blockquote: ({...props}) => (
+          <blockquote
+            className="border-l-4 border-indigo-600 bg-indigo-50 rounded-r-xl py-4 italic"
+            {...props}
+          />
+        ),
+      }}
+    >
+      {note.content}
+    </ReactMarkdown>
+
+</div>
       </article>
     </div>
   );

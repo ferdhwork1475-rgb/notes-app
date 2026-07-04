@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Plus, Search, Calendar, Clock, ArrowRight, BookOpen } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Calendar,
+  Clock,
+  ArrowRight,
+  Newspaper
+} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchNotes } from "../../services/authService";
 import ReactMarkdown from "react-markdown";
@@ -29,9 +36,10 @@ const Dashboard = () => {
   }, []);
 
   // Filter content reactively based on user input
-  const filteredNews = news.filter((article) =>
-    article.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    article.summary?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredNews = news.filter(
+    (article) =>
+      article.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      article.summary?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -55,7 +63,7 @@ const Dashboard = () => {
           to="/dashboard/create-note"
           className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all shadow-sm shadow-indigo-100 shrink-0 active:scale-95"
         >
-          <Plus size={18} /> 
+          <Plus size={18} />
           <span className="hidden sm:inline">New Article</span>
         </Link>
       </header>
@@ -83,7 +91,10 @@ const Dashboard = () => {
             /* Premium Content Skeleton Loader States */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
               {[1, 2, 3].map((n) => (
-                <div key={n} className="bg-white rounded-2xl border border-slate-100 h-96 p-4 space-y-4">
+                <div
+                  key={n}
+                  className="bg-white rounded-2xl border border-slate-100 h-96 p-4 space-y-4"
+                >
                   <div className="w-full h-44 bg-slate-100 rounded-xl" />
                   <div className="h-6 bg-slate-100 rounded-lg w-3/4" />
                   <div className="space-y-2">
@@ -95,22 +106,49 @@ const Dashboard = () => {
             </div>
           ) : filteredNews.length === 0 ? (
             /* Empty State State Fallback Display */
-            <div className="flex flex-col items-center justify-center py-20 bg-white border border-dashed border-slate-200 rounded-2xl max-w-xl mx-auto px-4 text-center">
-              <div className="p-4 bg-slate-50 text-slate-400 rounded-2xl mb-4">
-                <BookOpen size={32} />
+            <div className="max-w-2xl mx-auto rounded-3xl border border-dashed border-slate-300 bg-gradient-to-b from-white to-slate-50 px-8 py-20 text-center">
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-600 shadow-sm">
+                <Newspaper size={36} />
               </div>
-              <h3 className="font-bold text-slate-700 text-base">No news article found</h3>
-              <p className="text-slate-400 text-sm mt-1 max-w-xs">
-                {searchQuery ? "Try clarifying your search terms or filter keywords." : "Create your very first news article card item to begin tracking records."}
+
+              <h2 className="mt-6 text-2xl font-bold text-slate-900">
+                {searchQuery
+                  ? "No matching articles"
+                  : "No articles published yet"}
+              </h2>
+
+              <p className="mt-3 max-w-md mx-auto text-sm leading-6 text-slate-500">
+                {searchQuery
+                  ? "No articles match your current search or filters. Try different keywords or clear the filters."
+                  : "Your newsroom is empty. Start publishing articles to build your news feed and keep readers informed."}
               </p>
+
+              {!searchQuery && (
+                <button
+                  onClick={() => navigate("/admin/news/create")}
+                  className="mt-8 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+                >
+                  <Plus size={18} />
+                  Create First Article
+                </button>
+              )}
+
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="mt-8 inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                >
+                  Clear Search
+                </button>
+              )}
             </div>
           ) : (
             /* Active Dynamic Grid Stream */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredNews.map((article) => (
                 <div
-                  key={article._id}
-                  onClick={() => navigate(`/notes/${article._id}`)}
+                  key={article.id}
+                  onClick={() => navigate(`/notes/${article.id}`)}
                   className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 p-4 flex flex-col h-[420px] transition-all duration-300 cursor-pointer relative"
                 >
                   {/* Card Banner Image Frame Block */}
@@ -122,13 +160,17 @@ const Dashboard = () => {
                         className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.style.display = 'none';
-                          e.target.parentNode.classList.add("bg-gradient-to-br", "from-indigo-50", "to-slate-100");
+                          e.target.style.display = "none";
+                          e.target.parentNode.classList.add(
+                            "bg-gradient-to-br",
+                            "from-indigo-50",
+                            "to-slate-100",
+                          );
                         }}
                       />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-indigo-50/60 to-slate-100/80 flex items-center justify-center text-indigo-400">
-                        <BookOpen size={24} className="opacity-60" />
+                        <Newspaper size={24} className="opacity-60" />
                       </div>
                     )}
                   </div>
@@ -138,33 +180,36 @@ const Dashboard = () => {
                     <h3 className="text-base font-bold text-slate-800 line-clamp-2 mb-2 group-hover:text-indigo-600 transition-colors tracking-tight leading-snug">
                       {article.title}
                     </h3>
-                    
+
                     {/* Rendered Markdown Snippet Section Context */}
                     <div className="text-slate-500 text-xs sm:text-sm line-clamp-4 leading-relaxed overflow-hidden prose prose-sm max-w-none mb-4">
-                      <ReactMarkdown>
-                        {article.summary || article.content || "No summary notes provided..."}
-                      </ReactMarkdown>
+                      <ReactMarkdown>{article.content}</ReactMarkdown>
                     </div>
                   </div>
 
                   {/* Dynamic Card Meta Footer Block Bar */}
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between mt-auto shrink-0 text-[11px] font-semibold text-slate-400">
-                    <div className="flex items-center gap-3">
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-600">
+                      {article.category}
+                    </span>
+
+                    <div className="flex items-center gap-3 text-slate-400">
                       <span className="flex items-center gap-1">
-                        <Calendar size={12} className="text-slate-300" />
-                        {article.createdAt ? new Date(article.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : "Recent"}
+                        <Calendar size={12} />
+                        {new Date(article.createdAt).toLocaleDateString(
+                          undefined,
+                          {
+                            month: "short",
+                            day: "numeric",
+                          },
+                        )}
                       </span>
+
                       <span className="flex items-center gap-1">
-                        <Clock size={12} className="text-slate-300" />
-                        {article.readingTime || "2 min"}
+                        <Clock size={12} />
+                        {article.readingTime + " min read"}
                       </span>
                     </div>
-                    
-                    {/* Action link transition pointer indicator */}
-                    <span className="flex items-center gap-1 text-indigo-600 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-300 font-bold text-xs">
-                      <span>Read</span>
-                      <ArrowRight size={12} />
-                    </span>
                   </div>
                 </div>
               ))}

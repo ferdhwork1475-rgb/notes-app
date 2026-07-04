@@ -15,6 +15,11 @@ const noteSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
+    category: {
+      type: String,
+      enum: ["Politics", "Technology", "Health", "Sports", "Entertainment", "Business", "Science", "Education", "World", "Other"],
+      default: "Other",
+    },
     readingTime: {
       type: Number,
       default: 1,

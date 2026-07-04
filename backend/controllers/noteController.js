@@ -2,10 +2,11 @@ import Note from "../models/noteSchema.js";
 
 export const createNote = async (req, res, next) => {
   try {
-    const { title, content, tags } = req.body;
+    const { title, content, category, tags } = req.body;
     const newNote = new Note({
       title,
       content,
+      category,
       tags,
       thumbnail: req.file ? req.file.filename : null,
     });
@@ -24,6 +25,7 @@ export const getNotes = async (req, res, next) => {
       "title": note.title,
       "content": note.content,
       "tags": note.tags,
+      "category": note.category,
       "thumbnail": note.thumbnail,
       "createdAt": note.createdAt,
       "readingTime": note.readingTime,

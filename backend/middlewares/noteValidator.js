@@ -2,9 +2,8 @@ import { validationResult, body } from "express-validator";
 
 export const validateNote = [
   body("title")
-    .trim()
-    .escape(),
-  body("content").trim().escape(),
+    .trim(),
+  body("content").trim(),
 ];
 
 export const checkNoteValidation = (req, res, next) => {

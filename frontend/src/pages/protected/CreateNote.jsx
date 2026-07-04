@@ -1,6 +1,16 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Save, X, Tag, HelpCircle, Eye, ImageIcon, Loader2 } from "lucide-react";
+import {
+  Save,
+  X,
+  Tag,
+  HelpCircle,
+  Eye,
+  ImageIcon,
+  Loader2,
+  FolderTree,
+  ChevronDown,
+} from "lucide-react";
 import { createNote } from "../../services/authService";
 import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
@@ -8,19 +18,29 @@ import ReactMarkdown from "react-markdown";
 const CreateNote = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  
-  // Tag System States
+  const [category, setCategory] = useState("");
+  const categories = [
+    "Politics",
+    "Technology",
+    "Health",
+    "Sports",
+    "Entertainment",
+    "Business",
+    "Science",
+    "Education",
+    "World",
+    "Other",
+  ];
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
-  
   const [thumbnail, setThumbnail] = useState(null);
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
-  
+
   // Navigation & Interactive UI Visibility Controls
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false); // Controls sliding drawer open state
-  
+
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
@@ -68,6 +88,7 @@ const CreateNote = () => {
     try {
       formData.append("title", title);
       formData.append("content", content);
+      formData.append("category", category);
       formData.append("tags", tags.join(", "));
       formData.append("thumbnail", thumbnail);
 
@@ -84,7 +105,6 @@ const CreateNote = () => {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-slate-50/50 overflow-y-auto relative">
-      
       {/* Header Layout Component */}
       <header className="sticky top-0 z-30 h-16 sm:h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 sm:px-8 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">
@@ -134,7 +154,7 @@ const CreateNote = () => {
         {/* Cover Image Selector Workspace */}
         <div className="w-full">
           {!preview ? (
-            <div 
+            <div
               onClick={() => fileInputRef.current?.click()}
               className="border-2 border-dashed border-slate-200 hover:border-indigo-400 bg-white p-6 sm:p-10 rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer transition-all group"
             >
@@ -142,8 +162,12 @@ const CreateNote = () => {
                 <ImageIcon size={24} />
               </div>
               <div className="text-center">
-                <p className="text-sm font-semibold text-slate-700">Upload cover image</p>
-                <p className="text-xs text-slate-400 mt-1">PNG, JPG, or WebP up to 10MB</p>
+                <p className="text-sm font-semibold text-slate-700">
+                  Upload cover image
+                </p>
+                <p className="text-xs text-slate-400 mt-1">
+                  PNG, JPG, or WebP up to 10MB
+                </p>
               </div>
             </div>
           ) : (
@@ -184,6 +208,44 @@ const CreateNote = () => {
           className="w-full bg-transparent border-none text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800 placeholder-slate-200 focus:outline-none focus:ring-0 tracking-tight p-0"
         />
 
+        {/* Category Selection */}
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-slate-700">
+            Category
+          </label>
+
+          <div className="relative">
+            <FolderTree
+              size={18}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+            />
+
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+              className="w-full appearance-none rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-10 text-sm text-slate-700 shadow-sm outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+            >
+              <option value="">Select a category</option>
+
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+
+            <ChevronDown
+              size={18}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+            />
+          </div>
+
+          <p className="text-xs text-slate-400">
+            Choose the primary category for this news article.
+          </p>
+        </div>
+
         {/* Dynamic Interactive Tag Component Wrapper */}
         <div className="flex flex-wrap items-center gap-2 bg-white border border-slate-200 w-full p-2 rounded-xl shadow-sm focus-within:border-indigo-400 transition-all">
           <div className="flex items-center gap-1.5 text-indigo-500 pl-1.5">
@@ -206,7 +268,11 @@ const CreateNote = () => {
           ))}
           <input
             type="text"
-            placeholder={tags.length === 0 ? "Categorize with tags (Press Enter or Comma)..." : "Add tag..."}
+            placeholder={
+              tags.length === 0
+                ? "Categorize with tags (Press Enter or Comma)..."
+                : "Add tag..."
+            }
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -234,7 +300,11 @@ const CreateNote = () => {
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {loading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
+            {loading ? (
+              <Loader2 className="animate-spin" size={18} />
+            ) : (
+              <Save size={18} />
+            )}
             <span>{loading ? "Saving News..." : "Save News"}</span>
           </button>
         </div>
@@ -242,7 +312,7 @@ const CreateNote = () => {
 
       {/* --- RESPONSIVE SLIDING PREVIEW DRAWER LAYOUT --- */}
       {/* Transforms smoothly into a full screen overlay on mobile devices to optimize structural viewing layout boundaries */}
-      <div 
+      <div
         className={`fixed inset-y-0 right-0 z-40 bg-white border-l border-slate-200 shadow-2xl 
           w-full sm:max-w-lg lg:max-w-2xl flex flex-col transform transition-transform duration-300 ease-in-out
           ${isPreviewOpen ? "translate-x-0" : "translate-x-full"}`}
@@ -251,7 +321,9 @@ const CreateNote = () => {
         <div className="h-16 sm:h-20 px-6 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
           <div className="flex items-center gap-2">
             <Eye size={18} className="text-indigo-600" />
-            <h3 className="font-bold text-slate-800 text-sm sm:text-base">Document Live Preview</h3>
+            <h3 className="font-bold text-slate-800 text-sm sm:text-base">
+              Document Live Preview
+            </h3>
           </div>
           <button
             type="button"
@@ -269,12 +341,15 @@ const CreateNote = () => {
               {title}
             </h1>
           )}
-          
+
           {/* Display Rendered Tags Array metadata elements if they exist */}
           {tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mb-4">
               {tags.map((tag, idx) => (
-                <div key={idx} className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 bg-indigo-50/70 px-2.5 py-1 rounded-md">
+                <div
+                  key={idx}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 bg-indigo-50/70 px-2.5 py-1 rounded-md"
+                >
                   <Tag size={10} />
                   {tag}
                 </div>
@@ -284,20 +359,21 @@ const CreateNote = () => {
 
           {preview && (
             <div className="w-full h-40 sm:h-52 rounded-xl overflow-hidden mb-6 shadow-sm">
-              <img 
-                src={preview} 
-                alt="Cover Preview" 
+              <img
+                src={preview}
+                alt="Cover Preview"
                 className="w-full h-full object-cover"
               />
             </div>
           )}
-          
+
           <hr className="border-slate-100 my-4" />
-          
+
           {/* Dynamic Component Compilation Output Element */}
           <div className="text-slate-700 text-sm sm:text-base leading-relaxed break-words">
             <ReactMarkdown>
-              {content || "*No article content written yet. Use the main field input window to get started...*"}
+              {content ||
+                "*No article content written yet. Use the main field input window to get started...*"}
             </ReactMarkdown>
           </div>
         </div>
@@ -305,7 +381,7 @@ const CreateNote = () => {
 
       {/* Dim Overlay Backdrop Sheet component layer */}
       {isPreviewOpen && (
-        <div 
+        <div
           onClick={() => setIsPreviewOpen(false)}
           className="fixed inset-0 z-30 bg-slate-900/20 backdrop-blur-xs transition-opacity"
         />
@@ -314,7 +390,7 @@ const CreateNote = () => {
       {/* Markdown Guide Overlay Modal */}
       {isHelpOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fadeIn">
-          <div 
+          <div
             className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[80vh] flex flex-col overflow-hidden animate-scaleIn border border-slate-100"
             onClick={(e) => e.stopPropagation()}
           >
@@ -322,7 +398,9 @@ const CreateNote = () => {
             <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div className="flex items-center gap-2">
                 <HelpCircle size={18} className="text-indigo-600" />
-                <h3 className="font-bold text-slate-800 text-base">Markdown Guide</h3>
+                <h3 className="font-bold text-slate-800 text-base">
+                  Markdown Guide
+                </h3>
               </div>
               <button
                 type="button"
@@ -335,35 +413,52 @@ const CreateNote = () => {
 
             {/* Modal Content Cheat-Sheet Scrollable Container */}
             <div className="p-5 overflow-y-auto space-y-4 text-sm text-slate-600">
-              <p className="text-xs text-slate-400">Format your article content instantly using standard Markdown styling rules:</p>
-              
+              <p className="text-xs text-slate-400">
+                Format your article content instantly using standard Markdown
+                styling rules:
+              </p>
+
               <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
                 {/* Headers */}
                 <div className="p-3 grid grid-cols-2 gap-4 bg-white">
                   <div>
-                    <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">To type</span>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono"># Heading 1</code>
+                    <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                      To type
+                    </span>
+                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
+                      # Heading 1
+                    </code>
                   </div>
                   <div>
-                    <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Result</span>
-                    <span className="font-bold text-slate-800 text-base">Heading</span>
-                  </div>
-                </div>
-
-                {/* Bold/Italics */}
-                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
-                  <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">**Bold Text**</code>
-                  </div>
-                  <div>
-                    <strong className="text-slate-800 font-bold">Bold Text</strong>
+                    <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                      Result
+                    </span>
+                    <span className="font-bold text-slate-800 text-base">
+                      Heading
+                    </span>
                   </div>
                 </div>
 
                 {/* Bold/Italics */}
                 <div className="p-3 grid grid-cols-2 gap-4 bg-white">
                   <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">*Italics*</code>
+                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
+                      **Bold Text**
+                    </code>
+                  </div>
+                  <div>
+                    <strong className="text-slate-800 font-bold">
+                      Bold Text
+                    </strong>
+                  </div>
+                </div>
+
+                {/* Bold/Italics */}
+                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
+                  <div>
+                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
+                      *Italics*
+                    </code>
                   </div>
                   <div>
                     <i className="text-slate-800]">Italic Text</i>
@@ -373,7 +468,9 @@ const CreateNote = () => {
                 {/* Unordered Lists */}
                 <div className="p-3 grid grid-cols-2 gap-4 bg-white">
                   <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">- Bullet point</code>
+                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
+                      - Bullet point
+                    </code>
                   </div>
                   <div>
                     <ul className="list-disc pl-4 text-xs">
@@ -385,7 +482,9 @@ const CreateNote = () => {
                 {/* Ordered Lists */}
                 <div className="p-3 grid grid-cols-2 gap-4 bg-white">
                   <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">1. Numbered item</code>
+                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
+                      1. Numbered item
+                    </code>
                   </div>
                   <div>
                     <ol className="list-decimal pl-4 text-xs">
@@ -397,20 +496,28 @@ const CreateNote = () => {
                 {/* Blockquotes */}
                 <div className="p-3 grid grid-cols-2 gap-4 bg-white">
                   <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">&gt; Quote block</code>
+                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
+                      &gt; Quote block
+                    </code>
                   </div>
                   <div>
-                    <blockquote className="border-l-2 border-indigo-500 pl-2 text-xs italic text-slate-400">Quote block</blockquote>
+                    <blockquote className="border-l-2 border-indigo-500 pl-2 text-xs italic text-slate-400">
+                      Quote block
+                    </blockquote>
                   </div>
                 </div>
 
                 {/* Code snippets */}
                 <div className="p-3 grid grid-cols-2 gap-4 bg-white">
                   <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">`code phrase`</code>
+                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
+                      `code phrase`
+                    </code>
                   </div>
                   <div>
-                    <code className="text-xs bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-700">code phrase</code>
+                    <code className="text-xs bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-700">
+                      code phrase
+                    </code>
                   </div>
                 </div>
               </div>

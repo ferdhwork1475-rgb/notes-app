@@ -24,7 +24,11 @@ const NewsLibrary = () => {
       try {
         setLoading(true);
         const response = await fetchNotes();
-        setNews(Array.isArray(response) ? response : []);
+        const filteredResponse = response.filter((articles) => {
+          if (category === "All Categories") return true;
+          return articles.category === category;
+        });
+        setNews(Array.isArray(filteredResponse) ? filteredResponse : []);
       } catch (error) {
         console.error("Error fetching news:", error);
       } finally {
@@ -33,7 +37,7 @@ const NewsLibrary = () => {
     };
 
     loadNews();
-  }, []);
+  }, [category]);
 
   // Filter articles for public consumption
   const filteredNews = news.filter(
@@ -89,7 +93,11 @@ const NewsLibrary = () => {
             {/* Filters */}
             <div className="mt-5 flex flex-wrap gap-3">
               {/* Category */}
-              <select className="flex-1 min-w-[160px] h-11 rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-indigo-500" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <select
+                className="flex-1 min-w-[160px] h-11 rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-indigo-500"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
                 <option>All Categories</option>
                 <option>Politics</option>
                 <option>Technology</option>
@@ -125,17 +133,29 @@ const NewsLibrary = () => {
           </div>
         ) : filteredNews.length === 0 ? (
           /* Empty Search Fallback Template */
-          <div className="flex flex-col items-center justify-center py-16 bg-white border border-dashed border-slate-200 rounded-2xl max-w-md mx-auto px-6 text-center shadow-sm">
-            <div className="p-4 bg-slate-50 text-slate-400 rounded-2xl mb-4">
-              <BookOpen size={28} />
+          <div className="max-w-lg mx-auto rounded-3xl border border-slate-200 bg-white px-8 py-14 text-center shadow-sm">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+              <Newspaper size={30} />
             </div>
-            <h3 className="font-bold text-slate-800 text-base">
-              No entries available
-            </h3>
-            <p className="text-slate-400 text-sm mt-1">
-              We couldn't find matching library elements. Try resetting your
-              custom lookup filters.
+
+            <h2 className="mt-6 text-2xl font-bold text-slate-900">
+              No news articles found
+            </h2>
+
+            <p className="mt-3 text-sm leading-6 text-slate-500 max-w-sm mx-auto">
+              We couldn't find any articles matching your search or selected
+              filters. Try using different keywords or browse another category.
             </p>
+
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setCategory("All Categories");
+              }}
+              className="mt-8 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            >
+              Browse All News
+            </button>
           </div>
         ) : (
           /* Clean Dynamic Content Grid */
@@ -144,66 +164,76 @@ const NewsLibrary = () => {
               <article
                 key={article.id}
                 onClick={() => navigate(`/notes/${article.id}`)}
-                className="group bg-white rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-md hover:border-slate-300/80 p-4 flex flex-col h-[430px] transition-all duration-300 cursor-pointer relative"
+                className="group overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col"
               >
-                {/* Image Aspect Core Header Block */}
-                <div className="w-full h-48 rounded-xl overflow-hidden mb-4 bg-slate-50 relative shrink-0">
+                {/* Thumbnail */}
+                <div className="relative h-56 overflow-hidden">
                   {article.thumbnail ? (
                     <img
                       src={`${uploadPath}${article.thumbnail}`}
                       alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.style.display = "none";
-                        e.target.parentNode.classList.add(
-                          "bg-gradient-to-br",
-                          "from-indigo-50/50",
-                          "to-slate-100",
-                        );
-                      }}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-indigo-50/40 to-slate-100 flex items-center justify-center text-indigo-400/70">
-                      <BookOpen size={26} />
+                    <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+                      <BookOpen size={34} className="text-slate-400" />
                     </div>
                   )}
-                </div>
 
-                {/* Article Text Details Frame */}
-                <div className="flex-1 flex flex-col min-h-0 px-1">
-                  <h2 className="text-base sm:text-lg font-bold text-slate-900 line-clamp-2 mb-2 group-hover:text-indigo-600 transition-colors tracking-tight leading-snug">
-                    {article.title}
-                  </h2>
-                  <p className="text-slate-500 text-xs sm:text-sm line-clamp-4 leading-relaxed overflow-hidden mb-4">
-                    {article.content ||
-                      "Click details below to read the comprehensive text documentation..."}
-                  </p>
-                </div>
+                  {/* Dark overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-                {/* Bottom Metadata Border Element Row */}
-                <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between mt-auto shrink-0 text-[11px] font-bold text-slate-400 uppercase tracking-wider px-1">
-                  <div className="flex items-center gap-3.5">
-                    <span className="flex items-center gap-1">
-                      <Calendar size={13} className="text-slate-300" />
-                      {article.createdAt
-                        ? new Date(article.createdAt).toLocaleDateString(
-                            undefined,
-                            { month: "short", day: "numeric" },
-                          )
-                        : "Published"}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock size={13} className="text-slate-300" />
-                      {article.readingTime || "3 min"}
+                  {/* Category */}
+                  <div className="absolute top-4 left-4">
+                    <span className="rounded-full bg-white/90 backdrop-blur px-3 py-1 text-xs font-semibold text-slate-800 shadow">
+                      {article.category}
                     </span>
                   </div>
+                </div>
 
-                  {/* Clean Non-Admin Call To Action Links */}
-                  <span className="flex items-center gap-1 text-indigo-600 group-hover:translate-x-0.5 transition-transform duration-300 text-xs normal-case font-bold">
-                    <span>Read</span>
-                    <ArrowRight size={13} />
-                  </span>
+                {/* Content */}
+                <div className="flex flex-col flex-1 p-5">
+                  <h2 className="text-xl font-bold leading-snug text-slate-900 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                    {article.title}
+                  </h2>
+
+                  <p className="mt-3 text-sm text-slate-600 leading-6 line-clamp-3 flex-1">
+                    {article.content}
+                  </p>
+
+                  {/* Footer */}
+                  <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <div className="flex items-center gap-4 text-xs text-slate-500">
+                      <div className="flex items-center gap-1">
+                        <Calendar size={14} />
+                        <span>
+                          {article.createdAt
+                            ? new Date(article.createdAt).toLocaleDateString(
+                                undefined,
+                                {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric",
+                                },
+                              )
+                            : "Today"}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <Clock size={14} />
+                        <span>{article.readingTime + " min read"}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1 text-indigo-600 font-semibold text-sm group-hover:gap-2 transition-all">
+                      Read
+                      <ArrowRight
+                        size={16}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
+                    </div>
+                  </div>
                 </div>
               </article>
             ))}
