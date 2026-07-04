@@ -17,7 +17,7 @@ const DashLayout = () => {
         setLoading(false);
         setUser(response);
       } catch (error) {
-        toast.error(error.response?.data.message || "Admin authentication failed. Please log in.");
+        toast.error("Admin authentication failed. Please log in.");
       } finally {
         setLoading(false);
       }

@@ -94,12 +94,14 @@ const EditNote = () => {
     title: note.title === title ? false : true,
     content: note.content === content ? false : true,
     tags: note.tags.join(",") === tags ? false : true,
+    thumbnail: thumbnail === null ? false : true,
   };
 
   const isDirty =
     dirtyFields.title !== false ||
     dirtyFields.content !== false ||
-    dirtyFields.tags !== false;
+    dirtyFields.tags !== false ||
+    dirtyFields.thumbnail != false ? true : false;
 
   // Handle local file validations - triggered by the fileInputRef
   const handleFileChange = (e) => {
@@ -122,7 +124,7 @@ const EditNote = () => {
   // Restore image back to original state.
   const handleResetImage = () => {
     setThumbnail(null);
-    setPreview(initialPreview);
+    setPreview(prev => `${uploadPath}${note.thumbnail}`);
     // get the current position of the ref which makes it possible to access the value
     if (fileInputRef.current) fileInputRef.current.value = "";
     toast.info("Restored original cover image");
@@ -167,9 +169,13 @@ const EditNote = () => {
       if (thumbnail !== null) {
         formData.append("thumbnail", thumbnail);
       }
-      // await updateNote(id, formData);
+      if (!isDirty) {
+        toast.info("No changes detected to update");
+        return;
+      }
+      await updateNote(id, formData);
       toast.success("News article updated successfully");
-      // navigate("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error putting note update:", error.response);
       toast.error("Failed to update news article");
@@ -300,7 +306,7 @@ const EditNote = () => {
                   Change Image
                 </button>
 
-                {thumbnail && initialPreview && (
+                {thumbnail && preview && (
                   <button
                     type="button"
                     onClick={handleResetImage}
