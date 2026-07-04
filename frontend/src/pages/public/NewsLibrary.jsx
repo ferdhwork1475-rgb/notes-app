@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Search, Calendar, Clock, ArrowRight, BookOpen, Newspaper } from "lucide-react";
+import {
+  Search,
+  Calendar,
+  Clock,
+  ArrowRight,
+  BookOpen,
+  Newspaper,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { fetchNotes } from "../../services/authService";
 
@@ -9,15 +16,15 @@ const NewsLibrary = () => {
   const [loading, setLoading] = useState(true);
   const [news, setNews] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [category, setCategory] = useState("All Categories");
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadNews = async () => {
       try {
         setLoading(true);
-        const newsData = await fetchNotes();
-        // Check for safe mapping arrays
-        setNews(Array.isArray(newsData) ? newsData : []);
+        const response = await fetchNotes();
+        setNews(Array.isArray(response) ? response : []);
       } catch (error) {
         console.error("Error fetching news:", error);
       } finally {
@@ -29,44 +36,70 @@ const NewsLibrary = () => {
   }, []);
 
   // Filter articles for public consumption
-  const filteredNews = news.filter((article) =>
-    article.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    article.content?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredNews = news.filter(
+    (article) =>
+      article.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      article.content?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
     <main className="min-h-screen bg-slate-50/50 flex flex-col font-sans text-slate-800">
-      
       {/* Decorative Brand Header Hub */}
-      <section className="bg-white border-b border-slate-200/80 pt-14 pb-12 px-4 text-center relative overflow-hidden shrink-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/20 to-transparent pointer-events-none" />
-        
-        <div className="max-w-2xl mx-auto space-y-3 relative z-10">
-          <div className="inline-flex p-3 bg-indigo-50 text-indigo-600 rounded-2xl mb-1 shadow-sm">
-            <Newspaper size={24} />
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Public Knowledge Library
-          </h1>
-          <p className="text-sm sm:text-base text-slate-500 max-w-md mx-auto leading-relaxed">
-            Explore shared insights, curated release details, and deep architectural notes updated by our team.
-          </p>
-        </div>
+      <section className="relative overflow-hidden border-b border-slate-200 bg-gradient-to-b from-slate-50 via-white to-white pt-14 pb-10 px-4">
+        {/* Background decoration */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.08),transparent_55%)] pointer-events-none" />
 
-        {/* Dynamic Inner Search Controls */}
-        <div className="max-w-md mx-auto mt-8 px-2">
-          <div className="relative shadow-sm rounded-xl">
-            <Search
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
-              size={18}
-            />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search published articles..."
-              className="w-full pl-11 pr-4 py-3 bg-slate-50/80 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all placeholder-slate-400 text-slate-700"
-            />
+        <div className="relative z-10 max-w-6xl mx-auto">
+          {/* Hero */}
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-600 shadow-sm mb-5">
+              <Newspaper size={30} />
+            </div>
+
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+              Stay Informed.
+              <span className="block text-indigo-600">
+                Read Today's Headlines.
+              </span>
+            </h1>
+
+            <p className="mt-5 text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+              Discover breaking news, politics, technology, business, sports,
+              entertainment, and stories that matter all in one place.
+            </p>
+          </div>
+
+          {/* Search */}
+          <div className="mt-10 max-w-3xl mx-auto">
+            <div className="relative">
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                size={20}
+              />
+
+              <input
+                type="text"
+                placeholder="Search news..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full h-14 rounded-2xl border border-slate-200 bg-white pl-12 pr-4 text-sm shadow-sm focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none"
+              />
+            </div>
+
+            {/* Filters */}
+            <div className="mt-5 flex flex-wrap gap-3">
+              {/* Category */}
+              <select className="flex-1 min-w-[160px] h-11 rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-indigo-500" value={category} onChange={(e) => setCategory(e.target.value)}>
+                <option>All Categories</option>
+                <option>Politics</option>
+                <option>Technology</option>
+                <option>Business</option>
+                <option>Sports</option>
+                <option>Entertainment</option>
+                <option>Health</option>
+                <option>Education</option>
+              </select>
+            </div>
           </div>
         </div>
       </section>
@@ -77,7 +110,10 @@ const NewsLibrary = () => {
           /* Premium Skinned Component Skeletons */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 animate-pulse">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="bg-white rounded-2xl border border-slate-100 h-[400px] p-4 space-y-4 shadow-sm">
+              <div
+                key={n}
+                className="bg-white rounded-2xl border border-slate-100 h-[400px] p-4 space-y-4 shadow-sm"
+              >
                 <div className="w-full h-48 bg-slate-100 rounded-xl" />
                 <div className="h-6 bg-slate-100 rounded-lg w-5/6" />
                 <div className="space-y-2 pt-1">
@@ -93,9 +129,12 @@ const NewsLibrary = () => {
             <div className="p-4 bg-slate-50 text-slate-400 rounded-2xl mb-4">
               <BookOpen size={28} />
             </div>
-            <h3 className="font-bold text-slate-800 text-base">No entries available</h3>
+            <h3 className="font-bold text-slate-800 text-base">
+              No entries available
+            </h3>
             <p className="text-slate-400 text-sm mt-1">
-              We couldn't find matching library elements. Try resetting your custom lookup filters.
+              We couldn't find matching library elements. Try resetting your
+              custom lookup filters.
             </p>
           </div>
         ) : (
@@ -103,8 +142,8 @@ const NewsLibrary = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredNews.map((article) => (
               <article
-                key={article._id || article.id}
-                onClick={() => navigate(`/notes/${article._id || article.id}`)}
+                key={article.id}
+                onClick={() => navigate(`/notes/${article.id}`)}
                 className="group bg-white rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-md hover:border-slate-300/80 p-4 flex flex-col h-[430px] transition-all duration-300 cursor-pointer relative"
               >
                 {/* Image Aspect Core Header Block */}
@@ -117,7 +156,11 @@ const NewsLibrary = () => {
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.style.display = "none";
-                        e.target.parentNode.classList.add("bg-gradient-to-br", "from-indigo-50/50", "to-slate-100");
+                        e.target.parentNode.classList.add(
+                          "bg-gradient-to-br",
+                          "from-indigo-50/50",
+                          "to-slate-100",
+                        );
                       }}
                     />
                   ) : (
@@ -133,7 +176,8 @@ const NewsLibrary = () => {
                     {article.title}
                   </h2>
                   <p className="text-slate-500 text-xs sm:text-sm line-clamp-4 leading-relaxed overflow-hidden mb-4">
-                    {article.content || "Click details below to read the comprehensive text documentation..."}
+                    {article.content ||
+                      "Click details below to read the comprehensive text documentation..."}
                   </p>
                 </div>
 
@@ -142,7 +186,12 @@ const NewsLibrary = () => {
                   <div className="flex items-center gap-3.5">
                     <span className="flex items-center gap-1">
                       <Calendar size={13} className="text-slate-300" />
-                      {article.createdAt ? new Date(article.createdAt).toLocaleDateString(undefined, {month: "short", day: "numeric"}) : "Published"}
+                      {article.createdAt
+                        ? new Date(article.createdAt).toLocaleDateString(
+                            undefined,
+                            { month: "short", day: "numeric" },
+                          )
+                        : "Published"}
                     </span>
                     <span className="flex items-center gap-1">
                       <Clock size={13} className="text-slate-300" />

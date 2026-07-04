@@ -19,7 +19,16 @@ export const createNote = async (req, res, next) => {
 export const getNotes = async (req, res, next) => {
   try {
     const notes = await Note.find().sort({ createdAt: -1 });
-    res.status(200).json(notes);
+    const articles = notes.map((note) => ({
+      "id": note._id,
+      "title": note.title,
+      "content": note.content,
+      "tags": note.tags,
+      "thumbnail": note.thumbnail,
+      "createdAt": note.createdAt,
+      "readingTime": note.readingTime,
+    }))
+    res.status(200).json(articles);
   } catch (error) {
     next(error);
   }
@@ -52,6 +61,8 @@ export const editNote = async (req, res, next) => {
       tags: tags || note.tags,
       thumbnail: req.file ? req.file.filename : note.thumbnail,
     };
+
+    await Note.findByIdAndUpdate(req.params.id, updatedData, { returnDocument: "after" });
 
     res.status(200).send("successful");
   } catch (error) {
