@@ -33,17 +33,17 @@ const EditArticle = () => {
   const titleRef = useRef(null);
 
   // Content recieved from the backendAPI
-  const [note, setNote] = useState({
+  const [article, setArticle] = useState({
     title: "",
     content: "",
-    tags: [""],
+    tags: [],
     thumbnail: "",
   });
 
   // Form Field States
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState([""]);
+  const [tags, setTags] = useState([]);
   const [thumbnail, setThumbnail] = useState(null);
   const [preview, setPreview] = useState("");
 
@@ -56,14 +56,14 @@ const EditArticle = () => {
   const [isHelpOpen, setIsHelpOpen] = useState(false); // Markdown Guide Modal toggle
   const [isPreviewOpen, setIsPreviewOpen] = useState(false); // Sliding Drawer Preview toggle
 
-  // Fecth Note from API
+  // Fecth article from API
   useEffect(() => {
-    const fetchNoteData = async () => {
+    const fetchArticleData = async () => {
       try {
         setFetching(true);
         setErrorState(false);
         const response = await fetchArticle(id);
-        setNote(response);
+        setArticle(response);
         setTitle(response.title);
         setContent(response.content);
         setTags(response.tags.join(","));
@@ -77,7 +77,7 @@ const EditArticle = () => {
       }
     };
 
-    if (id) fetchNoteData();
+    if (id) fetchArticleData();
   }, [id]);
 
   // 2. Focus Management with Smart Cursor Placement
@@ -92,9 +92,9 @@ const EditArticle = () => {
 
   // Determine whether the form has changed.
   const dirtyFields = {
-    title: note.title === title ? false : true,
-    content: note.content === content ? false : true,
-    tags: note.tags.join(",") === tags ? false : true,
+    title: article.title === title ? false : true,
+    content: article.content === content ? false : true,
+    tags: article.tags.join(",") === tags ? false : true,
     thumbnail: thumbnail === null ? false : true,
   };
 
@@ -105,6 +105,9 @@ const EditArticle = () => {
     dirtyFields.thumbnail != false
       ? true
       : false;
+
+    console.log(typeof tags, typeof article.tags, tags, article.tags)
+    console.log(dirtyFields, isDirty)
 
   // Handle local file validations - triggered by the fileInputRef
   const handleFileChange = (e) => {
@@ -127,7 +130,7 @@ const EditArticle = () => {
   // Restore image back to original state.
   const handleResetImage = () => {
     setThumbnail(null);
-    setPreview((prev) => `${uploadPath}${note.thumbnail}`);
+    setPreview((prev) => `${uploadPath}${article.thumbnail}`);
     // get the current position of the ref which makes it possible to access the value
     if (fileInputRef.current) fileInputRef.current.value = "";
     toast.info("Restored original cover image");
@@ -168,7 +171,7 @@ const EditArticle = () => {
     try {
       formData.append("title", title);
       formData.append("content", content);
-      formData.append("tags", tags);
+      tags.map((tag) => formData.append("tags", tag));
       if (thumbnail !== null) {
         formData.append("thumbnail", thumbnail);
       }
@@ -180,7 +183,7 @@ const EditArticle = () => {
       toast.success("News article updated successfully");
       navigate("/admin");
     } catch (error) {
-      console.error("Error putting note update:", error.response);
+      console.error("Error updating article:", error);
       toast.error("Failed to update news article");
     } finally {
       setLoading(false);

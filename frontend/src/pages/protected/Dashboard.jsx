@@ -5,7 +5,9 @@ import {
   Calendar,
   Clock,
   ArrowRight,
-  Newspaper
+  Newspaper,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchArticles } from "../../services/authService";
@@ -26,7 +28,10 @@ const Dashboard = () => {
         const articlesData = await fetchArticles();
         setArticles(Array.isArray(articlesData) ? articlesData : []);
       } catch (error) {
-        console.error("Error fetching articles:", error.response?.data?.message || error.message);
+        console.error(
+          "Error fetching articles:",
+          error.response?.data?.message || error.message,
+        );
       } finally {
         setLoading(false);
       }
@@ -125,7 +130,7 @@ const Dashboard = () => {
 
               {!searchQuery && (
                 <button
-                  onClick={() => navigate("/admin/news/create")}
+                  onClick={() => navigate("/admin/articles/create")}
                   className="mt-8 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
                 >
                   <Plus size={18} />
@@ -215,6 +220,31 @@ const Dashboard = () => {
               ))}
             </div>
           )}
+        </div>
+
+        <div className="mt-12 flex flex-col items-center gap-6">
+          <p className="text-sm text-slate-500">
+            Showing
+            <span className="font-semibold text-slate-900"> 21–30 </span>
+            of
+            <span className="font-semibold text-slate-900"> 245 </span>
+            articles
+          </p>
+
+          <div className="flex items-center gap-4">
+            <button className="flex items-center gap-2 ...">
+              <ChevronLeft size={18} />
+              Previous
+            </button>
+
+            <div className="rounded-xl bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700">
+              Page 3 of 25
+            </div>
+            <button className="flex items-center gap-2 ...">
+              Next
+              <ChevronRight size={18} />
+            </button>
+          </div>
         </div>
       </section>
     </section>

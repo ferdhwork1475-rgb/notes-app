@@ -19,7 +19,7 @@ export const createArticle = async (req, res, next) => {
 
 export const fetchArticles = async (req, res, next) => {
   try {
-    const articles = await Article.find().sort({ createdAt: -1 }).limit(20);
+    const articles = await Article.find().sort({ createdAt: -1 }).limit(2).skip(10);
     const articlesData = articles.map((article) => ({
       "id": article._id,
       "title": article.title,

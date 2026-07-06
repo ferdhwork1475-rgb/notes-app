@@ -143,7 +143,7 @@ const ViewArticle = () => {
             <>
               {" "}
               <button
-                onClick={() => navigate(`/admin/news/edit/${id}`)}
+                onClick={() => navigate(`/admin/articles/edit/${id}`)}
                 className="flex items-center gap-1.5 px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-semibold text-xs rounded-xl transition-all shadow-sm shadow-indigo-100"
               >
                 <Edit3 size={14} />

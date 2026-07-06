@@ -34,11 +34,11 @@ const Sidebar = ({ user }) => {
     {
       to: "/admin",
       icon: <FileText size={18} />,
-      label: "All News Article",
+      label: "All Articles",
       end: true,
     },
     {
-      to: "/admin/news/create",
+      to: "/admin/articles/create",
       icon: <PlusCircle size={18} />,
       label: "Create News Article",
     },
