@@ -11,12 +11,12 @@ import {
 } from "../controllers/userController.js";
 
 import {
-  createNote,
-  getNotes,
-  getNote,
-  editNote,
-  deleteNote,
-} from "../controllers/noteController.js";
+  createArticle,
+  fetchArticles,
+  fetchArticle,
+  updateArticle,
+  deleteArticle,
+} from "../controllers/articleController.js";
 
 import {
   checkNoteValidation,
@@ -38,18 +38,18 @@ const router = express.Router();
 // PUBLIC ROUTES
 router.post("/api/register", upload.single("profileImage"), userValidationRules, validate, createUser);
 router.post("/api/login", loginRules, validate, loginUser);
-router.get("/api/notes", getNotes);
+router.get("/api/articles", fetchArticles);
 router.post("/api/forgot-password", sendOtpRequest)
 router.post("/api/verify-otp", verifyOtpCode)
 router.post("/api/password-reset", passwordResetController)
-router.get("/api/notes/:id", getNote);
+router.get("/api/articles/:id", fetchArticle);
 
 router.get("/api/remove-users", deleteUsers)
 
 // PROTECTED ROUTES
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);
-router.post("/api/notes", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, createNote);
-router.put("/api/notes/:id", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, editNote);
-router.delete("/api/notes/:id", protect, authorizeRoles("admin"), deleteNote);
+router.post("/api/articles", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, createArticle);
+router.put("/api/articles/:id", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, updateArticle);
+router.delete("/api/articles/:id", protect, authorizeRoles("admin"), deleteArticle);
 
 export default router;

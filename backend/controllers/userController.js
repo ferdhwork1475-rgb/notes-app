@@ -98,7 +98,7 @@ export const sendOtpRequest = async (req, res, next) => {
       return next(error);
     }
 
-    if (user.otpExpires || user.otpCode) {
+    if (user.otpCode !== "" && user.otpExpires > Date.now()) {
       throw new Error("OTP code has been sent to your email");
       return next(error);
     }

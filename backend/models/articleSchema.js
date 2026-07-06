@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const noteSchema = new mongoose.Schema(
+const articleSchema = new mongoose.Schema(
   {
     title: {
       required: true,
@@ -10,7 +10,10 @@ const noteSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
-    tags: [{ type: String }],
+    tags: {
+      type: [String],
+      default: [],
+    },
     thumbnail: {
       required: true,
       type: String,
@@ -21,7 +24,7 @@ const noteSchema = new mongoose.Schema(
       default: "Other",
     },
     readingTime: {
-      type: Number,
+      type: Number, 
       default: 1,
     },
   },
@@ -30,7 +33,7 @@ const noteSchema = new mongoose.Schema(
   },
 );
 
-noteSchema.pre("save", async function () {
+articleSchema.pre("save", async function () {
   if (this.isModified("content")) {
     const wordsCount = this.content.trim().split(/\s+/).length;
     const avgTime = 250;
@@ -40,5 +43,5 @@ noteSchema.pre("save", async function () {
   }
 });
 
-const Note = mongoose.model("Note", noteSchema);
-export default Note;
+const Article = mongoose.model("Article", articleSchema);
+export default Article;

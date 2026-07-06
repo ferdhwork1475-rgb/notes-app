@@ -1,4 +1,4 @@
 TODO: 
-Is dirty has to be implemented again 
-The form should not submit and return an info message that the doc is unedited (This saves the whole logic of saving the same document or file and absolutely removes battling with the req.file)
-Frontend Guard
+Limit the data coming from the backend
+use the same route and controller - check for searchTerm or queries optionally so it does not throw error on loading
+check the createNote, editNote and how tags are being saved and rendered.

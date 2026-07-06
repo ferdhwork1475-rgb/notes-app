@@ -38,7 +38,7 @@ const Hero = () => {
 
           <div className="pt-4 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
             <Link
-              to="/newslibrary"
+              to="/news"
               className="inline-block w-full sm:w-auto text-center bg-red-600 text-white text-xs uppercase tracking-widest font-black px-8 py-4 rounded-sm hover:bg-red-500 transition-all duration-300 shadow-[0_0_25px_rgba(220,38,38,0.25)] hover:shadow-[0_0_35px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5"
             >
               Read Latest Stories

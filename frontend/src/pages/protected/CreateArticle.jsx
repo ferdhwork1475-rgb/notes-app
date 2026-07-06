@@ -11,11 +11,12 @@ import {
   FolderTree,
   ChevronDown,
 } from "lucide-react";
-import { createNote } from "../../services/authService";
+import { createArticle } from "../../services/authService";
 import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
+import GuideItem from "../../components/protected/GuideItem";
 
-const CreateNote = () => {
+const CreateArticle = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
@@ -80,6 +81,7 @@ const CreateNote = () => {
       setThumbnail(file);
     }
   };
+  const fd = new FormData();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,15 +91,14 @@ const CreateNote = () => {
       formData.append("title", title);
       formData.append("content", content);
       formData.append("category", category);
-      formData.append("tags", tags.join(", "));
+      tags.map((tag) => formData.append("tags", tag));
       formData.append("thumbnail", thumbnail);
-
-      const response = await createNote(formData);
-      navigate("/dashboard");
-      toast.success("News article created successfully");
+      const response = await createArticle(formData);
+      navigate("/admin");
+      toast.success("Article created successfully");
     } catch (error) {
-      console.log("Error creating note:", error.response);
-      toast.error("Failed to create news article");
+      console.log("Error creating article:", error);
+      toast.error("Failed to create article");
     } finally {
       setLoading(false);
     }
@@ -370,12 +371,112 @@ const CreateNote = () => {
           <hr className="border-slate-100 my-4" />
 
           {/* Dynamic Component Compilation Output Element */}
-          <div className="text-slate-700 text-sm sm:text-base leading-relaxed break-words">
-            <ReactMarkdown>
-              {content ||
-                "*No article content written yet. Use the main field input window to get started...*"}
-            </ReactMarkdown>
-          </div>
+          <ReactMarkdown
+            components={{
+              h1: ({ ...props }) => (
+                <h1
+                  className="mt-10 mb-5 text-4xl font-black leading-tight tracking-tight text-slate-900"
+                  {...props}
+                />
+              ),
+
+              h2: ({ ...props }) => (
+                <h2
+                  className="mt-10 mb-4 text-3xl font-bold leading-tight text-slate-900"
+                  {...props}
+                />
+              ),
+
+              h3: ({ ...props }) => (
+                <h3
+                  className="mt-8 mb-3 text-2xl font-semibold leading-tight text-slate-800"
+                  {...props}
+                />
+              ),
+
+              p: ({ ...props }) => (
+                <p
+                  className="mb-6 text-base leading-8 text-slate-700"
+                  {...props}
+                />
+              ),
+
+              strong: ({ ...props }) => (
+                <strong className="font-bold text-slate-900" {...props} />
+              ),
+
+              em: ({ ...props }) => (
+                <em className="italic text-slate-700" {...props} />
+              ),
+
+              ul: ({ ...props }) => (
+                <ul
+                  className="mb-6 ml-6 list-disc space-y-2 text-slate-700"
+                  {...props}
+                />
+              ),
+
+              ol: ({ ...props }) => (
+                <ol
+                  className="mb-6 ml-6 list-decimal space-y-2 text-slate-700"
+                  {...props}
+                />
+              ),
+
+              li: ({ ...props }) => <li className="leading-7" {...props} />,
+
+              blockquote: ({ ...props }) => (
+                <blockquote
+                  className="my-8 border-l-4 border-indigo-600 bg-indigo-50 px-5 py-4 italic leading-8 text-slate-700 rounded-r-xl"
+                  {...props}
+                />
+              ),
+
+              a: ({ ...props }) => (
+                <a
+                  className="font-medium text-indigo-600 underline underline-offset-2 transition hover:text-indigo-800"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  {...props}
+                />
+              ),
+
+              hr: ({ ...props }) => (
+                <hr className="my-10 border-slate-200" {...props} />
+              ),
+
+              img: ({ ...props }) => (
+                <img className="my-8 w-full rounded-2xl shadow-md" {...props} />
+              ),
+
+              code({ inline, children, ...props }) {
+                if (inline) {
+                  return (
+                    <code
+                      className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm text-pink-600"
+                      {...props}
+                    >
+                      {children}
+                    </code>
+                  );
+                }
+
+                return (
+                  <pre className="my-6 overflow-x-auto rounded-xl bg-slate-900 p-5">
+                    <code
+                      className="font-mono text-sm text-slate-100"
+                      {...props}
+                    >
+                      {children}
+                    </code>
+                  </pre>
+                );
+              },
+            }}
+          >
+            {content ||
+              "*No article content written yet. Use the editor to start writing your article.*"}
+          </ReactMarkdown>
         </div>
       </div>
 
@@ -412,114 +513,123 @@ const CreateNote = () => {
             </div>
 
             {/* Modal Content Cheat-Sheet Scrollable Container */}
-            <div className="p-5 overflow-y-auto space-y-4 text-sm text-slate-600">
-              <p className="text-xs text-slate-400">
-                Format your article content instantly using standard Markdown
-                styling rules:
-              </p>
+            <div className="p-5 overflow-y-auto">
+              <div className="mb-6">
+                <h3 className="text-base font-semibold text-slate-800">
+                  Markdown Quick Guide
+                </h3>
+                <p className="mt-1 text-sm text-slate-500">
+                  Use these formatting shortcuts to create clean and
+                  professional news articles.
+                </p>
+              </div>
 
-              <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
-                {/* Headers */}
-                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
-                  <div>
-                    <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-                      To type
-                    </span>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
-                      # Heading 1
-                    </code>
-                  </div>
-                  <div>
-                    <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-                      Result
-                    </span>
-                    <span className="font-bold text-slate-800 text-base">
-                      Heading
-                    </span>
-                  </div>
-                </div>
+              <div className="space-y-6">
+                {/* Structure */}
+                <section>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                    Article Structure
+                  </h4>
 
-                {/* Bold/Italics */}
-                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
-                  <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
-                      **Bold Text**
-                    </code>
-                  </div>
-                  <div>
-                    <strong className="text-slate-800 font-bold">
-                      Bold Text
-                    </strong>
-                  </div>
-                </div>
+                  <div className="rounded-xl border border-slate-200 divide-y">
+                    <GuideItem
+                      syntax="# Main Heading"
+                      preview={
+                        <h1 className="text-lg font-bold">Main Heading</h1>
+                      }
+                    />
 
-                {/* Bold/Italics */}
-                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
-                  <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
-                      *Italics*
-                    </code>
-                  </div>
-                  <div>
-                    <i className="text-slate-800]">Italic Text</i>
-                  </div>
-                </div>
+                    <GuideItem
+                      syntax="## Section Heading"
+                      preview={
+                        <h2 className="text-base font-bold">Section Heading</h2>
+                      }
+                    />
 
-                {/* Unordered Lists */}
-                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
-                  <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
-                      - Bullet point
-                    </code>
+                    <GuideItem
+                      syntax="### Subheading"
+                      preview={<h3 className="font-semibold">Subheading</h3>}
+                    />
                   </div>
-                  <div>
-                    <ul className="list-disc pl-4 text-xs">
-                      <li>Bullet point</li>
-                    </ul>
-                  </div>
-                </div>
+                </section>
 
-                {/* Ordered Lists */}
-                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
-                  <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
-                      1. Numbered item
-                    </code>
-                  </div>
-                  <div>
-                    <ol className="list-decimal pl-4 text-xs">
-                      <li>Numbered item</li>
-                    </ol>
-                  </div>
-                </div>
+                {/* Text Formatting */}
+                <section>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                    Text Formatting
+                  </h4>
 
-                {/* Blockquotes */}
-                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
-                  <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
-                      &gt; Quote block
-                    </code>
-                  </div>
-                  <div>
-                    <blockquote className="border-l-2 border-indigo-500 pl-2 text-xs italic text-slate-400">
-                      Quote block
-                    </blockquote>
-                  </div>
-                </div>
+                  <div className="rounded-xl border border-slate-200 divide-y">
+                    <GuideItem
+                      syntax="**Breaking News**"
+                      preview={<strong>Breaking News</strong>}
+                    />
 
-                {/* Code snippets */}
-                <div className="p-3 grid grid-cols-2 gap-4 bg-white">
-                  <div>
-                    <code className="text-xs bg-slate-50 text-indigo-600 px-1.5 py-0.5 rounded border border-slate-100 font-mono">
-                      `code phrase`
-                    </code>
+                    <GuideItem
+                      syntax="*Emphasized text*"
+                      preview={<em>Emphasized text</em>}
+                    />
+
+                    <GuideItem
+                      syntax="`2026 Budget`"
+                      preview={
+                        <code className="bg-slate-100 px-2 py-1 rounded">
+                          2026 Budget
+                        </code>
+                      }
+                    />
                   </div>
-                  <div>
-                    <code className="text-xs bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-700">
-                      code phrase
-                    </code>
+                </section>
+
+                {/* Content */}
+                <section>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                    Quotes & Lists
+                  </h4>
+
+                  <div className="rounded-xl border border-slate-200 divide-y">
+                    <GuideItem
+                      syntax="> 'He died peacefully,' the witness said."
+                      preview={
+                        <blockquote className="border-l-4 border-indigo-500 pl-3 italic text-slate-600">
+                          "He died peacefully," the witness said.
+                        </blockquote>
+                      }
+                    />
+
+                    <GuideItem
+                      syntax="- First point"
+                      preview={
+                        <ul className="list-disc pl-5">
+                          <li>First point</li>
+                        </ul>
+                      }
+                    />
+
+                    <GuideItem
+                      syntax="1. First item"
+                      preview={
+                        <ol className="list-decimal pl-5">
+                          <li>First item</li>
+                        </ol>
+                      }
+                    />
+
+                    <GuideItem
+                      syntax="[Visit Website](https://example.com)"
+                      preview={
+                        <a className="text-indigo-600 underline">
+                          Visit Website
+                        </a>
+                      }
+                    />
+
+                    <GuideItem
+                      syntax="---"
+                      preview={<hr className="border-slate-300" />}
+                    />
                   </div>
-                </div>
+                </section>
               </div>
             </div>
 
@@ -540,4 +650,4 @@ const CreateNote = () => {
   );
 };
 
-export default CreateNote;
+export default CreateArticle;

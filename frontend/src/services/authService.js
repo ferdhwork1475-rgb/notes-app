@@ -79,9 +79,9 @@ export const finalizeResetPasswordApiCall = async (email, token, password) => {
   }
 };
 
-export const createNote = async (formData) => {
+export const createArticle = async (formData) => {
   try {
-    const response = await axios.post(`${backendAPI}notes`, formData, {
+    const response = await axios.post(`${backendAPI}articles`, formData, {
       withCredentials: true,
     });
     return response.data;
@@ -90,9 +90,9 @@ export const createNote = async (formData) => {
   }
 };
 
-export const fetchNotes = async () => {
+export const fetchArticles = async () => {
   try {
-    const response = await axios.get(`${backendAPI}notes`, {
+    const response = await axios.get(`${backendAPI}articles`, {
       withCredentials: true,
     });
     return response.data;
@@ -101,9 +101,9 @@ export const fetchNotes = async () => {
   }
 };
 
-export const getNoteById = async (id) => {
+export const fetchArticle = async (id) => {
   try {
-    const response = await axios.get(`${backendAPI}notes/${id}`, {
+    const response = await axios.get(`${backendAPI}articles/${id}`, {
       withCredentials: true,
     });
     return response.data;
@@ -112,9 +112,9 @@ export const getNoteById = async (id) => {
   }
 };
 
-export const updateNote = async (id, formData) => {
+export const updateArticle = async (id, formData) => {
   try {
-    const response = await axios.put(`${backendAPI}notes/${id}`, formData, {
+    const response = await axios.put(`${backendAPI}articles/${id}`, formData, {
       withCredentials: true,
     });
     return response.data;
@@ -123,9 +123,9 @@ export const updateNote = async (id, formData) => {
   }
 };
 
-export const deleteNote = async (id) => {
+export const deleteArticle = async (id) => {
   try {
-    const response = await axios.delete(`${backendAPI}notes/${id}`, {
+    const response = await axios.delete(`${backendAPI}articles/${id}`, {
       withCredentials: true,
     });
     return response.data;

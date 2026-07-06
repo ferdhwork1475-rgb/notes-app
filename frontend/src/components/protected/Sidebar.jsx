@@ -32,17 +32,17 @@ const Sidebar = ({ user }) => {
   // Centralized navigation items structure
   const navItems = [
     {
-      to: "/dashboard",
+      to: "/admin",
       icon: <FileText size={18} />,
       label: "All News Article",
       end: true,
     },
     {
-      to: "/dashboard/create-note",
+      to: "/admin/news/create",
       icon: <PlusCircle size={18} />,
       label: "Create News Article",
     },
-    { to: "/dashboard/profile", icon: <User size={18} />, label: "Profile" },
+    { to: "/admin/profile", icon: <User size={18} />, label: "Profile" },
   ];
 
   return (

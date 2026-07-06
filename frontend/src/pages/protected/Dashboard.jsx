@@ -8,35 +8,35 @@ import {
   Newspaper
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchNotes } from "../../services/authService";
+import { fetchArticles } from "../../services/authService";
 import ReactMarkdown from "react-markdown";
 
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
-  const [news, setNews] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadNews = async () => {
+    const loadArticles = async () => {
       try {
         setLoading(true);
-        const newsData = await fetchNotes();
-        setNews(Array.isArray(newsData) ? newsData : []);
+        const articlesData = await fetchArticles();
+        setArticles(Array.isArray(articlesData) ? articlesData : []);
       } catch (error) {
-        console.error("Error fetching news:", error);
+        console.error("Error fetching articles:", error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    loadNews();
+    loadArticles();
   }, []);
 
   // Filter content reactively based on user input
-  const filteredNews = news.filter(
+  const filteredArticles = articles.filter(
     (article) =>
       article.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       article.summary?.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -60,7 +60,7 @@ const Dashboard = () => {
           />
         </div>
         <Link
-          to="/dashboard/create-note"
+          to="/admin/articles/create"
           className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all shadow-sm shadow-indigo-100 shrink-0 active:scale-95"
         >
           <Plus size={18} />
@@ -73,7 +73,7 @@ const Dashboard = () => {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
           <div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">
-              Recent Notes
+              Recent Articles
             </h2>
             <p className="text-slate-400 text-xs sm:text-sm mt-0.5">
               Pick up right where you left off.
@@ -104,7 +104,7 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-          ) : filteredNews.length === 0 ? (
+          ) : filteredArticles.length === 0 ? (
             /* Empty State State Fallback Display */
             <div className="max-w-2xl mx-auto rounded-3xl border border-dashed border-slate-300 bg-gradient-to-b from-white to-slate-50 px-8 py-20 text-center">
               <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-600 shadow-sm">
@@ -145,10 +145,10 @@ const Dashboard = () => {
           ) : (
             /* Active Dynamic Grid Stream */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredNews.map((article) => (
+              {filteredArticles.map((article) => (
                 <div
                   key={article.id}
-                  onClick={() => navigate(`/notes/${article.id}`)}
+                  onClick={() => navigate(`/articles/${article.id}`)}
                   className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 p-4 flex flex-col h-[420px] transition-all duration-300 cursor-pointer relative"
                 >
                   {/* Card Banner Image Frame Block */}

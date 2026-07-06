@@ -4,21 +4,23 @@ import MainLayout from "./layouts/MainLayout";
 import IndexPage from "./pages/public/IndexPage";
 import Signup from "./pages/public/Signup";
 import Login from "./pages/public/Login";
-import NewsLibrary from "./pages/public/NewsLibrary";
+import News from "./pages/public/News";
 import AboutPage from "./pages/public/AboutPage";
 import Dashboard from "./pages/protected/Dashboard";
-import CreateNote from "./pages/protected/CreateNote";
+import CreateArticle from "./pages/protected/CreateArticle";
 import DashLayout from "./layouts/DashLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContext";
 import ContactPage from "./pages/public/ContactPage";
-import ViewNote from "./pages/protected/ViewNote";
-import EditNote from "./pages/protected/EditNote";
+import ViewArticle from "./pages/protected/ViewArticle";
+import EditArticle from "./pages/protected/EditArticle";
 import AdminProfile from "./pages/protected/AdminProfile";
 import ForgotPassword from "./pages/protected/ForgotPassword";
 import VerifyOtp from "./pages/protected/VerifyOtp";
 import ResetPassword from "./pages/protected/ResetPassword";
+import AdminNotFound from "./pages/protected/AdminNotFound";
+import NotFound from "./pages/public/NotFound";
 
 const App = () => {
   return (
@@ -28,7 +30,7 @@ const App = () => {
           <Routes>
             <Route element={<MainLayout />}>
               <Route index element={<IndexPage />} />
-              <Route path="/newslibrary" element={<NewsLibrary />} />
+              <Route path="/news" element={<News />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/register" element={<Signup />} />
@@ -36,13 +38,15 @@ const App = () => {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/verify-otp" element={<VerifyOtp />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="notes/:id" element={<ViewNote />} />
+              <Route path="articles/:id" element={<ViewArticle />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
-            <Route path="/dashboard" element={<DashLayout />}>
+            <Route path="/admin" element={<DashLayout />}>
               <Route index element={<Dashboard />} />
-              <Route path="create-note" element={<CreateNote />} />
+              <Route path="articles/create" element={<CreateArticle />} />
               <Route path="profile" element={<AdminProfile />} />
-              <Route path="notes/edit-note/:id" element={<EditNote />} />
+              <Route path="articles/edit/:id" element={<EditArticle />} />
+              <Route path="*" element={<AdminNotFound />} />
             </Route>
           </Routes>
         </Router>

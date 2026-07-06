@@ -7,7 +7,7 @@ const Navbar = ({ setActivePage, activePage }) => {
 
   const navigationItems = [
     { name: "Home", path: "/", key: "home" },
-    { name: "All News", path: "/newslibrary", key: "news" },
+    { name: "All News", path: "/news", key: "news" },
     { name: "About", path: "/about", key: "about" },
   ];
 

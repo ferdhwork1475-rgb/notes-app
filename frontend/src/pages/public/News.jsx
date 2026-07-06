@@ -4,11 +4,10 @@ import {
   Calendar,
   Clock,
   ArrowRight,
-  BookOpen,
   Newspaper,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { fetchNotes } from "../../services/authService";
+import { fetchArticles } from "../../services/authService";
 
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
@@ -23,7 +22,7 @@ const NewsLibrary = () => {
     const loadNews = async () => {
       try {
         setLoading(true);
-        const response = await fetchNotes();
+        const response = await fetchArticles();
         const filteredResponse = response.filter((articles) => {
           if (category === "All Categories") return true;
           return articles.category === category;
@@ -163,7 +162,7 @@ const NewsLibrary = () => {
             {filteredNews.map((article) => (
               <article
                 key={article.id}
-                onClick={() => navigate(`/notes/${article.id}`)}
+                onClick={() => navigate(`/articles/${article.id}`)}
                 className="group overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col"
               >
                 {/* Thumbnail */}
@@ -176,7 +175,7 @@ const NewsLibrary = () => {
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
-                      <BookOpen size={34} className="text-slate-400" />
+                      <Newspaper size={34} className="text-slate-400" />
                     </div>
                   )}
 
