@@ -8,6 +8,7 @@ import {
   Clock,
   Share2,
   Trash2,
+  ArrowRight,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "react-toastify";
@@ -36,6 +37,19 @@ const ViewArticle = () => {
   });
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
+  const [relatedArticles, setRelatedArticles] = useState([
+    {
+      id: "",
+      title: "",
+      content: "",
+      tags: [],
+      category: "",
+      thumbnail: "",
+      createdAt: "",
+      readingTime: "",
+    },
+  ]);
+
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -55,7 +69,8 @@ const ViewArticle = () => {
       try {
         setLoading(true);
         const response = await fetchArticle(id);
-        setArticle(response);
+        setArticle(response.articleData);
+        setRelatedArticles(response.relatedArticlesData);
       } catch (error) {
         console.error("Error fetching article:", error);
         toast.error("Failed to load article content");
@@ -162,7 +177,7 @@ const ViewArticle = () => {
       </header>
 
       {/* Main Reading Container Canvas Layout */}
-      <article className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
+      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
         {/* Cover Image */}
         {article.thumbnail && (
           <div className="relative w-full h-64 sm:h-80 lg:h-[28rem] rounded-3xl overflow-hidden shadow-lg">
@@ -329,7 +344,100 @@ const ViewArticle = () => {
               "*No article content written yet. Use the editor to start writing your article.*"}
           </ReactMarkdown>
         </div>
-      </article>
+
+        {/* ================= Related Articles ================= */}
+        <section className="mt-20 border-t border-slate-200 pt-14">
+          {/* Section Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
+                Continue Reading
+              </span>
+
+              <h2 className="mt-2 text-3xl font-black text-slate-900">
+                Related Articles
+              </h2>
+
+              <p className="mt-2 text-sm text-slate-500">
+                More stories you may enjoy from this category.
+              </p>
+            </div>
+
+            <button
+              className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition"
+              onClick={() => navigate("/news")}
+            >
+              View All →
+            </button>
+          </div>
+
+          {/* Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7">
+            {relatedArticles.map((article) => (
+                <article
+                  key={article.id}
+                  onClick={() => navigate(`/articles/${article.id}`)}
+                  className="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                >
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={`${uploadPath}${article.thumbnail}`}
+                      alt={article.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+
+                    <span className="absolute top-4 left-4 rounded-full bg-white/90 backdrop-blur px-3 py-1 text-xs font-semibold text-slate-800">
+                      {article.category}
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-5 flex flex-col">
+                    <h3 className="text-lg font-bold text-slate-900 leading-snug line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                      {article.title}
+                    </h3>
+
+                    <p className="mt-3 text-sm text-slate-500 leading-6 line-clamp-3 flex-1">
+                      {/* <ReactMarkdown>{article.content}</ReactMarkdown> */}
+                    </p>
+
+                    {/* Footer */}
+                    <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                      <div className="flex items-center gap-4 text-xs text-slate-500">
+                        <div className="flex items-center gap-2">
+                          <Calendar size={16} />
+                          {new Date(article.createdAt).toLocaleDateString(
+                            undefined,
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            },
+                          )}
+                        </div>
+
+                        <span>•</span>
+
+                        <span>{article.readingTime + " min read"}</span>
+                      </div>
+
+                      <span className="flex items-center gap-1 text-sm font-semibold text-indigo-600 group-hover:gap-2 transition-all">
+                        Read
+                        <ArrowRight
+                          size={16}
+                          className="transition-transform group-hover:translate-x-1"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              ))}
+          </div>
+        </section>
+      </main>
     </div>
   );
 };

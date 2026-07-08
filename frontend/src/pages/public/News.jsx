@@ -5,29 +5,49 @@ import {
   Clock,
   ArrowRight,
   Newspaper,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { fetchArticles } from "../../services/authService";
+import ReactMarkdown from "react-markdown";
 
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const NewsLibrary = () => {
   const [loading, setLoading] = useState(true);
-  const [news, setNews] = useState([]);
+  const [articles, setArticles] = useState([
+    {
+      id: "",
+      title: "",
+      content: "",
+      tags: [],
+      category: "",
+      thumbnail: "",
+      createdAt: "",
+      readingTime: "",
+    },
+  ]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [category, setCategory] = useState("All Categories");
+  const [category, setCategory] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalArticles, setTotalArticles] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadNews = async () => {
       try {
         setLoading(true);
-        const response = await fetchArticles();
-        const filteredResponse = response.filter((articles) => {
+        const response = await fetchArticles(page, category);
+        const filteredResponse = response.articles.filter((articles) => {
           if (category === "All Categories") return true;
           return articles.category === category;
         });
-        setNews(Array.isArray(filteredResponse) ? filteredResponse : []);
+        setArticles(response.articles);
+        setTotalPages(response.totalPages);
+        setTotalArticles(response.totalArticles);
       } catch (error) {
         console.error("Error fetching news:", error);
       } finally {
@@ -36,10 +56,10 @@ const NewsLibrary = () => {
     };
 
     loadNews();
-  }, [category]);
+  }, [category, page]);
 
   // Filter articles for public consumption
-  const filteredNews = news.filter(
+  const filteredArticles = articles.filter(
     (article) =>
       article.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       article.content?.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -97,14 +117,14 @@ const NewsLibrary = () => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option>All Categories</option>
-                <option>Politics</option>
-                <option>Technology</option>
-                <option>Business</option>
-                <option>Sports</option>
-                <option>Entertainment</option>
-                <option>Health</option>
-                <option>Education</option>
+                <option value="">All Categories</option>
+                <option value="Politics">Politics</option>
+                <option value="Technology">Technology</option>
+                <option value="Business">Business</option>
+                <option value="Sports">Sports</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Health">Health</option>
+                <option value="Education">Education</option>
               </select>
             </div>
           </div>
@@ -130,7 +150,7 @@ const NewsLibrary = () => {
               </div>
             ))}
           </div>
-        ) : filteredNews.length === 0 ? (
+        ) : filteredArticles.length === 0 ? (
           /* Empty Search Fallback Template */
           <div className="max-w-lg mx-auto rounded-3xl border border-slate-200 bg-white px-8 py-14 text-center shadow-sm">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
@@ -150,6 +170,7 @@ const NewsLibrary = () => {
               onClick={() => {
                 setSearchQuery("");
                 setCategory("All Categories");
+                window.location.reload();
               }}
               className="mt-8 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
@@ -158,12 +179,12 @@ const NewsLibrary = () => {
           </div>
         ) : (
           /* Clean Dynamic Content Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {filteredNews.map((article) => (
+          <div className="grid justify-center gap-8 [grid-template-columns:repeat(auto-fit,minmax(340px,380px))]">
+            {filteredArticles.map((article) => (
               <article
                 key={article.id}
                 onClick={() => navigate(`/articles/${article.id}`)}
-                className="group overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col"
+                className="w-full max-w-[380px] rounded-2xl overflow-hidden bg-white shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
               >
                 {/* Thumbnail */}
                 <div className="relative h-56 overflow-hidden">
@@ -196,9 +217,9 @@ const NewsLibrary = () => {
                     {article.title}
                   </h2>
 
-                  <p className="mt-3 text-sm text-slate-600 leading-6 line-clamp-3 flex-1">
-                    {article.content}
-                  </p>
+                  <div className="text-slate-500 text-xs sm:text-sm line-clamp-4 leading-relaxed overflow-hidden prose prose-sm max-w-none mb-4">
+                    <ReactMarkdown>{article.content}</ReactMarkdown>
+                  </div>
 
                   {/* Footer */}
                   <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
@@ -239,6 +260,45 @@ const NewsLibrary = () => {
           </div>
         )}
       </section>
+
+      <div className="mt-12 flex flex-col items-center gap-6">
+        <p className="text-sm text-slate-500">
+          Showing
+          <span className="font-semibold text-slate-900">
+            {" "}
+            {articles.length - 1} – {articles.length}{" "}
+          </span>
+          of
+          <span className="font-semibold text-slate-900">
+            {" "}
+            {totalArticles}{" "}
+          </span>
+          articles
+        </p>
+
+        <div className="flex items-center gap-4">
+          <button
+            className="flex items-center gap-2 ..."
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1}
+          >
+            <ChevronLeft size={18} />
+            Previous
+          </button>
+
+          <div className="rounded-xl bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700">
+            Page {page} of {totalPages}
+          </div>
+          <button
+            className="flex items-center gap-2 ..."
+            onClick={() => setPage(page + 1)}
+            disabled={page === totalPages}
+          >
+            Next
+            <ChevronRight size={18} />
+          </button>
+        </div>
+      </div>
     </main>
   );
 };

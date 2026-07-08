@@ -90,9 +90,9 @@ export const createArticle = async (formData) => {
   }
 };
 
-export const fetchArticles = async () => {
+export const fetchArticles = async (page, category) => {
   try {
-    const response = await axios.get(`${backendAPI}articles`, {
+    const response = await axios.get(`${backendAPI}articles?page=${page}&category=${category}`, {
       withCredentials: true,
     });
     return response.data;

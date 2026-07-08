@@ -19,18 +19,28 @@ export const createArticle = async (req, res, next) => {
 
 export const fetchArticles = async (req, res, next) => {
   try {
-    const articles = await Article.find().sort({ createdAt: -1 }).limit(2).skip(10);
+    const articlesLength = await Article.countDocuments();
+    const page = parseInt(req.query.page);
+    const category = req.query.category;
+    const articles = await Article.find(category ? { category } : {})
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .skip((page - 1) * 10);
     const articlesData = articles.map((article) => ({
-      "id": article._id,
-      "title": article.title,
-      "content": article.content,
-      "tags": article.tags,
-      "category": article.category,
-      "thumbnail": article.thumbnail,
-      "createdAt": article.createdAt,
-      "readingTime": article.readingTime,
-    }))
-    res.status(200).json(articlesData);
+      id: article._id,
+      title: article.title,
+      content: article.content,
+      tags: article.tags,
+      category: article.category,
+      thumbnail: article.thumbnail,
+      createdAt: article.createdAt,
+      readingTime: article.readingTime,
+    }));
+    res.status(200).json({
+      articles: articlesData,
+      totalArticles: articlesLength,
+      totalPages: Math.ceil(articlesLength / 10),
+    });
   } catch (error) {
     next(error);
   }
@@ -43,16 +53,33 @@ export const fetchArticle = async (req, res, next) => {
       return res.status(404).send("Article not found");
     }
     const articleData = {
-      "id": article._id,
-      "title": article.title,
-      "content": article.content,
-      "tags": article.tags,
-      "category": article.category,
-      "thumbnail": article.thumbnail,
-      "createdAt": article.createdAt,
-      "readingTime": article.readingTime,
-    }
-    res.status(200).json(articleData);
+      id: article._id,
+      title: article.title,
+      content: article.content,
+      tags: article.tags,
+      category: article.category,
+      thumbnail: article.thumbnail,
+      createdAt: article.createdAt,
+      readingTime: article.readingTime,
+    };
+
+    const relatedArticles = await Article.find({
+      category: articleData.category,
+      _id: { $ne: articleData.id },
+    });
+    const relatedArticlesData = relatedArticles.map((article) => ({
+      id: article._id,
+      title: article.title,
+      content: article.content,
+      tags: article.tags,
+      category: article.category,
+      thumbnail: article.thumbnail,
+      createdAt: article.createdAt,
+      readingTime: article.readingTime,
+    }));
+    console.log(relatedArticlesData)
+
+    res.status(200).json({ articleData, relatedArticlesData });
   } catch (error) {
     next(error);
   }
@@ -74,7 +101,9 @@ export const updateArticle = async (req, res, next) => {
       thumbnail: req.file ? req.file.filename : article.thumbnail,
     };
 
-    await Article.findByIdAndUpdate(req.params.id, updatedData, { returnDocument: "after" });
+    await Article.findByIdAndUpdate(req.params.id, updatedData, {
+      returnDocument: "after",
+    });
 
     res.status(200).send("successful");
   } catch (error) {

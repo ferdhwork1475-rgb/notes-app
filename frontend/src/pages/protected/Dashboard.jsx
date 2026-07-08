@@ -17,16 +17,33 @@ const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState([
+    {
+      id: "",
+      title: "",
+      content: "",
+      tags: [],
+      category: "",
+      thumbnail: "",
+      createdAt: "",
+      readingTime: "",
+    },
+  ]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalArticles, setTotalArticles] = useState(0);
+  const [category, setCategory] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadArticles = async () => {
       try {
         setLoading(true);
-        const articlesData = await fetchArticles();
-        setArticles(Array.isArray(articlesData) ? articlesData : []);
+        const response = await fetchArticles(page, category);
+        setArticles(response.articles);
+        setTotalPages(response.totalPages);
+        setTotalArticles(response.totalArticles);
       } catch (error) {
         console.error(
           "Error fetching articles:",
@@ -38,7 +55,7 @@ const Dashboard = () => {
     };
 
     loadArticles();
-  }, []);
+  }, [page, category]);
 
   // Filter content reactively based on user input
   const filteredArticles = articles.filter(
@@ -84,9 +101,19 @@ const Dashboard = () => {
               Pick up right where you left off.
             </p>
           </div>
-          <select className="w-full sm:w-auto bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-slate-600 shadow-sm outline-none cursor-pointer hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-indigo-500/10">
-            <option>Last 7 Days</option>
-            <option>Last 30 Days</option>
+          <select
+            className="w-full sm:w-auto bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-slate-600 shadow-sm outline-none cursor-pointer hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-indigo-500/10"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="Politics">Politics</option>
+            <option value="Technology">Technology</option>
+            <option value="Business">Business</option>
+            <option value="Sports">Sports</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Health">Health</option>
+            <option value="Education">Education</option>{" "}
           </select>
         </div>
 
@@ -225,22 +252,36 @@ const Dashboard = () => {
         <div className="mt-12 flex flex-col items-center gap-6">
           <p className="text-sm text-slate-500">
             Showing
-            <span className="font-semibold text-slate-900"> 21–30 </span>
+            <span className="font-semibold text-slate-900">
+              {" "}
+              {articles.length - 1} – {articles.length}{" "}
+            </span>
             of
-            <span className="font-semibold text-slate-900"> 245 </span>
+            <span className="font-semibold text-slate-900">
+              {" "}
+              {totalArticles}{" "}
+            </span>
             articles
           </p>
 
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 ...">
+            <button
+              className="flex items-center gap-2 ..."
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+            >
               <ChevronLeft size={18} />
               Previous
             </button>
 
             <div className="rounded-xl bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700">
-              Page 3 of 25
+              Page {page} of {totalPages}
             </div>
-            <button className="flex items-center gap-2 ...">
+            <button
+              className="flex items-center gap-2 ..."
+              onClick={() => setPage(page + 1)}
+              disabled={page === totalPages}
+            >
               Next
               <ChevronRight size={18} />
             </button>
