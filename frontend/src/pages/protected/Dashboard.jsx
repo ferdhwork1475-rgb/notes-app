@@ -27,6 +27,7 @@ const Dashboard = () => {
       thumbnail: "",
       createdAt: "",
       readingTime: "",
+      slug: "",
     },
   ]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -180,7 +181,7 @@ const Dashboard = () => {
               {filteredArticles.map((article) => (
                 <div
                   key={article.id}
-                  onClick={() => navigate(`/articles/${article.id}`)}
+                  onClick={() => navigate(`/articles/${article.slug}`)}
                   className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 p-4 flex flex-col h-[420px] transition-all duration-300 cursor-pointer relative"
                 >
                   {/* Card Banner Image Frame Block */}
@@ -254,7 +255,7 @@ const Dashboard = () => {
             Showing
             <span className="font-semibold text-slate-900">
               {" "}
-              {articles.length - 1} – {articles.length}{" "}
+              {(page - 1) * 10 + 1} – {totalArticles < (page - 1) * 10 + 10 ? totalArticles : (page - 1) * 10 + 10}{" "}
             </span>
             of
             <span className="font-semibold text-slate-900">

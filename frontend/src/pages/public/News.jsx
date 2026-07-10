@@ -265,8 +265,10 @@ const NewsLibrary = () => {
         <p className="text-sm text-slate-500">
           Showing
           <span className="font-semibold text-slate-900">
-            {" "}
-            {articles.length - 1} – {articles.length}{" "}
+            {(page - 1) * 10 + 1} –{" "}
+            {totalArticles < (page - 1) * 10 + 10
+              ? totalArticles
+              : (page - 1) * 10 + 10}{" "}
           </span>
           of
           <span className="font-semibold text-slate-900">

@@ -9,6 +9,7 @@ import {
   Share2,
   Trash2,
   ArrowRight,
+  Newspaper,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "react-toastify";
@@ -21,7 +22,7 @@ import {
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const ViewArticle = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
 
   const [article, setArticle] = useState({
@@ -34,6 +35,7 @@ const ViewArticle = () => {
     thumbnail: "",
     createdAt: "",
     readingTime: "",
+    slug: "",
   });
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
@@ -47,9 +49,10 @@ const ViewArticle = () => {
       thumbnail: "",
       createdAt: "",
       readingTime: "",
+      slug: "",
     },
   ]);
-
+  const [readingProgress, setReadingProgress] = useState(0);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -68,7 +71,7 @@ const ViewArticle = () => {
     const fetchArticleData = async () => {
       try {
         setLoading(true);
-        const response = await fetchArticle(id);
+        const response = await fetchArticle(slug);
         setArticle(response.articleData);
         setRelatedArticles(response.relatedArticlesData);
       } catch (error) {
@@ -81,6 +84,21 @@ const ViewArticle = () => {
 
     fetchArticleData();
   }, [id]);
+
+  useEffect(() => {
+    const updateReadingProgress = () => {
+      const scrollTop = window.scrollY;
+      const documentHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress =
+        documentHeight > 0 ? (scrollTop / documentHeight) * 100 : 0;
+      setReadingProgress(progress);
+    };
+
+    window.addEventListener("scroll", updateReadingProgress);
+    updateReadingProgress();
+    return () => window.removeEventListener("scroll", updateReadingProgress);
+  }, []);
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -102,6 +120,7 @@ const ViewArticle = () => {
       }
     }
   };
+
 
   if (loading) {
     return (
@@ -132,82 +151,116 @@ const ViewArticle = () => {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-white overflow-y-auto">
-      {/* Sticky Top Interactive Action Navigation Bar */}
-      <header className="sticky top-0 z-10 h-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 sm:px-8 flex items-center justify-between shrink-0">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 p-2 -ml-2 text-slate-500 hover:text-slate-800 font-medium text-sm rounded-xl hover:bg-slate-50 transition-all group"
-        >
-          <ArrowLeft
-            size={18}
-            className="group-hover:-translate-x-0.5 transition-transform"
-          />
-          <span>Back</span>
-        </button>
+      {/* Reading Progress */}
+      <div className="fixed top-0 left-0 right-0 z-[60] h-1 bg-slate-200/40">
+        <div
+          className="h-full rounded-r-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-violet-600 shadow-[0_0_12px_rgba(99,102,241,0.45)] transition-[width] duration-150"
+          style={{
+            width: `${readingProgress}%`,
+          }}
+        />
+      </div>
+      <header className="sticky top-0 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          {/* Left */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+            >
+              <ArrowLeft
+                size={18}
+                className="transition group-hover:-translate-x-1"
+              />
+              <span className="hidden sm:block">Back</span>
+            </button>
 
-        {/* Article Toolbar Management Options */}
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={handleShare}
-            className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-xl transition-all"
-            title="Share Link"
-          >
-            <Share2 size={18} />
-          </button>
-          {authChecked && (
-            <>
-              {" "}
-              <button
-                onClick={() => navigate(`/admin/articles/edit/${id}`)}
-                className="flex items-center gap-1.5 px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-semibold text-xs rounded-xl transition-all shadow-sm shadow-indigo-100"
-              >
-                <Edit3 size={14} />
-                <span>Edit</span>
-              </button>
-              <button
-                onClick={handleDelete}
-                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
-                title="Delete Article"
-              >
-                <Trash2 size={18} />
-              </button>
-            </>
-          )}
+            <div className="hidden h-6 w-px bg-slate-200 md:block" />
+
+            <button
+              onClick={() => navigate("/")}
+              className="hidden items-center gap-2 md:flex"
+            >
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white">
+                <Newspaper size={18} />
+              </div>
+
+              <div>
+                <p className="text-sm font-bold text-slate-900">DailyPress</p>
+
+                <p className="text-xs text-slate-400">Latest Headlines</p>
+              </div>
+            </button>
+          </div>
+
+          {/* Right */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => navigate("/news")}
+              className="hidden rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-indigo-500 hover:text-indigo-600 md:block"
+            >
+              Latest News
+            </button>
+
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            >
+              <Share2 size={16} />
+              <span className="hidden sm:block">Share</span>
+            </button>
+
+            {authChecked && (
+              <>
+                <button
+                  onClick={() => navigate(`/admin/articles/edit/${id}`)}
+                  className="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100"
+                >
+                  Edit
+                </button>
+
+                <button
+                  onClick={handleDelete}
+                  className="rounded-xl p-2 text-slate-500 transition hover:bg-rose-50 hover:text-rose-600"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </header>
 
       {/* Main Reading Container Canvas Layout */}
-      <main className="w-full max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
-        {/* Cover Image */}
+      <main className="w-full px-4 sm:px-6 md:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
+        {/* ================= Hero Image ================= */}
         {article.thumbnail && (
-          <div className="relative w-full h-64 sm:h-80 lg:h-[28rem] rounded-3xl overflow-hidden shadow-lg">
+          <div className="relative overflow-hidden rounded-[28px] shadow-2xl">
             <img
               src={`${uploadPath}${article.thumbnail}`}
               alt={article.title}
-              className="w-full h-full object-cover"
+              className="h-72 md:h-[32rem] xl:h-[40rem] w-full object-cover"
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+            <div className="absolute left-6 top-6">
+              <span className="rounded-full bg-white/90 backdrop-blur-md px-4 py-2 text-sm font-semibold text-slate-900 shadow">
+                {article.category}
+              </span>
+            </div>
           </div>
         )}
 
-        <header className="space-y-6 border-b border-slate-200 pb-8">
-          {/* Category */}
-          <div>
-            <span className="inline-flex items-center rounded-full bg-indigo-100 px-4 py-1.5 text-sm font-semibold text-indigo-700">
-              {article.category}
-            </span>
-          </div>
-
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight text-slate-900">
+        <header className="max-w-3xl mx-auto mt-12 border-b border-slate-200 pb-10">
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-black tracking-tight leading-tight text-slate-900">
             {article.title}
           </h1>
 
-          {/* Metadata */}
-          <div className="flex flex-wrap items-center gap-5 text-sm text-slate-500">
-            <div className="flex items-center gap-2">
+          <div className="mt-8 flex flex-wrap gap-3">
+            <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-600">
               <Calendar size={16} />
+
               {new Date(article.createdAt).toLocaleDateString(undefined, {
                 year: "numeric",
                 month: "long",
@@ -215,19 +268,18 @@ const ViewArticle = () => {
               })}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-600">
               <Clock size={16} />
-              {article.readingTime + " min read"}
+              {article.readingTime} min read
             </div>
           </div>
 
-          {/* Tags */}
           {article.tags?.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-              {article.tags.map((tag, index) => (
+            <div className="mt-8 flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
                 <span
-                  key={index}
-                  className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"
+                  key={tag}
+                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-indigo-500 hover:text-indigo-600"
                 >
                   #{tag}
                 </span>
@@ -236,33 +288,33 @@ const ViewArticle = () => {
           )}
         </header>
 
-        <div className="prose prose-lg lg:prose-xl prose-slate max-w-none mt-10">
+        <div className="max-w-3xl mx-auto mt-14">
           <ReactMarkdown
             components={{
               h1: ({ ...props }) => (
                 <h1
-                  className="mt-10 mb-5 text-4xl font-black leading-tight tracking-tight text-slate-900"
+                  className="mt-16 mb-8 text-4xl font-black leading-tight tracking-tight text-slate-900"
                   {...props}
                 />
               ),
 
               h2: ({ ...props }) => (
                 <h2
-                  className="mt-10 mb-4 text-3xl font-bold leading-tight text-slate-900"
+                  className="mt-14 mb-6 text-3xl font-bold leading-tight text-slate-900"
                   {...props}
                 />
               ),
 
               h3: ({ ...props }) => (
                 <h3
-                  className="mt-8 mb-3 text-2xl font-semibold leading-tight text-slate-800"
+                  className="mt-12 mb-5 text-2xl font-bold leading-tight text-slate-800"
                   {...props}
                 />
               ),
 
               p: ({ ...props }) => (
                 <p
-                  className="mb-6 text-base leading-8 text-slate-700"
+                  className="mb-8 text-lg leading-9 text-slate-700"
                   {...props}
                 />
               ),
@@ -277,7 +329,7 @@ const ViewArticle = () => {
 
               ul: ({ ...props }) => (
                 <ul
-                  className="mb-6 ml-6 list-disc space-y-2 text-slate-700"
+                  className="my-8 ml-8 space-y-3 list-disc text-lg text-slate-700"
                   {...props}
                 />
               ),
@@ -293,7 +345,7 @@ const ViewArticle = () => {
 
               blockquote: ({ ...props }) => (
                 <blockquote
-                  className="my-8 border-l-4 border-indigo-600 bg-indigo-50 px-5 py-4 italic leading-8 text-slate-700 rounded-r-xl"
+                  className="my-12 rounded-2x border-l-4 border-indigo-600 bg-slate-50 px-8 py-7 text-xl italic leading-9 shadow-sm px-5 py-4 italic leading-8 text-slate-700 rounded-r-xl"
                   {...props}
                 />
               ),
@@ -328,9 +380,9 @@ const ViewArticle = () => {
                 }
 
                 return (
-                  <pre className="my-6 overflow-x-auto rounded-xl bg-slate-900 p-5">
+                  <pre className="my-10 overflow-x-auto rounded-3xl bg-slate-900 p-8 shadow-xl">
                     <code
-                      className="font-mono text-sm text-slate-100"
+                      className="rounded-md bg-slate-100 px-2 py-1 font-mono text-sm text-indigo-600"
                       {...props}
                     >
                       {children}
@@ -343,98 +395,108 @@ const ViewArticle = () => {
             {article.content ||
               "*No article content written yet. Use the editor to start writing your article.*"}
           </ReactMarkdown>
+          <div className="mt-16 border-t border-slate-200 pt-10">
+            <p className="text-center text-slate-500">Thanks for reading.</p>
+          </div>
         </div>
 
-        {/* ================= Related Articles ================= */}
-        <section className="mt-20 border-t border-slate-200 pt-14">
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8">
+        <section className="mt-24 bg-slate-50 rounded-[32px] py-14 px-6 sm:px-8 lg:px-10 w-full">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-10">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
+              <span className="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-indigo-700">
                 Continue Reading
               </span>
 
-              <h2 className="mt-2 text-3xl font-black text-slate-900">
+              <h2 className="mt-4 text-3xl md:text-4xl font-black text-slate-900">
                 Related Articles
               </h2>
 
-              <p className="mt-2 text-sm text-slate-500">
-                More stories you may enjoy from this category.
+              <p className="mt-3 max-w-xl text-slate-500 leading-7">
+                Continue exploring more stories in
+                <span className="font-semibold text-slate-700">
+                  {" "}
+                  {article.category}
+                </span>
+                .
               </p>
             </div>
 
             <button
-              className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition"
               onClick={() => navigate("/news")}
+              className="self-start rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-indigo-500 hover:text-indigo-600"
             >
-              View All →
+              Browse All News
             </button>
           </div>
 
           {/* Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7">
-            {relatedArticles.map((article) => (
-                <article
-                  key={article.id}
-                  onClick={() => navigate(`/articles/${article.id}`)}
-                  className="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-                >
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={`${uploadPath}${article.thumbnail}`}
-                      alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                    />
+          <div className="flex flex-wrap justify-center gap-8">
+            {relatedArticles.map((related) => (
+              <article
+                key={related.id}
+                onClick={() => navigate(`/articles/${related.slug}`)}
+                className="group flex w-full max-w-[360px] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
+              >
+                {/* Image */}
+                <div className="relative h-52 overflow-hidden">
+                  <img
+                    src={`${uploadPath}${related.thumbnail}`}
+                    alt={related.title}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-                    <span className="absolute top-4 left-4 rounded-full bg-white/90 backdrop-blur px-3 py-1 text-xs font-semibold text-slate-800">
-                      {article.category}
-                    </span>
+                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-800 backdrop-blur">
+                    {related.category}
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="text-lg font-bold leading-snug text-slate-900 line-clamp-2 group-hover:text-indigo-600 transition">
+                    {related.title}
+                  </h3>
+
+                  <div className="mt-3 text-sm leading-6 text-slate-500 line-clamp-3 flex-1">
+                    <ReactMarkdown>{related.content}</ReactMarkdown>
                   </div>
 
-                  {/* Content */}
-                  <div className="p-5 flex flex-col">
-                    <h3 className="text-lg font-bold text-slate-900 leading-snug line-clamp-2 group-hover:text-indigo-600 transition-colors">
-                      {article.title}
-                    </h3>
-
-                    <p className="mt-3 text-sm text-slate-500 leading-6 line-clamp-3 flex-1">
-                      {/* <ReactMarkdown>{article.content}</ReactMarkdown> */}
-                    </p>
-
-                    {/* Footer */}
-                    <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <div className="flex items-center gap-4 text-xs text-slate-500">
+                  <div className="mt-6 border-t border-slate-100 pt-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-col gap-1 text-xs text-slate-400">
                         <div className="flex items-center gap-2">
-                          <Calendar size={16} />
-                          {new Date(article.createdAt).toLocaleDateString(
+                          <Calendar size={13} />
+
+                          {new Date(related.createdAt).toLocaleDateString(
                             undefined,
                             {
-                              year: "numeric",
-                              month: "long",
+                              month: "short",
                               day: "numeric",
+                              year: "numeric",
                             },
                           )}
                         </div>
 
-                        <span>•</span>
-
-                        <span>{article.readingTime + " min read"}</span>
+                        <div className="flex items-center gap-2">
+                          <Clock size={13} />
+                          {related.readingTime} min read
+                        </div>
                       </div>
 
                       <span className="flex items-center gap-1 text-sm font-semibold text-indigo-600 group-hover:gap-2 transition-all">
-                        Read
+                        Read Story
                         <ArrowRight
                           size={16}
-                          className="transition-transform group-hover:translate-x-1"
+                          className="transition group-hover:translate-x-1"
                         />
                       </span>
                     </div>
                   </div>
-                </article>
-              ))}
+                </div>
+              </article>
+            ))}
           </div>
         </section>
       </main>

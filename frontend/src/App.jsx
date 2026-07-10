@@ -38,7 +38,7 @@ const App = () => {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/verify-otp" element={<VerifyOtp />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="articles/:id" element={<ViewArticle />} />
+              <Route path="articles/:slug" element={<ViewArticle />} />
               <Route path="*" element={<NotFound />} />
             </Route>
             <Route path="/admin" element={<DashLayout />}>

@@ -27,6 +27,10 @@ const articleSchema = new mongoose.Schema(
       type: Number, 
       default: 1,
     },
+    slug: {
+      type: String,
+      unique: true
+    },
   },
   {
     timestamps: true,
@@ -40,6 +44,10 @@ articleSchema.pre("save", async function () {
     const total = wordsCount / avgTime;
     // Math.ceil enables you get whole numbers 
     this.readingTime = Math.ceil(total)
+  }
+  if (this.isModified("title")) {
+    const urlTitle = this.title.replace(/[^a-zA-Z0-9]/g, " ").replace(/\s+/g, " ").trim().replace(/\s/g, "-").toLowerCase();
+    this.slug = urlTitle
   }
 });
 

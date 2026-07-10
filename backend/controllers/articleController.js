@@ -35,6 +35,7 @@ export const fetchArticles = async (req, res, next) => {
       thumbnail: article.thumbnail,
       createdAt: article.createdAt,
       readingTime: article.readingTime,
+      slug: article.slug,
     }));
     res.status(200).json({
       articles: articlesData,
@@ -77,7 +78,6 @@ export const fetchArticle = async (req, res, next) => {
       createdAt: article.createdAt,
       readingTime: article.readingTime,
     }));
-    console.log(relatedArticlesData)
 
     res.status(200).json({ articleData, relatedArticlesData });
   } catch (error) {

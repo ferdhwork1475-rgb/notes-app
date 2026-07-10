@@ -101,9 +101,9 @@ export const fetchArticles = async (page, category) => {
   }
 };
 
-export const fetchArticle = async (id) => {
+export const fetchArticle = async (slug) => {
   try {
-    const response = await axios.get(`${backendAPI}articles/${id}`, {
+    const response = await axios.get(`${backendAPI}articles/${slug}`, {
       withCredentials: true,
     });
     return response.data;
