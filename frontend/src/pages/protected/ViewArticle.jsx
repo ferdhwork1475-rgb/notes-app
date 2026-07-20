@@ -75,7 +75,7 @@ const ViewArticle = () => {
         setArticle(response.articleData);
         setRelatedArticles(response.relatedArticlesData);
       } catch (error) {
-        console.error("Error fetching article:", error);
+        console.error("Error fetching article:", error.response);
         toast.error("Failed to load article content");
       } finally {
         setLoading(false);
@@ -83,7 +83,7 @@ const ViewArticle = () => {
     };
 
     fetchArticleData();
-  }, [id]);
+  }, [slug]);
 
   useEffect(() => {
     const updateReadingProgress = () => {
@@ -112,7 +112,7 @@ const ViewArticle = () => {
       )
     ) {
       try {
-        await deleteArticle(id);
+        await deleteArticle(article.id);
         toast.success("Article deleted successfully");
         navigate("/admin");
       } catch (error) {
@@ -213,7 +213,7 @@ const ViewArticle = () => {
             {authChecked && (
               <>
                 <button
-                  onClick={() => navigate(`/admin/articles/edit/${id}`)}
+                  onClick={() => navigate(`/admin/articles/edit/${slug}`)}
                   className="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100"
                 >
                   Edit

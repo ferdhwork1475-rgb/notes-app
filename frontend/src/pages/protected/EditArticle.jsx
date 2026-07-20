@@ -23,7 +23,7 @@ const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const EditArticle = () => {
   // Get the id from the network req
-  const { id } = useParams();
+  const { slug } = useParams();
 
   // for navigation
   const navigate = useNavigate();
@@ -62,12 +62,12 @@ const EditArticle = () => {
       try {
         setFetching(true);
         setErrorState(false);
-        const response = await fetchArticle(id);
-        setArticle(response);
-        setTitle(response.title);
-        setContent(response.content);
-        setTags(response.tags.join(","));
-        setPreview(`${uploadPath}${response.thumbnail}`);
+        const response = await fetchArticle(slug);
+        setArticle(response.articleData);
+        setTitle(response.articleData.title);
+        setContent(response.articleData.content);
+        setTags(response.articleData.tags);
+        setPreview(`${uploadPath}${response.articleData.thumbnail}`);
       } catch (error) {
         console.error("Error retrieving article records:", error);
         setErrorState(true);
@@ -77,8 +77,8 @@ const EditArticle = () => {
       }
     };
 
-    if (id) fetchArticleData();
-  }, [id]);
+    if (slug) fetchArticleData();
+  }, [slug]);
 
   // 2. Focus Management with Smart Cursor Placement
   useEffect(() => {
@@ -94,7 +94,7 @@ const EditArticle = () => {
   const dirtyFields = {
     title: article.title === title ? false : true,
     content: article.content === content ? false : true,
-    tags: article.tags.join(",") === tags ? false : true,
+    tags: article.tags === tags ? false : true,
     thumbnail: thumbnail === null ? false : true,
   };
 
@@ -105,9 +105,6 @@ const EditArticle = () => {
     dirtyFields.thumbnail != false
       ? true
       : false;
-
-    console.log(typeof tags, typeof article.tags, tags, article.tags)
-    console.log(dirtyFields, isDirty)
 
   // Handle local file validations - triggered by the fileInputRef
   const handleFileChange = (e) => {

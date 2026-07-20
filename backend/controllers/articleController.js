@@ -20,12 +20,13 @@ export const createArticle = async (req, res, next) => {
 export const fetchArticles = async (req, res, next) => {
   try {
     const articlesLength = await Article.countDocuments();
-    const page = parseInt(req.query.page);
+    const page = parseInt(req.query.page || 1);
     const category = req.query.category;
+    const limit = 9;
     const articles = await Article.find(category ? { category } : {})
       .sort({ createdAt: -1 })
-      .limit(10)
-      .skip((page - 1) * 10);
+      .limit(limit)
+      .skip((page - 1) * limit);
     const articlesData = articles.map((article) => ({
       id: article._id,
       title: article.title,
@@ -49,7 +50,7 @@ export const fetchArticles = async (req, res, next) => {
 
 export const fetchArticle = async (req, res, next) => {
   try {
-    const article = await Article.findById(req.params.id);
+    const article = await Article.findOne({ slug: req.params.slug });
     if (!article) {
       return res.status(404).send("Article not found");
     }
@@ -62,6 +63,7 @@ export const fetchArticle = async (req, res, next) => {
       thumbnail: article.thumbnail,
       createdAt: article.createdAt,
       readingTime: article.readingTime,
+      slug: article.slug,
     };
 
     const relatedArticles = await Article.find({
@@ -77,6 +79,7 @@ export const fetchArticle = async (req, res, next) => {
       thumbnail: article.thumbnail,
       createdAt: article.createdAt,
       readingTime: article.readingTime,
+      slug: article.slug,
     }));
 
     res.status(200).json({ articleData, relatedArticlesData });
@@ -89,7 +92,8 @@ export const updateArticle = async (req, res, next) => {
   try {
     const { title, content, tags } = req.body;
 
-    const article = await Article.findById(req.params.id);
+    console.log(req.params)
+    const article = await Article.findOne({ slug: req.params.slug });
     if (!article) {
       return res.status(404).send("Article not found");
     }

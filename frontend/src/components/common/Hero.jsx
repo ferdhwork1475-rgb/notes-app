@@ -1,94 +1,172 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import { ArrowRight, Calendar, Clock } from "lucide-react";
+import { fetchArticles } from "../../services/authService";
 
 const Hero = () => {
-  // A premium online graphic representing global independent digital reporting structure
-  const newsMissionImage =
-    "https://www.thecable.ng/wp-content/uploads/2026/02/President-Tinubu.jpeg";
+  const navigate = useNavigate();
+  const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
+
+  const [loading, setLoading] = useState(false);
+  const [article, setArticle] = useState({
+    title: "",
+    content: "",
+    thumbnail: "",
+    category: "",
+    thumbnail: "",
+    createdAt: "",
+    readingTime: "",
+    slug: "",
+  });
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        setLoading(true);
+        const page = 1;
+        const category = "";
+        const response = await fetchArticles(page, category);
+        setArticle(response.articles[0]);
+      } catch (error) {
+        console.log(error.response);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticle();
+  }, []);
 
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center bg-[#00020f] text-white overflow-hidden px-4 sm:px-8 py-20 lg:py-32">
-      {/* Ambient Background Glow System */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+      {/* Background Accent */}
+      <div className="absolute -top-40 right-0 h-[500px] w-[500px] rounded-full bg-indigo-600/10 blur-[150px]" />
+      <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-red-600/10 blur-[140px]" />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10 w-full">
-        {/* Left Column: Media / Journalistic Copy */}
-        <div className="lg:col-span-6 text-center lg:text-left flex flex-col items-center lg:items-start space-y-6">
-          <div className="inline-flex items-center gap-2 bg-[#0e0f23] border border-slate-800 px-3 py-1 rounded-full backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-[11px] font-medium tracking-wider text-slate-400 uppercase">
-              Independent Digital Journalism
+      <div className="relative mx-auto max-w-7xl px-6 py-20 lg:py-28">
+        <div className="grid gap-20 lg:grid-cols-12 lg:items-center">
+          {/* ================= LEFT ================= */}
+
+          <div className="lg:col-span-5">
+            <span className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-red-400">
+              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+              Breaking News
             </span>
-          </div>
 
-          <h1 className="text-4xl sm:text-5xl xl:text-6xl font-serif font-black tracking-tight leading-[1.1] text-white uppercase">
-            Uncovering <br />
-            stories that shape <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-400 to-indigo-400 font-sans">
-              our world.
-            </span>
-          </h1>
+            <h1 className="mt-8 text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl xl:text-6xl">
+              Stay informed with
+              <span className="block text-indigo-400">trusted journalism.</span>
+            </h1>
 
-          <p className="text-sm sm:text-base text-slate-400 max-w-lg leading-relaxed font-normal">
-            Access deeply researched reporting, technical analyses, and global
-            commentary. No algorithms, no sensory clutter—just premium
-            journalism curated for critical readers.
-          </p>
+            <p className="mt-8 max-w-xl text-lg leading-8 text-slate-300">
+              Breaking news, politics, business, technology, sports and in-depth
+              analysis from Nigeria and around the world—all in one place.
+            </p>
 
-          <div className="pt-4 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <Link
-              to="/news"
-              className="inline-block w-full sm:w-auto text-center bg-red-600 text-white text-xs uppercase tracking-widest font-black px-8 py-4 rounded-sm hover:bg-red-500 transition-all duration-300 shadow-[0_0_25px_rgba(220,38,38,0.25)] hover:shadow-[0_0_35px_rgba(220,38,38,0.4)] transform hover:-translate-y-0.5"
-            >
-              Read Latest Stories
-            </Link>
-
-            <Link
-              to="/about"
-              className="inline-block w-full sm:w-auto text-center bg-transparent border border-slate-800 hover:border-slate-700 text-slate-300 text-xs uppercase tracking-widest font-bold px-8 py-4 rounded-sm hover:bg-slate-900/40 transition-all"
-            >
-              Our Mission
-            </Link>
-          </div>
-        </div>
-
-        {/* Right Column: Dynamic Media Asset Showcase */}
-        <div className="lg:col-span-6 relative flex items-center justify-center w-full">
-          <div className="relative w-full max-w-lg aspect-[4/3] bg-[#0e0f23]/40 border border-slate-800/80 rounded-sm p-4 backdrop-blur-md shadow-2xl group transition-all duration-500 hover:border-slate-700/60">
-            {/* Editorial Label Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-900 mb-4">
-              <span className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">
-                PRESS MATRIX // DIGEST
-              </span>
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <Link
+                to="/news"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-7 py-4 font-semibold transition hover:bg-indigo-700"
+              >
+                Explore Today's News
+                <ArrowRight size={18} />
+              </Link>
             </div>
 
-            {/* Layout Display Wrap */}
-            <div className="relative w-full h-full rounded-sm overflow-hidden bg-[#00020f]/60 flex items-center justify-center border border-slate-900">
-              <img
-                src={newsMissionImage}
-                alt="Global news desk network interface concept"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 mix-blend-lighten"
-              />
+            {/* Stats */}
 
-              {/* Overlay Content Panel Label to emphasize editorial intent */}
-              <div className="absolute bottom-4 left-4 right-4 bg-[#05070f]/90 border border-slate-800/80 p-3 rounded-sm backdrop-blur-md transform transition-transform duration-300 group-hover:translate-y-[-2px]">
-                <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest mb-0.5">
-                  Verified Reportage
-                </p>
-                <p className="text-xs text-slate-300 font-serif font-medium">
-                  Tracking decentralized narratives, data integrity, and modern
-                  infrastructure feeds.
-                </p>
+            <div className="mt-14 grid grid-cols-3 gap-6 border-t border-slate-800 pt-8">
+              <div>
+                <h3 className="text-3xl font-black text-white">24/7</h3>
+
+                <p className="mt-1 text-sm text-slate-400">Live Updates</p>
+              </div>
+
+              <div>
+                <h3 className="text-3xl font-black text-white">10+</h3>
+
+                <p className="mt-1 text-sm text-slate-400">Categories</p>
+              </div>
+
+              <div>
+                <h3 className="text-3xl font-black text-white">Daily</h3>
+
+                <p className="mt-1 text-sm text-slate-400">Fresh Stories</p>
               </div>
             </div>
+          </div>
 
-            {/* Accent Corner Brackets for a sleek layout look */}
-            <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-slate-700 pointer-events-none" />
-            <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-slate-700 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-slate-700 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-slate-700 pointer-events-none" />
+          {/* ================= RIGHT ================= */}
+
+          <div className="lg:col-span-6">
+            {loading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+                <div className="bg-white rounded-2xl border border-slate-100 h-96 p-4 space-y-4">
+                  <div className="w-full h-44 bg-slate-100 rounded-xl" />
+                  <div className="h-6 bg-slate-100 rounded-lg w-3/4" />
+                  <div className="space-y-2">
+                    <div className="h-4 bg-slate-100 rounded w-full" />
+                    <div className="h-4 bg-slate-100 rounded w-5/6" />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <article
+                className="group overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 shadow-2xl"
+                onClick={() => navigate(`articles/${article.slug}`)}
+              >
+                <div className="relative h-[280px] sm:h-[380px] overflow-hidden">
+                  <img
+                    src={`${uploadPath}${article.thumbnail}`}
+                    alt={article.title}
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+
+                  <span className="absolute left-6 top-6 rounded-full bg-red-600 px-4 py-2 text-xs font-bold uppercase tracking-widest">
+                    {article.category}
+                  </span>
+                </div>
+
+                <div className="p-8">
+                  <div className="flex flex-wrap items-center gap-5 text-sm text-slate-400">
+                    <span className="flex items-center gap-2">
+                      <Calendar size={15} />
+                      {new Date(article.createdAt).toLocaleDateString(
+                        undefined,
+                        {
+                          month: "short",
+                          day: "numeric",
+                        },
+                      )}{" "}
+                    </span>
+
+                    <span className="flex items-center gap-2">
+                      <Clock size={15} />
+                      {article.readingTime} min read
+                    </span>
+                  </div>
+
+                  <h2 className="mt-5 text-3xl font-black leading-tight text-white transition group-hover:text-indigo-400">
+                    {article.title}
+                  </h2>
+
+                  <div className="text-slate-500 mt-4 sm:text-sm line-clamp-4 leading-relaxed overflow-hidden prose prose-sm max-w-none">
+                    <ReactMarkdown>{article.content}</ReactMarkdown>
+                  </div>
+
+                  <Link
+                    to={`articles/${article.slug}`}
+                    className="mt-8 inline-flex items-center gap-2 font-semibold text-indigo-400 transition hover:gap-3"
+                  >
+                    Read Full Story
+                    <ArrowRight size={18} />
+                  </Link>
+                </div>
+              </article>
+            )}
           </div>
         </div>
       </div>

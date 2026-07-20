@@ -42,14 +42,14 @@ router.get("/api/articles", fetchArticles);
 router.post("/api/forgot-password", sendOtpRequest)
 router.post("/api/verify-otp", verifyOtpCode)
 router.post("/api/password-reset", passwordResetController)
-router.get("/api/articles/:id", fetchArticle);
+router.get("/api/articles/:slug", fetchArticle);
 
 router.get("/api/remove-users", deleteUsers)
 
 // PROTECTED ROUTES
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);
 router.post("/api/articles", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, createArticle);
-router.put("/api/articles/:id", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, updateArticle);
+router.put("/api/articles/:slug", protect, authorizeRoles("admin"), upload.single("thumbnail"), validateNote, checkNoteValidation, updateArticle);
 router.delete("/api/articles/:id", protect, authorizeRoles("admin"), deleteArticle);
 
 export default router;

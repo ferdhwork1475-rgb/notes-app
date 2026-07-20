@@ -112,9 +112,10 @@ export const fetchArticle = async (slug) => {
   }
 };
 
-export const updateArticle = async (id, formData) => {
+export const updateArticle = async (slug, formData) => {
   try {
-    const response = await axios.put(`${backendAPI}articles/${id}`, formData, {
+    console.log(slug)
+    const response = await axios.put(`${backendAPI}articles/${slug}`, formData, {
       withCredentials: true,
     });
     return response.data;

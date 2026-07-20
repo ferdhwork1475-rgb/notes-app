@@ -34,6 +34,7 @@ const Dashboard = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalArticles, setTotalArticles] = useState(0);
+  const limit = 9;
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
 
@@ -213,16 +214,14 @@ const Dashboard = () => {
                     <h3 className="text-base font-bold text-slate-800 line-clamp-2 mb-2 group-hover:text-indigo-600 transition-colors tracking-tight leading-snug">
                       {article.title}
                     </h3>
-
-                    {/* Rendered Markdown Snippet Section Context */}
-                    <div className="text-slate-500 text-xs sm:text-sm line-clamp-4 leading-relaxed overflow-hidden prose prose-sm max-w-none mb-4">
-                      <ReactMarkdown>{article.content}</ReactMarkdown>
-                    </div>
+                  </div>
+                  <div className="text-slate-500 text-xs sm:text-sm line-clamp-4 leading-relaxed overflow-hidden prose prose-sm max-w-none mb-4">
+                    <ReactMarkdown>{article.content}</ReactMarkdown>
                   </div>
 
                   {/* Dynamic Card Meta Footer Block Bar */}
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                    <span className="rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-600">
+                  <div className="pt-3 border-slate-100 flex items-center justify-between text-[11px]">
+                    <span className="text-slate-500 text-xs sm:text-sm line-clamp-4 leading-relaxed overflow-hidden prose prose-sm max-w-none mb-4">
                       {article.category}
                     </span>
 
@@ -255,7 +254,10 @@ const Dashboard = () => {
             Showing
             <span className="font-semibold text-slate-900">
               {" "}
-              {(page - 1) * 10 + 1} – {totalArticles < (page - 1) * 10 + 10 ? totalArticles : (page - 1) * 10 + 10}{" "}
+              {(page - 1) * limit + 1} –{" "}
+              {totalArticles < (page - 1) * limit + limit
+                ? totalArticles
+                : (page - 1) * limit + limit}{" "}
             </span>
             of
             <span className="font-semibold text-slate-900">

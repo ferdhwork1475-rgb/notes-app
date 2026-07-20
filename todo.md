@@ -1,14 +1,6 @@
-TODO: 
-Limit the data coming from the backend
-use the same route and controller - check for searchTerm or queries optionally so it does not throw error on loading
-check the createNote, editNote and how tags are being saved and rendered.
-
 edit has a problem with tags o
 
-The backend should prefer:
-Technology + AI + Programming ✅
-Technology + AI ✅
-Technology only ✅
-Latest Technology articles ✅
-
-slug is next                                                                                                                                                                    
+Get the data from the api
+Use categories to fetch different response
+limit the response to what I want
+Display it on the frontend and use ai to improve the design

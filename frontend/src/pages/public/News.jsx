@@ -8,13 +8,14 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchArticles } from "../../services/authService";
 import ReactMarkdown from "react-markdown";
 
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const NewsLibrary = () => {
+  console.log(useParams)
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([
     {
@@ -33,6 +34,7 @@ const NewsLibrary = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalArticles, setTotalArticles] = useState(0);
+  const limit = 9;
 
   const navigate = useNavigate();
 
@@ -265,10 +267,10 @@ const NewsLibrary = () => {
         <p className="text-sm text-slate-500">
           Showing
           <span className="font-semibold text-slate-900">
-            {(page - 1) * 10 + 1} –{" "}
-            {totalArticles < (page - 1) * 10 + 10
+            {(page - 1) * 9 + 1} –{" "}
+            {totalArticles < (page - 1) * limit + limit
               ? totalArticles
-              : (page - 1) * 10 + 10}{" "}
+              : (page - 1) * limit + limit}{" "}
           </span>
           of
           <span className="font-semibold text-slate-900">

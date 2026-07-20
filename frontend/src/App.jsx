@@ -45,7 +45,7 @@ const App = () => {
               <Route index element={<Dashboard />} />
               <Route path="articles/create" element={<CreateArticle />} />
               <Route path="profile" element={<AdminProfile />} />
-              <Route path="articles/edit/:id" element={<EditArticle />} />
+              <Route path="articles/edit/:slug" element={<EditArticle />} />
               <Route path="*" element={<AdminNotFound />} />
             </Route>
           </Routes>
