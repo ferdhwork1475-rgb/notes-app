@@ -1,159 +1,624 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Newspaper,
+  Users,
+  Globe2,
+  ShieldCheck,
+  BadgeCheck,
+  Scale,
+  Mail,
+  Phone,
+  MapPin,
+  Clock3,
+  Send,
+} from "lucide-react";
 
 const AboutPage = () => {
-  // Public production CDN images tailored to independent regional reporting themes
-  const newsroomHeroUrl = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&auto=format&fit=crop&q=80";
-  const communityReportUrl = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80";
+  const navigate = useNavigate();
+  const newsroomHeroUrl =
+    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&auto=format&fit=crop&q=80";
+  const communityReportUrl =
+    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80";
 
   return (
     <div className="bg-[#00020f] min-h-screen text-white font-sans selection:bg-red-500 selection:text-white">
-      
-      {/* HEADER SECTION: Core Mission Statement */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-16 text-center relative">
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-72 h-72 bg-red-600/10 blur-[120px] rounded-full pointer-events-none" />
-        
-        <div className="inline-block text-[10px] font-mono tracking-widest text-red-500 uppercase mb-4 px-3 py-1 bg-red-500/5 border border-red-500/10 rounded-full">
-          Our Manifesto
-        </div>
-        
-        {/* The Core Mission */}
-        <h1 className="text-4xl md:text-6xl font-serif font-black tracking-tight text-white uppercase max-w-4xl mx-auto leading-tight">
-          "Let the local news go up <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-400 to-indigo-500">
-            and be heard by everyone
-          </span>"
-        </h1>
-        
-        <p className="text-slate-400 max-w-2xl mx-auto mt-6 text-sm md:text-base leading-relaxed font-normal">
-          We believe that the most critical stories don't always happen in capital cities or financial centers. They happen on the ground, in local neighborhoods, and inside small communities whose voices deserve global resonance.
-        </p>
-      </section>
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+        <div className="absolute inset-0">
+          <div className="absolute left-20 top-20 h-72 w-72 rounded-full bg-indigo-600/10 blur-[120px]" />
 
-      {/* HERO IMAGE BANNER */}
-      <section className="max-w-7xl mx-auto px-4 md:px-12 py-4">
-        <div className="relative rounded-lg overflow-hidden border border-slate-800 bg-[#0e0f23]/40 p-2 backdrop-blur-md shadow-2xl">
-          <div className="rounded-sm overflow-hidden bg-[#00020f] border border-slate-900 h-[300px] md:h-[450px]">
-            <img
-              src={newsroomHeroUrl}
-              alt="Independent journalistic coverage setup"
-              className="w-full h-full object-cover opacity-60 mix-blend-lighten filter grayscale contrast-125"
-            />
-          </div>
+          <div className="absolute right-20 bottom-10 h-72 w-72 rounded-full bg-red-600/10 blur-[120px]" />
         </div>
-      </section>
 
-      {/* SECTION 2: Why Local News Matters (Split Matrix) */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-24 border-b border-slate-900">
-        <div className="flex flex-col lg:flex-row gap-16 items-center justify-between">
-          
-          {/* Left Block: Narrative text */}
-          <div className="w-full lg:w-1/2 space-y-6">
-            <div className="text-[10px] font-mono tracking-widest text-indigo-400 uppercase font-bold">
-              // STRUCTURAL IMBALANCE
+        <div className="relative mx-auto max-w-7xl px-6 py-24 lg:py-32">
+          <div className="grid items-center gap-20 lg:grid-cols-2">
+            <div>
+              <span className="inline-flex items-center rounded-full border border-red-500/20 bg-red-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-red-400">
+                About Our Newsroom
+              </span>
+
+              <h1 className="mt-8 text-5xl font-black leading-tight tracking-tight text-white md:text-6xl">
+                Telling Stories That
+                <span className="block bg-gradient-to-r from-red-500 to-indigo-400 bg-clip-text text-transparent">
+                  Matter To People
+                </span>
+              </h1>
+
+              <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-300">
+                We are an independent digital newsroom committed to reporting
+                accurate, timely, and impactful stories across politics,
+                business, technology, sports, entertainment, and community
+                affairs.
+                <br />
+                <br />
+                Every article we publish is guided by truth, fairness, and
+                accountability because informed communities build stronger
+                societies.
+              </p>
+
+              <div className="mt-10 flex flex-wrap gap-5">
+                <Link
+                  to="/news"
+                  className="rounded-xl bg-red-600 px-8 py-4 font-semibold text-white transition hover:bg-red-700"
+                >
+                  Read Today's News
+                </Link>
+
+                <Link
+                  to="/contact"
+                  className="rounded-xl border border-slate-700 px-8 py-4 font-semibold text-white transition hover:border-white"
+                >
+                  Contact Our Newsroom
+                </Link>
+              </div>
+
+              {/* Stats */}
+
+              <div className="mt-14 grid grid-cols-2 gap-8 md:grid-cols-4">
+                <div>
+                  <h3 className="text-3xl font-black text-white">500+</h3>
+
+                  <p className="mt-2 text-sm text-slate-400">
+                    Published Stories
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-3xl font-black text-white">20+</h3>
+
+                  <p className="mt-2 text-sm text-slate-400">News Categories</p>
+                </div>
+
+                <div>
+                  <h3 className="text-3xl font-black text-white">Daily</h3>
+
+                  <p className="mt-2 text-sm text-slate-400">
+                    Breaking Updates
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-3xl font-black text-white">100%</h3>
+
+                  <p className="mt-2 text-sm text-slate-400">Independent</p>
+                </div>
+              </div>
             </div>
-            <h2 className="text-2xl md:text-3xl font-serif font-black text-white uppercase tracking-tight">
-              Amplifying Voices Outside the Algorithm
-            </h2>
-            <p className="text-slate-400 text-xs md:text-sm leading-relaxed font-normal">
-              Modern media conglomerates prioritize top-tier national spectacles engineered to drive clicks and ad placement. As a result, critical regional stories—local policy actions, grassroots economic developments, and community triumphs—get lost in the noise.
-            </p>
-            
-            <blockquote className="border-l-2 border-red-600 pl-4 italic text-slate-300 text-xs font-mono">
-              "When a local story is suppressed, a piece of global accountability goes missing."
-            </blockquote>
-            
-            <p className="text-slate-400 text-xs md:text-sm leading-relaxed font-normal">
-              Our framework flips the script. By combining raw community correspondence with a streamlined decentralized platform, we strip away corporate algorithmic bias to push raw local truths up to the surface where everyone can access them.
-            </p>
-          </div>
 
-          {/* Right Block: Graphic Card UI */}
-          <div className="w-full lg:w-5/12 group relative">
-            <div className="absolute -inset-2 bg-gradient-to-tr from-indigo-500/10 to-purple-500/10 blur-xl opacity-70 rounded-md"></div>
-            <div className="relative border border-slate-800 p-2 bg-[#0e0f23]/60 rounded-md shadow-2xl">
-              <img
-                src={communityReportUrl}
-                alt="Global digital node grid representing local networks"
-                className="w-full h-auto rounded-sm object-cover filter saturate-50 brightness-90 group-hover:saturate-100 transition-all duration-500"
-              />
-              <div className="p-4 bg-[#00020f] border border-slate-900 rounded-sm mt-2">
-                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">NETWORK COVERAGE</p>
-                <p className="text-white font-serif text-sm font-bold mt-1">Decentralized Data Ingestion Layout</p>
+            {/* RIGHT */}
+
+            <div>
+              <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 shadow-2xl">
+                <img
+                  src={newsroomHeroUrl}
+                  alt="Newsroom"
+                  className="h-[600px] w-full object-cover"
+                />
               </div>
             </div>
           </div>
-
         </div>
       </section>
+      <section className="bg-white py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid items-center gap-16 lg:grid-cols-2">
+            {/* Left Image */}
 
-      {/* SECTION 3: The Pillars of Our Distribution Engine */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-24 bg-[#00020f]">
-        <div className="text-center mb-20">
-          <div className="inline-block text-[10px] font-mono tracking-widest text-purple-400 uppercase mb-3">
-            How We Operate
+            <div className="relative">
+              <img
+                src={communityReportUrl}
+                alt="Journalist covering community news"
+                className="h-[600px] w-full rounded-3xl object-cover shadow-2xl"
+              />
+
+              <div className="absolute bottom-8 left-8 rounded-2xl bg-white/95 p-6 shadow-xl backdrop-blur">
+                <p className="text-sm font-semibold uppercase tracking-widest text-red-600">
+                  Our Mission
+                </p>
+
+                <h3 className="mt-2 text-2xl font-black text-slate-900">
+                  Journalism That Puts Communities First
+                </h3>
+              </div>
+            </div>
+
+            {/* Right Content */}
+
+            <div>
+              <span className="inline-flex rounded-full bg-indigo-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
+                Our Story
+              </span>
+
+              <h2 className="mt-6 text-4xl font-black leading-tight text-slate-900 md:text-5xl">
+                Every Community Has Stories Worth Telling.
+              </h2>
+
+              <p className="mt-8 text-lg leading-9 text-slate-600">
+                Great journalism isn't only about reporting national headlines.
+                It's about uncovering the stories that shape everyday lives— the
+                businesses creating opportunities, the leaders making decisions,
+                the innovators solving problems, and the people making a
+                difference in their communities.
+              </p>
+
+              <p className="mt-6 text-lg leading-9 text-slate-600">
+                Our newsroom was founded with a simple belief: everyone deserves
+                access to accurate, balanced, and trustworthy information. We
+                are committed to reporting with fairness, integrity, and respect
+                for the truth, ensuring every story is carefully researched
+                before publication.
+              </p>
+
+              <p className="mt-6 text-lg leading-9 text-slate-600">
+                From breaking news and politics to business, technology, sports,
+                entertainment, and human-interest stories, our goal is to
+                inform, educate, and inspire readers every day.
+              </p>
+
+              {/* Values */}
+
+              <div className="mt-10 grid gap-5 sm:grid-cols-2">
+                <div className="rounded-2xl border border-slate-200 p-6">
+                  <h3 className="text-lg font-bold text-slate-900">
+                    Accurate Reporting
+                  </h3>
+
+                  <p className="mt-2 text-slate-500">
+                    Every article is reviewed and verified before publication.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 p-6">
+                  <h3 className="text-lg font-bold text-slate-900">
+                    Independent Journalism
+                  </h3>
+
+                  <p className="mt-2 text-slate-500">
+                    Our reporting is guided by facts, not influence.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 p-6">
+                  <h3 className="text-lg font-bold text-slate-900">
+                    Community Focus
+                  </h3>
+
+                  <p className="mt-2 text-slate-500">
+                    We highlight stories that matter to local and global
+                    audiences.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 p-6">
+                  <h3 className="text-lg font-bold text-slate-900">
+                    Trusted Information
+                  </h3>
+
+                  <p className="mt-2 text-slate-500">
+                    We value transparency, accountability, and responsible
+                    reporting.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <h2 className="text-3xl font-serif font-black text-white uppercase">
-            The Pillars of Elevation
-          </h2>
         </div>
+      </section>
+      {/* ===========================
+      MEET THE FOUNDER
+=========================== */}
+      <section className="bg-slate-50 py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <span className="inline-flex rounded-full bg-red-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-red-600">
+              Meet The Founder
+            </span>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Pillar 1: Grassroots Sourcing */}
-          <div className="flex flex-col items-start p-6 bg-[#0e0f23]/20 border border-slate-900 rounded-md group hover:border-slate-800 transition-all duration-300">
-            <div className="w-10 h-10 bg-slate-900 border border-slate-800 rounded-sm flex items-center justify-center mb-6 text-red-500 group-hover:bg-red-600 group-hover:text-white transition-all">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-serif font-bold text-white mb-2">Hyper-Local Dispatch</h3>
-            <p className="text-slate-400 leading-relaxed text-xs font-normal">
-              We coordinate verified lines directly with community actors, citizen journalists, and local observers to build report wires right from the source code of the city.
+            <h2 className="mt-6 text-4xl font-black text-slate-900 md:text-5xl">
+              The Journalist Behind The Stories
+            </h2>
+
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-9 text-slate-600">
+              Every publication has a voice. Behind ours is a commitment to
+              factual reporting, responsible journalism, and telling stories
+              that inform, educate, and inspire our readers.
             </p>
           </div>
 
-          {/* Pillar 2: Upstream Propagation */}
-          <div className="flex flex-col items-start p-6 bg-[#0e0f23]/20 border border-slate-900 rounded-md group hover:border-slate-800 transition-all duration-300">
-            <div className="w-10 h-10 bg-slate-900 border border-slate-800 rounded-sm flex items-center justify-center mb-6 text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
+          <div className="mt-20 grid items-center gap-16 lg:grid-cols-2">
+            {/* LEFT */}
+
+            <div className="relative">
+              <img
+                src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Founder"
+                className="h-[650px] w-full rounded-3xl object-cover shadow-2xl"
+              />
+
+              <div className="absolute bottom-8 left-8 rounded-3xl bg-white p-6 shadow-xl">
+                <p className="text-sm font-semibold uppercase tracking-widest text-red-600">
+                  Founder & Editor-in-Chief
+                </p>
+
+                <h3 className="mt-2 text-2xl font-black text-slate-900">
+                  John Ferdinand
+                </h3>
+              </div>
             </div>
-            <h3 className="text-lg font-serif font-bold text-white mb-2">The Upstream Push</h3>
-            <p className="text-slate-400 leading-relaxed text-xs font-normal">
-              Our distribution models are engineered to push validated regional dispatches cleanly onto global feeds, defying mainstream filter bubbles that mask non-metropolitan realities.
+
+            {/* RIGHT */}
+
+            <div>
+              <h3 className="text-3xl font-black text-slate-900">
+                John Ferdinand
+              </h3>
+
+              <p className="mt-2 text-lg font-medium text-red-600">
+                Founder • Journalist • Editor-in-Chief
+              </p>
+
+              <p className="mt-8 text-lg leading-9 text-slate-600">
+                John Ferdinand founded this newsroom with one mission: to make
+                reliable journalism accessible to everyone. He believes every
+                community deserves honest reporting, regardless of location or
+                influence.
+              </p>
+
+              <p className="mt-6 text-lg leading-9 text-slate-600">
+                His reporting focuses on politics, business, technology, public
+                affairs, and community development. Every published story is
+                guided by fairness, accountability, and careful verification.
+              </p>
+
+              {/* Quote */}
+
+              <div className="mt-10 rounded-3xl border-l-4 border-red-600 bg-white p-8 shadow-sm">
+                <p className="text-2xl italic leading-relaxed text-slate-700">
+                  “Journalism is not about being first. It's about getting the
+                  facts right and earning the trust of every reader.”
+                </p>
+              </div>
+
+              {/* Contact */}
+
+              <div className="mt-10 grid gap-5">
+                <div className="rounded-2xl border border-slate-200 bg-white p-6">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                    Email
+                  </p>
+
+                  <p className="mt-2 text-lg font-bold text-slate-900">
+                    editor@yournews.com
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-white p-6">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                    Phone
+                  </p>
+
+                  <p className="mt-2 text-lg font-bold text-slate-900">
+                    +234 800 000 0000
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* ===========================
+      EDITORIAL PRINCIPLES
+=========================== */}
+      <section className="bg-white py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          {/* Header */}
+
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex rounded-full bg-indigo-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-indigo-600">
+              Editorial Standards
+            </span>
+
+            <h2 className="mt-6 text-4xl font-black text-slate-900 md:text-5xl">
+              Journalism Built On Trust
+            </h2>
+
+            <p className="mt-6 text-lg leading-9 text-slate-600">
+              Every article published in our newsroom follows strict editorial
+              guidelines designed to ensure accuracy, fairness, transparency,
+              and accountability.
             </p>
           </div>
 
-          {/* Pillar 3: Absolute Open Access */}
-          <div className="flex flex-col items-start p-6 bg-[#0e0f23]/20 border border-slate-900 rounded-md group hover:border-slate-800 transition-all duration-300">
-            <div className="w-10 h-10 bg-slate-900 border border-slate-800 rounded-sm flex items-center justify-center mb-6 text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-              </svg>
+          {/* Cards */}
+
+          <div className="mt-20 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {/* Card */}
+
+            <div className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-600 transition group-hover:bg-red-600 group-hover:text-white">
+                <ShieldCheck size={30} />
+              </div>
+
+              <h3 className="mt-8 text-2xl font-bold text-slate-900">
+                Accuracy
+              </h3>
+
+              <p className="mt-4 leading-8 text-slate-600">
+                Facts are verified through credible sources before publication.
+                We prioritize truth over speed.
+              </p>
             </div>
-            <h3 className="text-lg font-serif font-bold text-white mb-2">Unfettered Sovereignty</h3>
-            <p className="text-slate-400 leading-relaxed text-xs font-normal">
-              No premium paywalls, no pop-up telemetry arrays, and zero corporate gatekeepers. Information belongs to everyone, unfiltered and uncompromised.
+
+            {/* Card */}
+
+            <div className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-600 transition group-hover:bg-indigo-600 group-hover:text-white">
+                <Scale size={30} />
+              </div>
+
+              <h3 className="mt-8 text-2xl font-bold text-slate-900">
+                Fairness
+              </h3>
+
+              <p className="mt-4 leading-8 text-slate-600">
+                We present stories with balance, giving every side an
+                opportunity to be heard.
+              </p>
+            </div>
+
+            {/* Card */}
+
+            <div className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100 text-green-600 transition group-hover:bg-green-600 group-hover:text-white">
+                <BadgeCheck size={30} />
+              </div>
+
+              <h3 className="mt-8 text-2xl font-bold text-slate-900">
+                Integrity
+              </h3>
+
+              <p className="mt-4 leading-8 text-slate-600">
+                Editorial decisions remain independent and are never influenced
+                by political or commercial interests.
+              </p>
+            </div>
+
+            {/* Card */}
+
+            <div className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 transition group-hover:bg-amber-500 group-hover:text-white">
+                <Globe2 size={30} />
+              </div>
+
+              <h3 className="mt-8 text-2xl font-bold text-slate-900">
+                Community Impact
+              </h3>
+
+              <p className="mt-4 leading-8 text-slate-600">
+                We report stories that educate, inspire, and create meaningful
+                conversations within society.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="bg-slate-900 py-24 text-white">
+        <div className="mx-auto max-w-7xl px-6">
+          {/* Header */}
+
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex rounded-full bg-red-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-red-400">
+              Why Readers Choose Us
+            </span>
+
+            <h2 className="mt-6 text-4xl font-black md:text-5xl">
+              Trusted Journalism, Every Single Day
+            </h2>
+
+            <p className="mt-6 text-lg leading-9 text-slate-300">
+              Our commitment goes beyond publishing news. We strive to provide
+              balanced reporting, verified facts, and meaningful stories that
+              keep our readers informed.
+            </p>
+          </div>
+
+          {/* Statistics */}
+
+          <div className="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-3xl border border-slate-800 bg-slate-800/50 p-8 text-center">
+              <Newspaper className="mx-auto text-red-500" size={40} />
+
+              <h3 className="mt-6 text-5xl font-black">500+</h3>
+
+              <p className="mt-3 text-slate-400">Published Articles</p>
+            </div>
+
+            <div className="rounded-3xl border border-slate-800 bg-slate-800/50 p-8 text-center">
+              <Users className="mx-auto text-indigo-400" size={40} />
+
+              <h3 className="mt-6 text-5xl font-black">50K+</h3>
+
+              <p className="mt-3 text-slate-400">Monthly Readers</p>
+            </div>
+
+            <div className="rounded-3xl border border-slate-800 bg-slate-800/50 p-8 text-center">
+              <Globe2 className="mx-auto text-emerald-400" size={40} />
+
+              <h3 className="mt-6 text-5xl font-black">20+</h3>
+
+              <p className="mt-3 text-slate-400">News Categories</p>
+            </div>
+
+            <div className="rounded-3xl border border-slate-800 bg-slate-800/50 p-8 text-center">
+              <ShieldCheck className="mx-auto text-amber-400" size={40} />
+
+              <h3 className="mt-6 text-5xl font-black">100%</h3>
+
+              <p className="mt-3 text-slate-400">Independent Reporting</p>
+            </div>
+          </div>
+
+          {/* Quote */}
+
+          <div className="mt-20 rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-800 to-slate-900 p-10 text-center">
+            <p className="text-2xl italic leading-relaxed text-slate-200 md:text-3xl">
+              “Trust is earned through consistency, transparency, and a
+              commitment to publishing facts that matter.”
+            </p>
+
+            <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-red-400">
+              Our Editorial Commitment
             </p>
           </div>
         </div>
       </section>
+      <section className="bg-white py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          {/* Header */}
 
-      {/* BOTTOM ACTION CTA */}
-      <section className="max-w-5xl mx-auto px-6 py-20 text-center border-t border-slate-900">
-        <h3 className="text-xl md:text-2xl font-serif font-bold text-white uppercase">
-          Have an untold regional story?
-        </h3>
-        <p className="text-slate-500 text-xs max-w-md mx-auto mt-2 mb-6">
-          Connect directly with our validation desk. Let us coordinate, protect, and publish your community's truth.
-        </p>
-        <Link 
-          to="/contact" 
-          className="inline-block bg-white text-[#00020f] font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-sm transition-all duration-300 hover:bg-red-600 hover:text-white"
-        >
-          Contact us now
-        </Link>
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex rounded-full bg-red-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-red-600">
+              Contact Our Newsroom
+            </span>
+
+            <h2 className="mt-6 text-4xl font-black text-slate-900 md:text-5xl">
+              Have A Story To Share?
+            </h2>
+
+            <p className="mt-6 text-lg leading-9 text-slate-600">
+              Whether you have a news tip, a correction, a business inquiry, or
+              simply want to get in touch, we'd love to hear from you.
+            </p>
+          </div>
+
+          <div className="mt-20 grid gap-10 lg:grid-cols-2">
+            {/* LEFT */}
+
+            <div className="space-y-6">
+              {/* Email */}
+
+              <div className="flex items-start gap-5 rounded-3xl border border-slate-200 p-6 transition hover:shadow-lg">
+                <div className="rounded-2xl bg-red-100 p-4 text-red-600">
+                  <Mail size={28} />
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900">Email</h3>
+
+                  <p className="mt-2 text-slate-600">editor@yournews.com</p>
+
+                  <p className="text-slate-500">
+                    For editorial inquiries and news tips.
+                  </p>
+                </div>
+              </div>
+
+              {/* Phone */}
+
+              <div className="flex items-start gap-5 rounded-3xl border border-slate-200 p-6 transition hover:shadow-lg">
+                <div className="rounded-2xl bg-indigo-100 p-4 text-indigo-600">
+                  <Phone size={28} />
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900">Phone</h3>
+
+                  <p className="mt-2 text-slate-600">+234 800 000 0000</p>
+
+                  <p className="text-slate-500">
+                    Available during newsroom hours.
+                  </p>
+                </div>
+              </div>
+
+              {/* Address */}
+
+              <div className="flex items-start gap-5 rounded-3xl border border-slate-200 p-6 transition hover:shadow-lg">
+                <div className="rounded-2xl bg-green-100 p-4 text-green-600">
+                  <MapPin size={28} />
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900">Office</h3>
+
+                  <p className="mt-2 text-slate-600">
+                    Warri, Delta State, Nigeria
+                  </p>
+
+                  <p className="text-slate-500">Independent Digital Newsroom</p>
+                </div>
+              </div>
+
+              {/* Hours */}
+
+              <div className="flex items-start gap-5 rounded-3xl border border-slate-200 p-6 transition hover:shadow-lg">
+                <div className="rounded-2xl bg-amber-100 p-4 text-amber-600">
+                  <Clock3 size={28} />
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900">
+                    Newsroom Hours
+                  </h3>
+
+                  <p className="mt-2 text-slate-600">Monday – Saturday</p>
+
+                  <p className="text-slate-500">8:00 AM – 6:00 PM (WAT)</p>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT */}
+
+            <div className="rounded-[32px] bg-slate-900 p-10 text-white">
+              <span className="inline-flex rounded-full bg-red-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-red-400">
+                News Tips
+              </span>
+
+              <h3 className="mt-6 text-3xl font-black">
+                Help Us Tell The Stories That Matter
+              </h3>
+
+              <p className="mt-6 leading-8 text-slate-300">
+                We welcome verified news tips, community updates, corrections,
+                and story ideas from our readers. Every submission is reviewed
+                by our editorial team.
+              </p>
+
+              <div className="mt-10 rounded-2xl border border-slate-700 bg-slate-800 p-6">
+                <p className="italic text-slate-300">
+                  “If you witness an important event, uncover an issue affecting
+                  your community, or have information that serves the public
+                  interest, we'd like to hear from you.”
+                </p>
+              </div>
+
+              <button className="mt-10 inline-flex items-center gap-3 rounded-xl bg-red-600 px-8 py-4 font-semibold transition hover:bg-red-700" onClick={() => navigate("/contact")}>
+                <Send size={18} />
+                Send Us A Story
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );

@@ -30,7 +30,6 @@ const ViewArticle = () => {
     title: "",
     content: "",
     tags: [],
-    thumbnail: "",
     category: "",
     thumbnail: "",
     createdAt: "",

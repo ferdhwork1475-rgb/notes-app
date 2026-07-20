@@ -50,49 +50,64 @@ const Hero = () => {
 
           <div className="lg:col-span-5">
             <span className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-red-400">
-              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-              Breaking News
+              {" "}
+              <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />{" "}
+              Breaking News{" "}
             </span>
 
+            <div className="mb-4">
+              <span className="inline-flex items-center rounded-full border border-red-500/20 bg-red-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-red-400">
+                {" "}
+                Independent Journalism{" "}
+              </span>
+            </div>
             <h1 className="mt-8 text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl xl:text-6xl">
-              Stay informed with
-              <span className="block text-indigo-400">trusted journalism.</span>
+              {" "}
+              The Stories That,{" "}
+              <span className="block text-indigo-400">
+                {" "}
+                Shape Our World.{" "}
+              </span>{" "}
             </h1>
-
             <p className="mt-8 max-w-xl text-lg leading-8 text-slate-300">
-              Breaking news, politics, business, technology, sports and in-depth
-              analysis from Nigeria and around the world—all in one place.
+              {" "}
+              Stay ahead with verified reporting on politics, business,
+              technology, sports, entertainment, and the stories shaping Nigeria
+              and the world.{" "}
             </p>
-
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <div className="mt-10 flex flex-wrap gap-4">
               <Link
                 to="/news"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-7 py-4 font-semibold transition hover:bg-indigo-700"
+                className="rounded-xl bg-indigo-600 px-7 py-4 font-semibold text-white transition hover:bg-indigo-700"
               >
                 Explore Today's News
-                <ArrowRight size={18} />
+              </Link>
+
+              <Link
+                to="/about"
+                className="rounded-xl border border-slate-700 px-7 py-4 font-semibold text-white transition hover:bg-slate-800"
+              >
+                About Our Newsroom
               </Link>
             </div>
 
-            {/* Stats */}
-
             <div className="mt-14 grid grid-cols-3 gap-6 border-t border-slate-800 pt-8">
               <div>
-                <h3 className="text-3xl font-black text-white">24/7</h3>
+                <h3 className="text-3xl font-black">500+</h3>
 
-                <p className="mt-1 text-sm text-slate-400">Live Updates</p>
+                <p className="mt-2 text-sm text-slate-400">Published Stories</p>
               </div>
 
               <div>
-                <h3 className="text-3xl font-black text-white">10+</h3>
+                <h3 className="text-3xl font-black">12</h3>
 
-                <p className="mt-1 text-sm text-slate-400">Categories</p>
+                <p className="mt-2 text-sm text-slate-400">News Categories</p>
               </div>
 
               <div>
-                <h3 className="text-3xl font-black text-white">Daily</h3>
+                <h3 className="text-3xl font-black">24/7</h3>
 
-                <p className="mt-1 text-sm text-slate-400">Fresh Stories</p>
+                <p className="mt-2 text-sm text-slate-400">Breaking Coverage</p>
               </div>
             </div>
           </div>
@@ -124,7 +139,9 @@ const Hero = () => {
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-
+                  <span className="absolute right-6 top-6 rounded-full bg-white px-3 py-2 text-xs font-bold uppercase tracking-widest text-slate-900">
+                    Editor's Pick
+                  </span>
                   <span className="absolute left-6 top-6 rounded-full bg-red-600 px-4 py-2 text-xs font-bold uppercase tracking-widest">
                     {article.category}
                   </span>
@@ -168,6 +185,15 @@ const Hero = () => {
               </article>
             )}
           </div>
+        </div>
+      </div>
+      <div className="mt-16 flex justify-center">
+        <div className="flex flex-col items-center text-slate-500">
+          <span className="text-xs uppercase tracking-[0.3em]">
+            Latest Stories
+          </span>
+
+          <div className="mt-3 h-10 w-px bg-slate-700" />
         </div>
       </div>
     </section>

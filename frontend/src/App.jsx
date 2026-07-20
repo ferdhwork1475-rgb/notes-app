@@ -20,6 +20,7 @@ import ForgotPassword from "./pages/protected/ForgotPassword";
 import VerifyOtp from "./pages/protected/VerifyOtp";
 import ResetPassword from "./pages/protected/ResetPassword";
 import AdminNotFound from "./pages/protected/AdminNotFound";
+import ViewLatestNews from "./pages/public/ViewLatestNews"
 import NotFound from "./pages/public/NotFound";
 
 const App = () => {
@@ -38,7 +39,8 @@ const App = () => {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/verify-otp" element={<VerifyOtp />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="articles/:slug" element={<ViewArticle />} />
+              <Route path="/articles/:slug" element={<ViewArticle />} />
+              <Route path="/latest-news/:id" element={<ViewLatestNews/>} />
               <Route path="*" element={<NotFound />} />
             </Route>
             <Route path="/admin" element={<DashLayout />}>

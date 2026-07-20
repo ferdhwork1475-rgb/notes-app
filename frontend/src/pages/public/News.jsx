@@ -8,14 +8,15 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchArticles } from "../../services/authService";
 import ReactMarkdown from "react-markdown";
 
 const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const NewsLibrary = () => {
-  console.log(useParams)
+  const searchText = useSearchParams();
+  console.log(searchText)
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([
     {
