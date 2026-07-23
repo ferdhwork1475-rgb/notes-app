@@ -114,7 +114,6 @@ export const fetchArticle = async (slug) => {
 
 export const updateArticle = async (slug, formData) => {
   try {
-    console.log(slug)
     const response = await axios.put(`${backendAPI}articles/${slug}`, formData, {
       withCredentials: true,
     });
@@ -124,9 +123,9 @@ export const updateArticle = async (slug, formData) => {
   }
 };
 
-export const deleteArticle = async (id) => {
+export const deleteArticle = async (slug) => {
   try {
-    const response = await axios.delete(`${backendAPI}articles/${id}`, {
+    const response = await axios.delete(`${backendAPI}articles/${slug}`, {
       withCredentials: true,
     });
     return response.data;

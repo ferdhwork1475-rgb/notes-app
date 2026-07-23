@@ -66,6 +66,8 @@ export const fetchArticle = async (req, res, next) => {
       slug: article.slug,
     };
 
+    console.log(articleData.tags)
+
     const relatedArticles = await Article.find({
       category: articleData.category,
       _id: { $ne: articleData.id },
@@ -92,7 +94,6 @@ export const updateArticle = async (req, res, next) => {
   try {
     const { title, content, tags } = req.body;
 
-    console.log(req.params)
     const article = await Article.findOne({ slug: req.params.slug });
     if (!article) {
       return res.status(404).send("Article not found");
@@ -105,7 +106,7 @@ export const updateArticle = async (req, res, next) => {
       thumbnail: req.file ? req.file.filename : article.thumbnail,
     };
 
-    await Article.findByIdAndUpdate(req.params.id, updatedData, {
+    await Article.findOneAndUpdate({slug: req.params.slug}, updatedData, {
       returnDocument: "after",
     });
 
@@ -117,7 +118,7 @@ export const updateArticle = async (req, res, next) => {
 
 export const deleteArticle = async (req, res, next) => {
   try {
-    const article = await Article.findById(req.params.id);
+    const article = await Article.findOne({ slug: req.params.slug});
     if (!article) {
       return res.status(404).send("Article not found");
     }

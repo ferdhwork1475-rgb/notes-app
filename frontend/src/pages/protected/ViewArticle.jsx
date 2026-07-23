@@ -111,7 +111,7 @@ const ViewArticle = () => {
       )
     ) {
       try {
-        await deleteArticle(article.id);
+        await deleteArticle(article.slug);
         toast.success("Article deleted successfully");
         navigate("/admin");
       } catch (error) {

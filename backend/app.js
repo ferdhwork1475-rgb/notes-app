@@ -37,12 +37,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// app.use("*", (req, res) => {
-//   res.status(404).json({
-//     message: "No such directory on the backend",
-//   });
-// });
-
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {

@@ -36,14 +36,15 @@ const EditArticle = () => {
   const [article, setArticle] = useState({
     title: "",
     content: "",
-    tags: [],
+    tags: [""],
     thumbnail: "",
+    slug: ""
   });
 
   // Form Field States
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([""]);
   const [thumbnail, setThumbnail] = useState(null);
   const [preview, setPreview] = useState("");
 
@@ -168,7 +169,7 @@ const EditArticle = () => {
     try {
       formData.append("title", title);
       formData.append("content", content);
-      tags.map((tag) => formData.append("tags", tag));
+      tags.split(",").map((tag) => formData.append("tags", tag));
       if (thumbnail !== null) {
         formData.append("thumbnail", thumbnail);
       }
@@ -176,11 +177,11 @@ const EditArticle = () => {
         toast.info("No changes detected to update");
         return;
       }
-      await updateArticle(id, formData);
+      await updateArticle(article.slug, formData);
       toast.success("News article updated successfully");
       navigate("/admin");
     } catch (error) {
-      console.error("Error updating article:", error);
+      console.error("Error updating article:", error.response);
       toast.error("Failed to update news article");
     } finally {
       setLoading(false);
@@ -229,11 +230,11 @@ const EditArticle = () => {
           <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
             Editing Article
           </span>
-          {/* {isDirty && (
+          {isDirty && (
             <span className="text-[10px] font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md animate-pulse">
               Unsaved Changes
             </span>
-          )} */}
+          )}
         </div>
 
         {/* Dynamic Utility Toolbar Actions */}

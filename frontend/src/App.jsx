@@ -22,12 +22,16 @@ import ResetPassword from "./pages/protected/ResetPassword";
 import AdminNotFound from "./pages/protected/AdminNotFound";
 import ViewLatestNews from "./pages/public/ViewLatestNews"
 import NotFound from "./pages/public/NotFound";
+import ScrollToTop from "./components/common/ScrollToTop";
+import PrivacyPage from "./pages/public/PrivacyPage";
+import Terms from "./pages/public/Terms";
 
 const App = () => {
   return (
     <>
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <Routes>
             <Route element={<MainLayout />}>
               <Route index element={<IndexPage />} />
@@ -38,6 +42,8 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/verify-otp" element={<VerifyOtp />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="terms" element={<Terms />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/articles/:slug" element={<ViewArticle />} />
               <Route path="/latest-news/:id" element={<ViewLatestNews/>} />
