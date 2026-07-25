@@ -1,1 +1,0 @@
-Check the contact page and all its connections.

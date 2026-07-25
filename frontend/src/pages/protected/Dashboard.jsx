@@ -47,10 +47,7 @@ const Dashboard = () => {
         setTotalPages(response.totalPages);
         setTotalArticles(response.totalArticles);
       } catch (error) {
-        console.error(
-          "Error fetching articles:",
-          error.response?.data?.message || error.message,
-        );
+        toast.error("Failed to laod articles");
       } finally {
         setLoading(false);
       }

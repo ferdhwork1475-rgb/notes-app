@@ -56,7 +56,6 @@ const ForgotPassword = () => {
       // Redirect to the OTP verification view, passing email state along if needed
       navigate("/verify-otp", { state: { email } });
     } catch (err) {
-      console.error("Forgot password request failed:", err.response);
       toast.error(err.response?.data?.message || "Failed to send verification code.");
     } finally {
       setIsLoading(false);

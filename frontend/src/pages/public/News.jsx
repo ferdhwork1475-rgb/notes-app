@@ -16,7 +16,6 @@ const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
 
 const NewsLibrary = () => {
   const searchText = useSearchParams();
-  console.log(searchText)
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([
     {
@@ -53,7 +52,7 @@ const NewsLibrary = () => {
         setTotalPages(response.totalPages);
         setTotalArticles(response.totalArticles);
       } catch (error) {
-        console.error("Error fetching news:", error);
+        toast.error("Failed to load news. Check internet connection.");
       } finally {
         setLoading(false);
       }

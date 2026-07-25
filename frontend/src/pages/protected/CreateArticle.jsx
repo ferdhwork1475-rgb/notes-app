@@ -97,7 +97,6 @@ const CreateArticle = () => {
       navigate("/admin");
       toast.success("Article created successfully");
     } catch (error) {
-      console.log("Error creating article:", error.response);
       toast.error("Failed to create article");
     } finally {
       setLoading(false);

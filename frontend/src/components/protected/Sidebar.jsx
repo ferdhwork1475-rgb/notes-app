@@ -25,7 +25,7 @@ const Sidebar = ({ user }) => {
 
   // Mock logout handler
   const handleLogout = () => {
-    console.log("Logging out user session...");
+    toast.error("Logging out user session...");
     closeMobileDrawer();
   };
 

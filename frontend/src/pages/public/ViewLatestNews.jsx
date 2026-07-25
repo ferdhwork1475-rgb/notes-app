@@ -33,10 +33,8 @@ const ViewLatestNews = () => {
         setLoading(true);
         const response = location?.state.articleData;
         setArticle(response);
-        console.log(response)
       } catch (error) {
-        console.error("Error fetching article:", error);
-        toast.error("Failed to load article content");
+        toast.error("Failed to load article content. Check internet connection.");
       } finally {
         setLoading(false);
       }

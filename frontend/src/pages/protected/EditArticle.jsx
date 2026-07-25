@@ -70,7 +70,6 @@ const EditArticle = () => {
         setTags(response.articleData.tags);
         setPreview(`${uploadPath}${response.articleData.thumbnail}`);
       } catch (error) {
-        console.error("Error retrieving article records:", error);
         setErrorState(true);
         toast.error("Failed to load article records");
       } finally {
@@ -185,7 +184,6 @@ const EditArticle = () => {
       toast.success("News article updated successfully");
       navigate("/admin");
     } catch (error) {
-      console.error("Error updating article:", error);
       toast.error("Failed to update news article");
     } finally {
       setLoading(false);

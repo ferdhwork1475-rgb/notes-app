@@ -71,7 +71,6 @@ const Login = ({ setActive }) => {
       const response = await loginUser(email, password);
       navigate("/admin");
     } catch (error) {
-      console.error("Login attempt failed in component:", error.response || error);
       toast.error(error.response?.data?.message || "Invalid credentials");
     } finally {
       setIsLoading(false);

@@ -74,7 +74,6 @@ const ViewArticle = () => {
         setArticle(response.articleData);
         setRelatedArticles(response.relatedArticlesData);
       } catch (error) {
-        console.error("Error fetching article:", error.response);
         toast.error("Failed to load article content");
       } finally {
         setLoading(false);

@@ -115,7 +115,8 @@ const IndexPage = () => {
         const response = await fetchArticles(page, category);
         setArticles(response.articles);
       } catch (error) {
-        console.error("Error fetching news:", error);
+        toast.error("Failed to news article. Check internet connection.");
+    
       } finally {
         setLoading(false);
       }
@@ -132,7 +133,8 @@ const IndexPage = () => {
         );
         setLastestNews(response.data.articles);
       } catch (error) {
-        console.error("Error fetching news:", error);
+        toast.error("Failed to news article. Check internet connection.");
+    
       } finally {
         setLoading(false);
       }

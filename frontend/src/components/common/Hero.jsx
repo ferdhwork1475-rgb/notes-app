@@ -29,7 +29,7 @@ const Hero = () => {
         const response = await fetchArticles(page, category);
         setArticle(response.articles[0]);
       } catch (error) {
-        console.log(error.response);
+        toast.error("Failed to load article");
       } finally {
         setLoading(false);
       }

@@ -39,8 +39,7 @@ const ContactPage = () => {
       setSubject("General-Inquiry");
       setMessage("");
     } catch (error) {
-      console.error("Error sending message:", error.response);
-      toast.error("Failed to send message");
+      toast.error("Failed to send message. Check internet connection.");
     } finally {
       setIsLoading(false);
     }

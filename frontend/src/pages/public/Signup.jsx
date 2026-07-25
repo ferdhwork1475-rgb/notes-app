@@ -62,7 +62,6 @@ const Signup = () => {
       toast.success("Admin account verified and created successfully");
       navigate("/login");
     } catch (error) {
-      console.error("Failed registration attempt in component", error.response);
       if (error.response?.data?.message.includes("getaddrinfo")) {
         toast.error("Check your internet connection")
       }
