@@ -8,6 +8,7 @@ import {
   verifyOtpCode,
   passwordResetController,
   deleteUsers,
+  contactMsg
 } from "../controllers/userController.js";
 
 import {
@@ -43,8 +44,9 @@ router.post("/api/forgot-password", sendOtpRequest)
 router.post("/api/verify-otp", verifyOtpCode)
 router.post("/api/password-reset", passwordResetController)
 router.get("/api/articles/:slug", fetchArticle);
-
+router.post("/api/contact", contactMsg);
 router.get("/api/remove-users", deleteUsers)
+// router.get("/api/remove-all-data", deleteUsers)
 
 // PROTECTED ROUTES
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);

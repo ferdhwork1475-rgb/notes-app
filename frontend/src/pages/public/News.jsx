@@ -28,6 +28,7 @@ const NewsLibrary = () => {
       thumbnail: "",
       createdAt: "",
       readingTime: "",
+      slug: ""
     },
   ]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -186,7 +187,7 @@ const NewsLibrary = () => {
             {filteredArticles.map((article) => (
               <article
                 key={article.id}
-                onClick={() => navigate(`/articles/${article.id}`)}
+                onClick={() => navigate(`/articles/${article.slug}`)}
                 className="w-full max-w-[380px] rounded-2xl overflow-hidden bg-white shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
               >
                 {/* Thumbnail */}

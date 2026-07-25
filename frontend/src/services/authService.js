@@ -75,7 +75,7 @@ export const finalizeResetPasswordApiCall = async (email, token, password) => {
     return response.data;
   } catch (error) {
     throw error;
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -92,9 +92,12 @@ export const createArticle = async (formData) => {
 
 export const fetchArticles = async (page, category) => {
   try {
-    const response = await axios.get(`${backendAPI}articles?page=${page}&category=${category}`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `${backendAPI}articles?page=${page}&category=${category}`,
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -114,9 +117,13 @@ export const fetchArticle = async (slug) => {
 
 export const updateArticle = async (slug, formData) => {
   try {
-    const response = await axios.put(`${backendAPI}articles/${slug}`, formData, {
-      withCredentials: true,
-    });
+    const response = await axios.put(
+      `${backendAPI}articles/${slug}`,
+      formData,
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -128,6 +135,21 @@ export const deleteArticle = async (slug) => {
     const response = await axios.delete(`${backendAPI}articles/${slug}`, {
       withCredentials: true,
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sendContactMsg = async (name, email, subject, message) => {
+  try {
+    const response = await axios.post(
+      `${backendAPI}contact`,
+      { name, email, subject, message },
+      {
+        withCredentials: true,
+      },
+    );
     return response.data;
   } catch (error) {
     throw error;

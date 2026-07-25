@@ -66,8 +66,6 @@ export const fetchArticle = async (req, res, next) => {
       slug: article.slug,
     };
 
-    console.log(articleData.tags)
-
     const relatedArticles = await Article.find({
       category: articleData.category,
       _id: { $ne: articleData.id },
@@ -93,6 +91,7 @@ export const fetchArticle = async (req, res, next) => {
 export const updateArticle = async (req, res, next) => {
   try {
     const { title, content, tags } = req.body;
+    console.log(title)
 
     const article = await Article.findOne({ slug: req.params.slug });
     if (!article) {

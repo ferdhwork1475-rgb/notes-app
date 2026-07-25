@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import cron from "node-cron";
 import { hashPassword, comparePassword } from "../models/userSchema.js";
 import { sendOTPVerificationEmail } from "../services/emailService.js";
+import { sendContactEmail } from "../services/emailMsgService.js";
 
 export const deleteUsers = async (req, res, next) => {
   try {
@@ -163,6 +164,16 @@ export const passwordResetController = async (req, res, next) => {
     next(error);
   }
 };
+
+export const contactMsg = async (req, res, next) => {
+  try {
+    const { email, name, subject, message } = req.body
+    await sendContactEmail(name, email, subject, message)
+    res.status(200).send("success")
+  } catch (error) {
+    next(error);
+  }
+}
 
 cron.schedule("0 0 * * *", async () => {
   const usersOTPExpires = await User.updateMany(

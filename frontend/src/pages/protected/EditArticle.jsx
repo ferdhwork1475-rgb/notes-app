@@ -38,7 +38,7 @@ const EditArticle = () => {
     content: "",
     tags: [""],
     thumbnail: "",
-    slug: ""
+    slug: "",
   });
 
   // Form Field States
@@ -169,7 +169,11 @@ const EditArticle = () => {
     try {
       formData.append("title", title);
       formData.append("content", content);
-      tags.split(",").map((tag) => formData.append("tags", tag));
+      if (tags.length == article.tags.length) {
+        tags.map((tag) => formData.append("tags", tag));
+      } else {
+        tags.split(",").map((tag) => formData.append("tags", tag));
+      }
       if (thumbnail !== null) {
         formData.append("thumbnail", thumbnail);
       }
@@ -181,7 +185,7 @@ const EditArticle = () => {
       toast.success("News article updated successfully");
       navigate("/admin");
     } catch (error) {
-      console.error("Error updating article:", error.response);
+      console.error("Error updating article:", error);
       toast.error("Failed to update news article");
     } finally {
       setLoading(false);
