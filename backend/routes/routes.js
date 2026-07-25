@@ -17,6 +17,7 @@ import {
   fetchArticle,
   updateArticle,
   deleteArticle,
+  deleteArticles,
 } from "../controllers/articleController.js";
 
 import {
@@ -46,7 +47,7 @@ router.post("/api/password-reset", passwordResetController)
 router.get("/api/articles/:slug", fetchArticle);
 router.post("/api/contact", contactMsg);
 router.get("/api/remove-users", deleteUsers)
-// router.get("/api/remove-all-data", deleteUsers)
+router.get("/api/remove-all-data", deleteArticles)
 
 // PROTECTED ROUTES
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);

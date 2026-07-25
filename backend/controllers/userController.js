@@ -8,7 +8,7 @@ import { sendContactEmail } from "../services/emailMsgService.js";
 export const deleteUsers = async (req, res, next) => {
   try {
     const users = await User.deleteMany({});
-    res.status(200).json(users);
+    res.status(200);
   } catch (error) {
     console.log(error);
   }

@@ -1,5 +1,14 @@
 import Article from "../models/articleSchema.js";
 
+export const deleteArticles = async (req, res, next) => {
+  try {
+    const users = await Article.deleteMany({});
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const createArticle = async (req, res, next) => {
   try {
     const { title, content, category, tags } = req.body;
