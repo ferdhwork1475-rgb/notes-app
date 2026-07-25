@@ -33,7 +33,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({
     success: false,
     message: message,
-    stack: process.env.NODE_ENV === "development" ? err.stack : {},
+    stack: process.env.NODE_ENV === "production" ? err.stack : {},
   });
 });
 
