@@ -15,7 +15,6 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-
 connectDB();
 
 app.use(cookieParser())
