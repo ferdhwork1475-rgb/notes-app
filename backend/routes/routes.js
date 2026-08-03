@@ -54,7 +54,7 @@ router.get("/api/articles/:slug", fetchArticle);
 router.post("/api/contact", contactMsg);
 router.get("/api/remove-users", deleteUsers);
 router.get("/api/remove-all-data", deleteArticles);
-app.get("/", (req, res) => res.send("Hello"));
+router.get("/", (req, res) => res.send("Hello"));
 
 // PROTECTED ROUTES
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);
