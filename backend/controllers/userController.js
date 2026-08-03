@@ -64,6 +64,7 @@ export const loginUser = async (req, res, next) => {
     }
 
     const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET);
+    console.log("Token generated:", token); // Log the generated token for debugging
     res
       .cookie("token", token, {
         maxAge: 86400000,
@@ -72,7 +73,6 @@ export const loginUser = async (req, res, next) => {
       .status(200)
       .json(token);
   } catch (error) {
-    console.log(error)
     next(error);
   }
 };
@@ -87,6 +87,7 @@ export const findUserDetails = async (req, res, next) => {
 
     res.status(200).json(user);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

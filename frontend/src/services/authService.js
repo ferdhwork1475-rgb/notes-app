@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-
 const backendAPI = import.meta.env.VITE_BACKEND_API;
 
 export const signupUser = async (formData) => {
