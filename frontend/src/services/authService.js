@@ -5,7 +5,6 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const backendAPI = import.meta.env.VITE_BACKEND_API;
-console.log("Backend API URL:", backendAPI);
 
 export const signupUser = async (formData) => {
   try {
