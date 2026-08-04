@@ -28,6 +28,8 @@ app.get("/", (req, res) => {
 });
 app.use(router);
 
+connectDB();
+
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
@@ -39,7 +41,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-connectDB();
 
 const port = process.env.PORT || 3000;
 
