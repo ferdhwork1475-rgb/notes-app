@@ -83,7 +83,6 @@ export const loginUser = async (req, res, next) => {
 
 export const findUserDetails = async (req, res, next) => {
   try {
-    console.log("User ID from token:", req.user.userId); // Log the user ID for debugging
     const user = await User.findById(req.user.userId);
     if (!user) {
       throw new Error("Invalid user");
