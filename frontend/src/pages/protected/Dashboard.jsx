@@ -184,7 +184,7 @@ const Dashboard = () => {
                   <div className="w-full h-44 rounded-xl overflow-hidden mb-4 bg-slate-50 relative shrink-0">
                     {article.thumbnail?.url ? (
                       <img
-                        src={`${uploadPath}${article.thumbnail?.url}`}
+                        src={article.thumbnail?.url}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                         onError={(e) => {

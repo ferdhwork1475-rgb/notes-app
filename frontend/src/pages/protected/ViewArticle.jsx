@@ -437,7 +437,7 @@ const ViewArticle = () => {
                 {/* Image */}
                 <div className="relative h-52 overflow-hidden">
                   <img
-                    src={`${uploadPath}${related.thumbnail}`}
+                    src={related.thumbnail?.url || ""}
                     alt={related.title}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />

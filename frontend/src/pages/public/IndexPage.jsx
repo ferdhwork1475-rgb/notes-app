@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Landmark,
   BriefcaseBusiness,
@@ -114,7 +115,7 @@ const IndexPage = () => {
         setArticles(response.articles);
       } catch (error) {
         toast.error("Failed to news article. Check internet connection.");
-    
+        console.log(error)
       } finally {
         setLoading(false);
       }
