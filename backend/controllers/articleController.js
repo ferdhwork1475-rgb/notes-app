@@ -11,19 +11,19 @@ export const deleteArticles = async (req, res, next) => {
 
 export const createArticle = async (req, res, next) => {
   try {
-    const { title, content, category, tags } = req.body;
-    const newArticle = new Article({
-      title,
-      content,
-      category,
-      tags,
-      thumbnail: req.file ? req.file.filename : null,
-    });
-    console.log(req.file)
-    await newArticle.save();
-    res.status(200).json(newArticle);
+    // const { title, content, category, tags } = req.body;
+    // const newArticle = new Article({
+    //   title,
+    //   content,
+    //   category,
+    //   tags,
+    //   thumbnail: req.file ? req.file.filename : null,
+    // });
+    console.log("req file",req.file)
+    // await newArticle.save();
+    // res.status(200).json(newArticle);
   } catch (error) {
-    console.log(error)
+    console.log("Error creating article:", error);
     next(error);
   }
 };
