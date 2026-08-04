@@ -63,12 +63,16 @@ export const loginUser = async (req, res, next) => {
       return next(error);
     }
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET);
-    console.log("Token generated:", token); // Log the generated token for debugging
+    const token = jwt.sign(
+      { userId: user.id, role: user.role },
+      process.env.JWT_SECRET,
+    );
     res
       .cookie("token", token, {
-        maxAge: 86400000,
         httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .status(200)
       .json(token);
@@ -132,7 +136,7 @@ export const verifyOtpCode = async (req, res, next) => {
     }
 
     const isMatched = user.otpCode === fullOtpString;
-     if (!isMatched) {
+    if (!isMatched) {
       throw new Error("OTP code is invalid.");
       return next(error);
     }
@@ -170,13 +174,13 @@ export const passwordResetController = async (req, res, next) => {
 
 export const contactMsg = async (req, res, next) => {
   try {
-    const { email, name, subject, message } = req.body
-    await sendContactEmail(name, email, subject, message)
-    res.status(200).send("success")
+    const { email, name, subject, message } = req.body;
+    await sendContactEmail(name, email, subject, message);
+    res.status(200).send("success");
   } catch (error) {
     next(error);
   }
-}
+};
 
 cron.schedule("0 0 * * *", async () => {
   const usersOTPExpires = await User.updateMany(
