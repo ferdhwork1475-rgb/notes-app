@@ -60,6 +60,7 @@ router.get("/api/remove-all-data", deleteArticles);
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);
 router.post(
   "/api/articles",
+  upload.single("thumbnail"),
   createArticle,
 );
 router.put(
