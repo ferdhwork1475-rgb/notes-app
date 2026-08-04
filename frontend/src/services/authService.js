@@ -8,6 +8,8 @@ const backendAPI =
     ? import.meta.env.VITE_BACKEND_API
     : "http://localhost:3000/api/";
 
+    console.log("backendAPI:", backendAPI);
+
 export const signupUser = async (formData) => {
   try {
     const response = await axios.post(`${backendAPI}register`, formData);
