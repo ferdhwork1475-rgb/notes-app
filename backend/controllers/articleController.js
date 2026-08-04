@@ -20,9 +20,10 @@ export const createArticle = async (req, res, next) => {
       thumbnail: req.file ? req.file.filename : null,
     });
     console.log(req.file)
-    // await newArticle.save();
+    await newArticle.save();
     res.status(200).json(newArticle);
   } catch (error) {
+    console.log(error)
     next(error);
   }
 };
