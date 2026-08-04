@@ -115,7 +115,7 @@ export const updateArticle = async (req, res, next) => {
       thumbnail: req.file ? req.file.filename : article.thumbnail,
     };
 
-    console.log(req.file)
+    console.log("Edit article", req.file)
 
     // await Article.findOneAndUpdate({slug: req.params.slug}, updatedData, {
     //   returnDocument: "after",

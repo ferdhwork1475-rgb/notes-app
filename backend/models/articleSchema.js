@@ -15,9 +15,9 @@ const articleSchema = new mongoose.Schema(
       default: [],
     },
     thumbnail: {
+      required: true,
       url: String,
       publicId: String,
-      required: true,
     },
     category: {
       type: String,
