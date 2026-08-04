@@ -3,10 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
-const backendAPI =
-  import.meta.env.NODE_ENV === "production"
-    ? import.meta.env.VITE_BACKEND_API
-    : "http://localhost:3000/api/";
+const backendAPI = import.meta.env.VITE_BACKEND_API;
 
     console.log("backendAPI:", backendAPI);
 
