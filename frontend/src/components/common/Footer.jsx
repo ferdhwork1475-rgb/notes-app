@@ -86,7 +86,7 @@ const Footer = ({ setActivePage }) => {
             <p className="mt-2 text-sm italic text-slate-600"> The Eye of the Public </p>
           </div>
 
-          <div className="flex gap-5">
+          <div className="flex gap-5 flex-wrap">
             <a href="#" className="rounded-full bg-slate-800 p-3 text-slate-400 transition hover:bg-red-600 hover:text-white"> Instagram </a>
             <a href="#" className="rounded-full bg-slate-800 p-3 text-slate-400 transition hover:bg-red-600 hover:text-white"> Facebook </a>
             <a href="#" className="rounded-full bg-slate-800 p-3 text-slate-400 transition hover:bg-red-600 hover:text-white"> Twitter </a>
