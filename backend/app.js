@@ -23,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/api/uploads", express.static("uploads"));
 
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
 app.use(router);
 
 app.use((err, req, res, next) => {
