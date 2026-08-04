@@ -1,5 +1,5 @@
-import { setServers } from "node:dns";
-setServers(["8.8.8.8", "1.1.1.1"]);
+// import { setServers } from "node:dns";
+// setServers(["8.8.8.8", "1.1.1.1"]);
 import dotenv from "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -16,7 +16,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-connectDB();
 
 app.use(cookieParser())
 app.use(express.json());
@@ -36,6 +35,8 @@ app.use((err, req, res, next) => {
     stack: process.env.NODE_ENV === "production" ? err.stack : {},
   });
 });
+
+connectDB();
 
 const port = process.env.PORT || 3000;
 
