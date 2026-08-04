@@ -22,7 +22,7 @@ export const createArticle = async (req, res, next) => {
     await newArticle.save();
     res.status(200).json(newArticle);
   } catch (error) {
-    console.log(error);
+    console.log("Error creating article:", error);
     next(error);
   }
 };
