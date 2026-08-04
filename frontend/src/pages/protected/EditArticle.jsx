@@ -18,9 +18,6 @@ import { toast } from "react-toastify";
 import ReactMarkdown from "react-markdown";
 import GuideItem from "../../components/protected/GuideItem";
 
-// The uploadPath for displaying images (it gives the folder url to the image)
-const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
-
 const EditArticle = () => {
   // Get the id from the network req
   const { slug } = useParams();
@@ -68,7 +65,7 @@ const EditArticle = () => {
         setTitle(response.articleData.title);
         setContent(response.articleData.content);
         setTags(response.articleData.tags);
-        setPreview(`${uploadPath}${response.articleData.thumbnail}`);
+        setPreview(response.articleData.thumbnail?.url || "");
       } catch (error) {
         setErrorState(true);
         toast.error("Failed to load article records");
@@ -127,7 +124,7 @@ const EditArticle = () => {
   // Restore image back to original state.
   const handleResetImage = () => {
     setThumbnail(null);
-    setPreview((prev) => `${uploadPath}${article.thumbnail}`);
+    setPreview((prev) => article.thumbnail?.url || "");
     // get the current position of the ref which makes it possible to access the value
     if (fileInputRef.current) fileInputRef.current.value = "";
     toast.info("Restored original cover image");

@@ -16,8 +16,6 @@ import axios from "axios";
 
 const IndexPage = () => {
   const navigate = useNavigate();
-  const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
-
   const [loading, setLoading] = useState(false);
   const [articles, setArticles] = useState([
     {
@@ -191,7 +189,7 @@ const IndexPage = () => {
             >
               <div className="relative h-[420px] overflow-hidden">
                 <img
-                  src={`${uploadPath}${featuredArticle?.thumbnail}`}
+                  src={featuredArticle?.thumbnail?.url}
                   alt={featuredArticle?.title}
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
@@ -231,7 +229,7 @@ const IndexPage = () => {
                   className="group flex gap-5 cursor-pointer rounded-2xl border border-slate-200 p-4 transition hover:border-red-300 hover:shadow-md"
                 >
                   <img
-                    src={`${uploadPath}${story.thumbnail}`}
+                    src={story.thumbnail?.url}
                     alt={story.title}
                     className="h-28 w-32 rounded-xl object-cover"
                   />

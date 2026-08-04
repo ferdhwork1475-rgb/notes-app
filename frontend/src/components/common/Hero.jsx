@@ -3,11 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { fetchArticles } from "../../services/authService";
+import { toast } from "react-toastify";
 
 const Hero = () => {
   const navigate = useNavigate();
-  const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
-
   const [loading, setLoading] = useState(false);
   const [article, setArticle] = useState({
     title: "",
@@ -133,7 +132,7 @@ const Hero = () => {
               >
                 <div className="relative h-[280px] sm:h-[380px] overflow-hidden">
                   <img
-                    src={`${uploadPath}${article.thumbnail}`}
+                    src={article.thumbnail?.url}
                     alt={article.title}
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                   />

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-const backendAPI = import.meta.env.VITE_BACKEND_API;
+const backendAPI = import.meta.env.NODE_ENV === "production" ? import.meta.env.VITE_BACKEND_API : "http://localhost:3000/api/";
 
 export const signupUser = async (formData) => {
   try {

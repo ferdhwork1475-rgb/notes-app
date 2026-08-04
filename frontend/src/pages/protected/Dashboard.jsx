@@ -13,8 +13,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { fetchArticles } from "../../services/authService";
 import ReactMarkdown from "react-markdown";
 
-const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
-
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([
@@ -184,9 +182,9 @@ const Dashboard = () => {
                 >
                   {/* Card Banner Image Frame Block */}
                   <div className="w-full h-44 rounded-xl overflow-hidden mb-4 bg-slate-50 relative shrink-0">
-                    {article.thumbnail ? (
+                    {article.thumbnail?.url ? (
                       <img
-                        src={`${uploadPath}${article.thumbnail}`}
+                        src={`${uploadPath}${article.thumbnail?.url}`}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                         onError={(e) => {

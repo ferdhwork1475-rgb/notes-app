@@ -19,8 +19,6 @@ import {
   verifyUser,
 } from "../../services/authService";
 
-const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
-
 const ViewArticle = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -232,10 +230,10 @@ const ViewArticle = () => {
       {/* Main Reading Container Canvas Layout */}
       <main className="w-full px-4 sm:px-6 md:px-8 py-6 sm:py-10 space-y-6 sm:space-y-8">
         {/* ================= Hero Image ================= */}
-        {article.thumbnail && (
+        {article.thumbnail?.url && (
           <div className="relative overflow-hidden rounded-[28px] shadow-2xl">
             <img
-              src={`${uploadPath}${article.thumbnail}`}
+              src={article.thumbnail?.url}
               alt={article.title}
               className="h-72 md:h-[32rem] xl:h-[40rem] w-full object-cover"
             />

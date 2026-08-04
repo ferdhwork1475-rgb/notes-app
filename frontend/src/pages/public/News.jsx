@@ -12,8 +12,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchArticles } from "../../services/authService";
 import ReactMarkdown from "react-markdown";
 
-const uploadPath = import.meta.env.VITE_UPLOADS_PATH || "";
-
 const NewsLibrary = () => {
   const searchText = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -191,9 +189,9 @@ const NewsLibrary = () => {
               >
                 {/* Thumbnail */}
                 <div className="relative h-56 overflow-hidden">
-                  {article.thumbnail ? (
+                  {article.thumbnail?.url ? (
                     <img
-                      src={`${uploadPath}${article.thumbnail}`}
+                      src={article.thumbnail?.url}
                       alt={article.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />

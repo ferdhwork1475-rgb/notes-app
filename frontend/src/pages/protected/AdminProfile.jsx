@@ -18,8 +18,6 @@ import {
 } from "lucide-react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 
-const uploadPath = import.meta.env.VITE_UPLOADS_PATH;
-
 const AdminProfile = () => {
   const navigate = useNavigate();
   const user = useOutletContext();

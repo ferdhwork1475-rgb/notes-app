@@ -3,25 +3,30 @@ import Article from "../models/articleSchema.js";
 export const deleteArticles = async (req, res, next) => {
   try {
     const users = await Article.deleteMany({});
-    res.status(200);
+    res.status(200).json({ message: "All articles deleted successfully" });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "Failed to delete articles" });
   }
 };
 
 export const createArticle = async (req, res, next) => {
   try {
-    // const { title, content, category, tags } = req.body;
-    // const newArticle = new Article({
-    //   title,
-    //   content,
-    //   category,
-    //   tags,
-    //   thumbnail: req.file ? req.file.filename : null,
-    // });
-    console.log("req file",req.file)
-    // await newArticle.save();
-    // res.status(200).json(newArticle);
+    const { title, content, category, tags } = req.body;
+    const newArticle = new Article({
+      title,
+      content,
+      category,
+      tags,
+      thumbnail: req.file
+        ? {
+            url: req.file.path,
+            publicId: req.file.filename,
+          }
+        : null,
+    });
+    await newArticle.save();
+    res.status(200).json(newArticle);
   } catch (error) {
     console.log("Error creating article:", error);
     next(error);
@@ -113,24 +118,28 @@ export const updateArticle = async (req, res, next) => {
       title: title || article.title,
       content: content || article.content,
       tags: tags || article.tags,
-      thumbnail: req.file ? req.file.filename : article.thumbnail,
+      thumbnail: req.file
+        ? {
+            url: req.file.path,
+            publicId: req.file.filename,
+          }
+        : null,
     };
 
-    console.log("Edit article", req.file)
-
-    // await Article.findOneAndUpdate({slug: req.params.slug}, updatedData, {
-    //   returnDocument: "after",
-    // });
+    await Article.findOneAndUpdate({slug: req.params.slug}, updatedData, {
+      returnDocument: "after",
+    });
 
     res.status(200).send("successful");
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
 
 export const deleteArticle = async (req, res, next) => {
   try {
-    const article = await Article.findOne({ slug: req.params.slug});
+    const article = await Article.findOne({ slug: req.params.slug });
     if (!article) {
       return res.status(404).send("Article not found");
     }
