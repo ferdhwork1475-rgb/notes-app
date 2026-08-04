@@ -55,12 +55,15 @@ router.post("/api/contact", contactMsg);
 router.get("/api/remove-users", deleteUsers);
 router.get("/api/remove-all-data", deleteArticles);
 
-
 // PROTECTED ROUTES
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);
 router.post(
   "/api/articles",
+  protect,
+  authorizeRoles("admin"),
   upload.single("thumbnail"),
+  validateNote,
+  checkNoteValidation,
   createArticle,
 );
 router.put(
@@ -73,7 +76,7 @@ router.put(
   updateArticle,
 );
 router.delete(
-  "/api/articles/:id",
+  "/api/articles/:slug",
   protect,
   authorizeRoles("admin"),
   deleteArticle,
