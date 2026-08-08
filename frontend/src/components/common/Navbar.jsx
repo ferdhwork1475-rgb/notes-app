@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
+import { verifyUser } from "../../services/authService";
 
 const Navbar = ({ setActivePage, activePage }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        await verifyUser();
+        setAuthChecked(true);
+      } catch (error) {
+        setAuthChecked(false);
+      }
+    })();
+  });
+  
   const navigationItems = [
     { name: "Home", path: "/", key: "home" },
     { name: "All News", path: "/news", key: "news" },
@@ -19,21 +32,25 @@ const Navbar = ({ setActivePage, activePage }) => {
   return (
     <header className="sticky top-0 z-50 bg-[#0b0f19]/90 backdrop-blur-md border-b border-slate-800/80">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-4 sm:px-8">
-        
         {/* Editorial Logo Area - WatchMann News */}
-        <Link 
-          to="/" 
-          className="flex items-center gap-3 group" 
+        <Link
+          to="/"
+          className="flex items-center gap-3 group"
           onClick={() => handleNavClick("home")}
         >
           {/* Brand Visual Graphic Block */}
           <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center transform group-hover:rotate-6 transition-transform">
-            <span className="text-white font-black text-sm tracking-wider">W</span>
+            <span className="text-white font-black text-sm tracking-wider">
+              W
+            </span>
           </div>
-          
+
           {/* Brand Name Layout */}
           <p className="text-lg font-serif font-black tracking-tight text-white uppercase">
-            WatchMann <span className="text-red-500 font-sans font-medium text-xs bg-slate-900 border border-slate-800 px-1.5 py-0.5 ml-1 rounded-sm tracking-normal normal-case">News</span>
+            WatchMann{" "}
+            <span className="text-red-500 font-sans font-medium text-xs bg-slate-900 border border-slate-800 px-1.5 py-0.5 ml-1 rounded-sm tracking-normal normal-case">
+              News
+            </span>
           </p>
         </Link>
 
@@ -44,8 +61,8 @@ const Navbar = ({ setActivePage, activePage }) => {
               <Link
                 to={item.path}
                 className={`transition-colors duration-200 relative py-1 hover:text-white ${
-                  activePage === item.key 
-                    ? "text-red-500 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-red-500" 
+                  activePage === item.key
+                    ? "text-red-500 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-red-500"
                     : "text-slate-400"
                 }`}
                 onClick={() => handleNavClick(item.key)}
@@ -54,6 +71,20 @@ const Navbar = ({ setActivePage, activePage }) => {
               </Link>
             </li>
           ))}
+          {authChecked && (
+              <li key="admin">
+              <Link
+                to="/admin"
+                className={`transition-colors duration-200 relative py-1 hover:text-white ${
+                  activePage === "admin"
+                    ? "text-red-500 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-red-500"
+                    : "text-slate-400"
+                }`}
+              >
+                Admin 
+              </Link>
+            </li>
+            )}
         </ul>
 
         {/* Action Button - Editorial Style CTA */}
@@ -61,7 +92,7 @@ const Navbar = ({ setActivePage, activePage }) => {
           <Link
             to="/contact"
             className="flex items-center gap-1 bg-slate-900 text-white border border-slate-800 hover:border-slate-700 px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-slate-800/50 transition-all"
-            onClick={() => handleNavClick("signup")}
+            onClick={() => handleNavClick("contact")}
           >
             <span>Contact us</span>
             <ArrowUpRight size={14} className="text-slate-500" />
@@ -98,12 +129,12 @@ const Navbar = ({ setActivePage, activePage }) => {
               </li>
             ))}
           </ul>
-          
+
           <div className="pt-4 border-t border-slate-900 px-3">
             <Link
               to="/contact"
               className="block w-full text-center bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-sm text-xs font-bold uppercase tracking-widest transition-colors"
-              onClick={() => handleNavClick("signup")}
+              onClick={() => handleNavClick("contact")}
             >
               Contact Us
             </Link>

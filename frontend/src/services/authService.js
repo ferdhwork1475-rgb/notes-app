@@ -4,8 +4,8 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
 const backendAPI = import.meta.env.VITE_BACKEND_API;
-
-    console.log("backendAPI:", backendAPI);
+// const backendAPI = "http://localhost:3000/api/"; // Replace with your backend API URL
+// console.log("backendAPI:", backendAPI);
 
 export const signupUser = async (formData) => {
   try {

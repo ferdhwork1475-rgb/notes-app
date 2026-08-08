@@ -12,7 +12,10 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Hero from "../../components/common/Hero";
-import { fetchArticle, fetchArticles } from "../../services/authService";
+import {
+  fetchArticle,
+  fetchArticles,
+} from "../../services/authService";
 import axios from "axios";
 
 const IndexPage = () => {
@@ -30,15 +33,16 @@ const IndexPage = () => {
       slug: "",
     },
   ]);
-  const [latestNews, setLastestNews] = useState([
-    {
-      id: "",
-      title: "",
-      content: "",
-      description: "",
-      image: "",
-    },
-  ]);
+
+  // const l[latestNews, setLastestNews] = useState([
+  //   {
+  //     id: "",
+  //     title: "",
+  //     content: "",
+  //     description: "",
+  //     image: "",
+  //   },
+  // ]);
 
   const categories = [
     {
@@ -106,7 +110,7 @@ const IndexPage = () => {
   ];
 
   useEffect(() => {
-    const loadNews = async () => {
+    (async () => {
       const page = 1;
       const category = "";
       try {
@@ -115,32 +119,29 @@ const IndexPage = () => {
         setArticles(response.articles);
       } catch (error) {
         toast.error("Failed to news article. Check internet connection.");
-        console.log(error)
+        console.log(error);
       } finally {
         setLoading(false);
       }
-    };
-
-    loadNews();
+    })();
   }, []);
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const response = await axios.get(
-          "https://gnews.io/api/v4/top-headlines?country=ng&lang=en&max=9&token=1344ebbaebabf5f81853548ecf082a20",
-        );
-        setLastestNews(response.data.articles);
-      } catch (error) {
-        toast.error("Failed to news article. Check internet connection.");
-    
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://gnews.io/api/v4/top-headlines?country=ng&lang=en&max=9&token=1344ebbaebabf5f81853548ecf082a20",
+  //       );
+  //       setLastestNews(response.data.articles);
+  //     } catch (error) {
+  //       toast.error("Failed to news article. Check internet connection.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   })();
+  // }, []);
 
-    fetchApi();
-  }, []);
+  
 
   const featuredArticle = articles[0];
   const secondaryArticles = articles.slice(1, 5);
@@ -469,7 +470,7 @@ const IndexPage = () => {
               Subscribe
             </button>
           </form>
-          
+
           <div className="mt-16 grid gap-6 md:grid-cols-3">
             <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
               <h3 className="text-lg font-bold">⚡ Breaking Alerts</h3>
