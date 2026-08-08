@@ -98,6 +98,7 @@ const CreateArticle = () => {
       toast.success("Article created successfully");
     } catch (error) {
       toast.error("Failed to create article");
+      console.log(error);
     } finally {
       setLoading(false);
     }
