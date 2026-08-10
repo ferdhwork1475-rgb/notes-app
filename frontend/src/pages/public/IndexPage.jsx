@@ -357,7 +357,7 @@ const IndexPage = () => {
               >
                 <div className="relative h-64 overflow-hidden">
                   <img
-                    src={`${uploadPath}${story.thumbnail}`}
+                    src={`${story.thumbnail}`}
                     alt={story.title}
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                   />
