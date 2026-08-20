@@ -4,8 +4,7 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { verifyUser } from "../../services/authService";
 
 const Navbar = ({ setActivePage, activePage }) => {
-  const navLogo =
-    "/src/assets/images/ChatGPT Image Aug 20, 2026, 10_13_16 AM.png";
+  const navLogo = "https://res.cloudinary.com/hmz1nkjr/image/upload/v1787245994/ChatGPT_Image_Aug_20_2026_10_13_16_AM.png";
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);

@@ -15,9 +15,12 @@ import {
 
 const AboutPage = () => {
   const navigate = useNavigate();
-  const newsroomHeroUrl = "/src/assets/images/ChatGPT Image Aug 20, 2026, 10_43_38 AM.png";
-  const communityReportUrl = "/src/assets/images/ChatGPT Image Aug 20, 2026, 10_52_43 AM.png";
-  const watchMannLogo = "/src/assets/images/ChatGPT Image Aug 20, 2026, 11_02_25 AM.png"
+  const newsroomHeroUrl =
+    "https://res.cloudinary.com/hmz1nkjr/image/upload/v1787245316/ChatGPT_Image_Aug_20_2026_10_43_38_AM.png";
+  const communityReportUrl =
+    "https://res.cloudinary.com/hmz1nkjr/image/upload/v1787245327/ChatGPT_Image_Aug_20_2026_10_52_43_AM.png";
+  const watchMannLogo =
+    "https://res.cloudinary.com/hmz1nkjr/image/upload/v1787245326/ChatGPT_Image_Aug_20_2026_11_02_25_AM.png";
 
   return (
     <div className="bg-[#00020f] min-h-screen text-white font-sans selection:bg-red-500 selection:text-white">
@@ -611,7 +614,10 @@ const AboutPage = () => {
                 </p>
               </div>
 
-              <button className="mt-10 inline-flex items-center gap-3 rounded-xl bg-red-600 px-8 py-4 font-semibold transition hover:bg-red-700" onClick={() => navigate("/contact")}>
+              <button
+                className="mt-10 inline-flex items-center gap-3 rounded-xl bg-red-600 px-8 py-4 font-semibold transition hover:bg-red-700"
+                onClick={() => navigate("/contact")}
+              >
                 <Send size={18} />
                 Send Us A Story
               </button>
