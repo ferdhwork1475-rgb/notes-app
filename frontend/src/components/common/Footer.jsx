@@ -67,12 +67,12 @@ const Footer = ({ setActivePage }) => {
                 <span className="text-slate-400">+234 800 000 0000</span>
               </div>
 
-              <div className="flex gap-3">
+              {/* <div className="flex gap-3">
                 <MapPin size={18} className="mt-1 text-red-500" />
                 <span className="text-slate-400">
                   Warri, Delta State, Nigeria
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

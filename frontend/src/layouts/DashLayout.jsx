@@ -11,7 +11,7 @@ const DashLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    (async () => {
       try {
         const response = await verifyUser()
         setLoading(false);
@@ -21,9 +21,7 @@ const DashLayout = () => {
       } finally {
         setLoading(false);
       }
-    }
-
-    checkAuth();
+    })();
   }, [])
   
     if (loading) {

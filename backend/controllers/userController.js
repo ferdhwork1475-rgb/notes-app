@@ -81,6 +81,15 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
+export const logoutUser = async (req, res, next) => {
+  try {
+    res.clearCookie("token", { path: '/', httpOnly: true, secure: true });
+    res.status(200).send("success");
+  } catch (error) {
+    next(error);
+  }
+}
+
 export const findUserDetails = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.userId);
@@ -174,7 +183,7 @@ export const passwordResetController = async (req, res, next) => {
 export const contactMsg = async (req, res, next) => {
   try {
     const { email, name, subject, message } = req.body;
-    await sendContactEmail(name, email, subject, message);
+    await sendContactEmail(email, name, subject, message);
     res.status(200).send("success");
   } catch (error) {
     next(error);
@@ -188,3 +197,4 @@ cron.schedule("0 0 * * *", async () => {
   );
   console.log("Swept away expired OTP fields.");
 });
+

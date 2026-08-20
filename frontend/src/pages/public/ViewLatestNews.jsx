@@ -28,7 +28,7 @@ const ViewLatestNews = () => {
   });
 
   useEffect(() => {
-    const fetchArticleData = async () => {
+  (async () => {
       try {
         setLoading(true);
         const response = location?.state.articleData;
@@ -38,9 +38,7 @@ const ViewLatestNews = () => {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchArticleData();
+    })();
   }, []);
 
   useEffect(() => {

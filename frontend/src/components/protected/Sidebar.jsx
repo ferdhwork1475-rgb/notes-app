@@ -12,6 +12,8 @@ import {
   User,
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
+import { logoutUser } from "../../services/authService";
 
 const Sidebar = ({ user }) => {
   // Mobile / Tablet Drawer State
@@ -25,7 +27,16 @@ const Sidebar = ({ user }) => {
 
   // Mock logout handler
   const handleLogout = () => {
-    toast.error("Logging out user session...");
+    (async () => {
+      try {
+        const response = await logoutUser();
+        toast.success("Log out successfully");
+        window.location.reload()
+      } catch (error) {
+        toast.error("Check your internet connection.");
+        window.location.reload()
+      }
+    })()
     closeMobileDrawer();
   };
 

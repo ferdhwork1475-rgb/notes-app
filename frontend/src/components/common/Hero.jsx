@@ -20,7 +20,7 @@ const Hero = () => {
   });
 
   useEffect(() => {
-    const fetchArticle = async () => {
+    (async () => {
       try {
         setLoading(true);
         const page = 1;
@@ -32,9 +32,7 @@ const Hero = () => {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchArticle();
+    })();
   }, []);
 
   return (

@@ -28,7 +28,6 @@ export const createArticle = async (req, res, next) => {
     await newArticle.save();
     res.status(200).json(newArticle);
   } catch (error) {
-    console.log("Error creating article:", error);
     next(error);
   }
 };
@@ -77,7 +76,7 @@ export const fetchArticle = async (req, res, next) => {
       content: article.content,
       tags: article.tags,
       category: article.category,
-      thumbnail: article.thumbnail,
+      thumbnail: article.thumbnail.url || "",
       createdAt: article.createdAt,
       readingTime: article.readingTime,
       slug: article.slug,
@@ -123,13 +122,12 @@ export const updateArticle = async (req, res, next) => {
             url: req.file.path,
             publicId: req.file.filename,
           }
-        : null,
+        : article.thumbnail,
     };
 
     await Article.findOneAndUpdate({slug: req.params.slug}, updatedData, {
       returnDocument: "after",
     });
-
     res.status(200).send("successful");
   } catch (error) {
     console.log(error);
@@ -149,3 +147,12 @@ export const deleteArticle = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const renderMTData = async (req, res, next) => {
+  try {
+    console.log("renderMTData called");
+  } catch (error) {
+    next(error)
+  }
+}

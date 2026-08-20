@@ -65,7 +65,7 @@ const EditArticle = () => {
         setTitle(response.articleData.title);
         setContent(response.articleData.content);
         setTags(response.articleData.tags);
-        setPreview(response.articleData.thumbnail?.url || "");
+        setPreview(response.articleData.thumbnail || "");
       } catch (error) {
         setErrorState(true);
         toast.error("Failed to load article records");
@@ -92,7 +92,7 @@ const EditArticle = () => {
     title: article.title === title ? false : true,
     content: article.content === content ? false : true,
     tags: article.tags === tags ? false : true,
-    thumbnail: thumbnail === null ? false : true,
+    thumbnail: article.thumbnail === preview ? false : true,
   };
 
   const isDirty =
@@ -124,7 +124,7 @@ const EditArticle = () => {
   // Restore image back to original state.
   const handleResetImage = () => {
     setThumbnail(null);
-    setPreview((prev) => article.thumbnail?.url || "");
+    setPreview((prev) => article.thumbnail.url || "");
     // get the current position of the ref which makes it possible to access the value
     if (fileInputRef.current) fileInputRef.current.value = "";
     toast.info("Restored original cover image");
@@ -166,13 +166,11 @@ const EditArticle = () => {
       formData.append("title", title);
       formData.append("content", content);
       if (tags.length == article.tags.length) {
-        tags.map((tag) => formData.append("tags", tag));
+        tags.map((tag) => formData.append("tags", tag.trim()));
       } else {
-        tags.split(",").map((tag) => formData.append("tags", tag));
+        tags.split(",").map((tag) => formData.append("tags", tag.trim()));
       }
-      if (thumbnail !== null) {
-        formData.append("thumbnail", thumbnail);
-      }
+      thumbnail && formData.append("thumbnail", thumbnail);
       if (!isDirty) {
         toast.info("No changes detected to update");
         return;

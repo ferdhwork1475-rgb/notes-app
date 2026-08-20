@@ -9,6 +9,7 @@ import {
   passwordResetController,
   deleteUsers,
   contactMsg,
+  logoutUser
 } from "../controllers/userController.js";
 
 import {
@@ -81,5 +82,5 @@ router.delete(
   authorizeRoles("admin"),
   deleteArticle,
 );
-
+router.post("/api/logout", protect, authorizeRoles("admin"), logoutUser);
 export default router;

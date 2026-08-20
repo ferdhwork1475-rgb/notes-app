@@ -4,6 +4,9 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { verifyUser } from "../../services/authService";
 
 const Navbar = ({ setActivePage, activePage }) => {
+  const navLogo =
+    "/src/assets/images/ChatGPT Image Aug 20, 2026, 10_13_16 AM.png";
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -17,7 +20,7 @@ const Navbar = ({ setActivePage, activePage }) => {
       }
     })();
   });
-  
+
   const navigationItems = [
     { name: "Home", path: "/", key: "home" },
     { name: "All News", path: "/news", key: "news" },
@@ -38,20 +41,23 @@ const Navbar = ({ setActivePage, activePage }) => {
           className="flex items-center gap-3 group"
           onClick={() => handleNavClick("home")}
         >
-          {/* Brand Visual Graphic Block */}
-          <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center transform group-hover:rotate-6 transition-transform">
+          {/* <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center transform group-hover:rotate-6 transition-transform">
             <span className="text-white font-black text-sm tracking-wider">
               W
             </span>
           </div>
 
-          {/* Brand Name Layout */}
           <p className="text-lg font-serif font-black tracking-tight text-white uppercase">
             WatchMann{" "}
             <span className="text-red-500 font-sans font-medium text-xs bg-slate-900 border border-slate-800 px-1.5 py-0.5 ml-1 rounded-sm tracking-normal normal-case">
               News
             </span>
-          </p>
+          </p> */}
+          <img
+            src={navLogo}
+            alt="WatchMann News Logo"
+            className="w-[200px] object-cover rounded-sm"
+          />{" "}
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -72,19 +78,39 @@ const Navbar = ({ setActivePage, activePage }) => {
             </li>
           ))}
           {authChecked && (
-              <li key="admin">
+            <li key="admin">
               <Link
                 to="/admin"
-                className={`transition-colors duration-200 relative py-1 hover:text-white ${
-                  activePage === "admin"
-                    ? "text-red-500 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-red-500"
-                    : "text-slate-400"
-                }`}
+                className={`
+      group relative inline-flex items-center gap-2 rounded-lg
+      border px-3.5 py-2 text-xs font-bold uppercase tracking-wider
+      transition-all duration-300
+      ${
+        activePage === "admin"
+          ? "border-red-500/50 bg-red-500/10 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.12)]"
+          : "border-slate-700 bg-slate-900/50 text-slate-400 hover:border-red-500/40 hover:bg-red-500/5 hover:text-red-400"
+      }
+    `}
               >
-                Admin 
+                {/* Status indicator */}
+                <span
+                  className={`
+        h-1.5 w-1.5 rounded-full transition-all duration-300
+        ${
+          activePage === "admin"
+            ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+            : "bg-slate-500 group-hover:bg-red-500"
+        }
+      `}
+                />
+                Admin
+                {/* Small arrow */}
+                <span className="text-[10px] opacity-50 transition-transform duration-300 group-hover:translate-x-0.5">
+                  →
+                </span>
               </Link>
             </li>
-            )}
+          )}
         </ul>
 
         {/* Action Button - Editorial Style CTA */}
@@ -128,6 +154,40 @@ const Navbar = ({ setActivePage, activePage }) => {
                 </Link>
               </li>
             ))}
+            {authChecked && (
+              <li key="admin">
+                <Link
+                  to="/admin"
+                  className={`
+      group relative inline-flex items-center gap-2 rounded-lg
+      border px-3.5 py-2 text-xs font-bold uppercase tracking-wider
+      transition-all duration-300
+      ${
+        activePage === "admin"
+          ? "border-red-500/50 bg-red-500/10 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.12)]"
+          : "border-slate-700 bg-slate-900/50 text-slate-400 hover:border-red-500/40 hover:bg-red-500/5 hover:text-red-400"
+      }
+    `}
+                >
+                  {/* Status indicator */}
+                  <span
+                    className={`
+        h-1.5 w-1.5 rounded-full transition-all duration-300
+        ${
+          activePage === "admin"
+            ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+            : "bg-slate-500 group-hover:bg-red-500"
+        }
+      `}
+                  />
+                  Admin
+                  {/* Small arrow */}
+                  <span className="text-[10px] opacity-50 transition-transform duration-300 group-hover:translate-x-0.5">
+                    →
+                  </span>
+                </Link>
+              </li>
+            )}
           </ul>
 
           <div className="pt-4 border-t border-slate-900 px-3">

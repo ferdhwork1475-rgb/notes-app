@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
-const backendAPI = import.meta.env.VITE_BACKEND_API;
-// const backendAPI = "http://localhost:3000/api/"; // Replace with your backend API URL
+// const backendAPI = import.meta.env.VITE_BACKEND_API;
+const backendAPI = "http://localhost:3000/api/"; // Replace with your backend API URL
 // console.log("backendAPI:", backendAPI);
 
 export const signupUser = async (formData) => {
@@ -32,6 +32,17 @@ export const loginUser = async (email, password) => {
     throw error;
   }
 };
+
+export const logoutUser = async () => {
+  try {
+    const response = await axios.post(`${backendAPI}logout`, null, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const verifyUser = async () => {
   try {

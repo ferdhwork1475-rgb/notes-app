@@ -50,7 +50,7 @@ const AdminProfile = () => {
   });
 
   const [previewImage, setPreviewImage] = useState(
-    `${uploadPath}${user?.profileImage}` || null,
+    `${user?.profileImage}` || null,
   );
   const [avatarFile, setAvatarFile] = useState(null);
   const [showPasswords, setShowPasswords] = useState({
@@ -272,7 +272,7 @@ const AdminProfile = () => {
                     src={
                       previewImage
                         ? previewImage
-                        : `${uploadPath}${previewImage}`
+                        : `${previewImage}`
                     }
                     alt="Avatar View"
                     className="w-full h-full object-cover"

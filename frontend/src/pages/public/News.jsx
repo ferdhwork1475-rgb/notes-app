@@ -11,6 +11,7 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchArticles } from "../../services/authService";
 import ReactMarkdown from "react-markdown";
+import { toast } from "react-toastify";
 
 const NewsLibrary = () => {
   const searchText = useSearchParams();
@@ -38,7 +39,7 @@ const NewsLibrary = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadNews = async () => {
+    (async () => {
       try {
         setLoading(true);
         const response = await fetchArticles(page, category);
@@ -54,9 +55,7 @@ const NewsLibrary = () => {
       } finally {
         setLoading(false);
       }
-    };
-
-    loadNews();
+    })();
   }, [category, page]);
 
   // Filter articles for public consumption

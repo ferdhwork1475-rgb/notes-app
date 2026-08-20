@@ -15,10 +15,9 @@ import {
 
 const AboutPage = () => {
   const navigate = useNavigate();
-  const newsroomHeroUrl =
-    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&auto=format&fit=crop&q=80";
-  const communityReportUrl =
-    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80";
+  const newsroomHeroUrl = "/src/assets/images/ChatGPT Image Aug 20, 2026, 10_43_38 AM.png";
+  const communityReportUrl = "/src/assets/images/ChatGPT Image Aug 20, 2026, 10_52_43 AM.png";
+  const watchMannLogo = "/src/assets/images/ChatGPT Image Aug 20, 2026, 11_02_25 AM.png"
 
   return (
     <div className="bg-[#00020f] min-h-screen text-white font-sans selection:bg-red-500 selection:text-white">
@@ -249,7 +248,7 @@ const AboutPage = () => {
 
             <div className="relative">
               <img
-                src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src={watchMannLogo}
                 alt="Founder"
                 className="h-[650px] w-full rounded-3xl object-cover shadow-2xl"
               />
@@ -552,7 +551,7 @@ const AboutPage = () => {
 
               {/* Address */}
 
-              <div className="flex items-start gap-5 rounded-3xl border border-slate-200 p-6 transition hover:shadow-lg">
+              {/* <div className="flex items-start gap-5 rounded-3xl border border-slate-200 p-6 transition hover:shadow-lg">
                 <div className="rounded-2xl bg-green-100 p-4 text-green-600">
                   <MapPin size={28} />
                 </div>
@@ -566,7 +565,7 @@ const AboutPage = () => {
 
                   <p className="text-slate-500">Independent Digital Newsroom</p>
                 </div>
-              </div>
+              </div> */}
 
               {/* Hours */}
 

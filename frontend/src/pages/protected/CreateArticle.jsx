@@ -32,8 +32,7 @@ const CreateArticle = () => {
     "World",
     "Other",
   ];
-  const [tagInput, setTagInput] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([""]);
   const [thumbnail, setThumbnail] = useState(null);
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,24 +43,6 @@ const CreateArticle = () => {
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-
-  // Handle Tag Management
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      const trimmedValue = tagInput.trim().replace(/,/g, "");
-      if (trimmedValue && !tags.includes(trimmedValue)) {
-        setTags([...tags, trimmedValue]);
-        setTagInput("");
-      }
-    } else if (e.key === "Backspace" && !tagInput && tags.length > 0) {
-      setTags(tags.slice(0, -1));
-    }
-  };
-
-  const removeTag = (tagToRemove) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove));
-  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -81,8 +62,6 @@ const CreateArticle = () => {
       setThumbnail(file);
     }
   };
-  const fd = new FormData();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -91,7 +70,7 @@ const CreateArticle = () => {
       formData.append("title", title);
       formData.append("content", content);
       formData.append("category", category);
-      tags.map((tag) => formData.append("tags", tag));
+      tags.split(",").map((tag) => formData.append("tags", tag.trim())); 
       formData.append("thumbnail", thumbnail);
       const response = await createArticle(formData);
       navigate("/admin");
@@ -248,36 +227,14 @@ const CreateArticle = () => {
         </div>
 
         {/* Dynamic Interactive Tag Component Wrapper */}
-        <div className="flex flex-wrap items-center gap-2 bg-white border border-slate-200 w-full p-2 rounded-xl shadow-sm focus-within:border-indigo-400 transition-all">
-          <div className="flex items-center gap-1.5 text-indigo-500 pl-1.5">
-            <Tag size={14} />
-          </div>
-          {tags.map((tag, index) => (
-            <span
-              key={index}
-              className="flex items-center gap-1 bg-indigo-50 text-indigo-600 text-xs font-semibold pl-2.5 pr-1.5 py-1 rounded-lg border border-indigo-100"
-            >
-              {tag}
-              <button
-                type="button"
-                onClick={() => removeTag(tag)}
-                className="p-0.5 hover:bg-indigo-200/60 rounded-md text-indigo-500 hover:text-indigo-700 transition-all"
-              >
-                <X size={12} />
-              </button>
-            </span>
-          ))}
+        <div className="flex items-center gap-2 bg-white border border-slate-200 w-fit px-3.5 py-1.5 rounded-xl shadow-sm focus-within:border-indigo-400 transition-all">
+          <Tag className="text-indigo-500" size={14} />
           <input
             type="text"
-            placeholder={
-              tags.length === 0
-                ? "Categorize with tags (Press Enter or Comma)..."
-                : "Add tag..."
-            }
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="flex-1 min-w-[140px] bg-transparent border-none text-xs focus:outline-none focus:ring-0 text-slate-600 font-medium placeholder-slate-400 p-1"
+            placeholder="Categorize with a tag..."
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            className="bg-transparent border-none text-xs focus:outline-none focus:ring-0 text-slate-600 font-medium placeholder-slate-400 p-0"
           />
         </div>
 
@@ -344,19 +301,21 @@ const CreateArticle = () => {
           )}
 
           {/* Display Rendered Tags Array metadata elements if they exist */}
-          {tags.length > 0 && (
+          {/* {console.log(tags, tags.length)} */}
+          {/* {tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mb-4">
-              {tags.map((tag, idx) => (
+              {tags.split(",").map((tag, index) => (
                 <div
-                  key={idx}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 bg-indigo-50/70 px-2.5 py-1 rounded-md"
+                key={index}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 bg-indigo-50/70 px-2.5 py-1 rounded-md"
                 >
                   <Tag size={10} />
                   {tag}
                 </div>
               ))}
+              {console.log(tags)}
             </div>
-          )}
+          )} */}
 
           {preview && (
             <div className="w-full h-40 sm:h-52 rounded-xl overflow-hidden mb-6 shadow-sm">

@@ -242,7 +242,7 @@ const ContactPage = () => {
                   </p>
                   <h3 className="mt-1 text-xl font-bold text-slate-900">
                     {" "}
-                    John Ferdinand{" "}
+                    WatchMann{" "}
                   </h3>
                 </div>
               </div>
@@ -283,7 +283,7 @@ const ContactPage = () => {
                 </div>
               </div>
 
-              <div className="flex items-start gap-5">
+              {/* <div className="flex items-start gap-5">
                 <div className="rounded-2xl bg-amber-100 p-4 text-amber-600">
                   {" "}
                   <MapPin />{" "}
@@ -299,7 +299,7 @@ const ContactPage = () => {
                     Warri, Delta State, Nigeria{" "}
                   </h3>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

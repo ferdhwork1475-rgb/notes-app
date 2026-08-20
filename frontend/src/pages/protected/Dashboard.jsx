@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchArticles } from "../../services/authService";
+import { toast } from "react-toastify"
 import ReactMarkdown from "react-markdown";
 
 const Dashboard = () => {
@@ -37,7 +38,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadArticles = async () => {
+    (async () => {
       try {
         setLoading(true);
         const response = await fetchArticles(page, category);
@@ -49,9 +50,7 @@ const Dashboard = () => {
       } finally {
         setLoading(false);
       }
-    };
-
-    loadArticles();
+    })();
   }, [page, category]);
 
   // Filter content reactively based on user input
