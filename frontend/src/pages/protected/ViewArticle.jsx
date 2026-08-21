@@ -96,7 +96,7 @@ const ViewArticle = () => {
   }, []);
 
   const handleShare = () => {
-    navigator.clipboard.writeText(`${backendAPI}articles/${article.slug}`);
+    navigator.clipboard.writeText(`${backendAPI}articles/${article.slug}/overview`);
     toast.success("Article link copied to clipboard!");
   };
 

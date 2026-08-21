@@ -56,7 +56,7 @@ router.get("/api/articles/:slug", fetchArticle);
 router.post("/api/contact", contactMsg);
 router.get("/api/remove-users", deleteUsers);
 router.get("/api/remove-all-data", deleteArticles);
-router.get("/articles/:slug", renderArticlePage);
+router.get("/api/articles/:slug/overview", renderArticlePage);
 
 // PROTECTED ROUTES
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);
