@@ -70,7 +70,7 @@ export const verifyOtpCode = async (email, fullOtpString) => {
   try {
     const response = await axios.post(`${backendAPI}verify-otp`, {
       email,
-      fullOtpString,
+      fullOtpString, 
     });
     return response.data;
   } catch (error) {

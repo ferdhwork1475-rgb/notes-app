@@ -95,7 +95,7 @@ const ViewArticle = () => {
   }, []);
 
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(`${window.location.href}/overview`);
     toast.success("Article link copied to clipboard!");
   };
 

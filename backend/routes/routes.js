@@ -19,6 +19,7 @@ import {
   updateArticle,
   deleteArticle,
   deleteArticles,
+  renderArticlePage,
 } from "../controllers/articleController.js";
 
 import {
@@ -55,6 +56,7 @@ router.get("/api/articles/:slug", fetchArticle);
 router.post("/api/contact", contactMsg);
 router.get("/api/remove-users", deleteUsers);
 router.get("/api/remove-all-data", deleteArticles);
+router.get("/articles/:slug/overview", renderArticlePage);
 
 // PROTECTED ROUTES
 router.get("/api/user", protect, authorizeRoles("admin"), findUserDetails);

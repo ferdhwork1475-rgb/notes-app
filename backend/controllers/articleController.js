@@ -125,7 +125,7 @@ export const updateArticle = async (req, res, next) => {
         : article.thumbnail,
     };
 
-    await Article.findOneAndUpdate({slug: req.params.slug}, updatedData, {
+    await Article.findOneAndUpdate({ slug: req.params.slug }, updatedData, {
       returnDocument: "after",
     });
     res.status(200).send("successful");
@@ -148,11 +148,27 @@ export const deleteArticle = async (req, res, next) => {
   }
 };
 
-
-export const renderMTData = async (req, res, next) => {
+export const renderArticlePage = async (req, res, next) => {
   try {
-    console.log("renderMTData called");
+    const article = await Article.findOne({ slug: req.params.slug });
+    if (!article) {
+      return res.status(404).send("Article not found");
+    }
+
+    const metadata = {
+      title: article.title,
+      description: article.description,
+      image: article.thumbnail.url,
+      url: `https://notes-app-v944.vercel.app/articles/${article.slug}`,
+      type: "article",
+      siteName: "WatchMann News",
+      locale: "en_NG",
+      publishedTime: article.createdAt,
+      modifiedTime: article.updatedAt,
+      section: article.category,
+    };
+    res.status(200).render("index", { metadata });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
