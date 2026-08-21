@@ -157,7 +157,7 @@ export const renderArticlePage = async (req, res, next) => {
 
     const metadata = {
       title: article.title,
-      description: article.description,
+      description: article.content,
       image: article.thumbnail.url,
       url: `https://notes-app-v944.vercel.app/articles/${article.slug}`,
       type: "article",
