@@ -20,6 +20,7 @@ import {
 } from "../../services/authService";
 
 const ViewArticle = () => {
+  const backendAPI = import.meta.env.VITE_BACKEND_API;
   const { slug } = useParams();
   const navigate = useNavigate();
 
@@ -95,7 +96,7 @@ const ViewArticle = () => {
   }, []);
 
   const handleShare = () => {
-    navigator.clipboard.writeText(`${window.location.href}/overview`);
+    navigator.clipboard.writeText(`${backendAPI}articles/${article.slug}`);
     toast.success("Article link copied to clipboard!");
   };
 
