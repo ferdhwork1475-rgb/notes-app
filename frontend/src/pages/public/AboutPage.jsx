@@ -113,7 +113,7 @@ const AboutPage = () => {
                 <img
                   src={newsroomHeroUrl}
                   alt="Newsroom"
-                  className="h-[600px] w-full object-cover"
+                  className="w-full"
                 />
               </div>
             </div>
@@ -129,7 +129,7 @@ const AboutPage = () => {
               <img
                 src={communityReportUrl}
                 alt="Journalist covering community news"
-                className="h-[600px] w-full rounded-3xl object-cover shadow-2xl"
+                className="w-full rounded-3xl shadow-2xl"
               />
 
               <div className="absolute bottom-8 left-8 rounded-2xl bg-white/95 p-6 shadow-xl backdrop-blur">
@@ -137,7 +137,7 @@ const AboutPage = () => {
                   Our Mission
                 </p>
 
-                <h3 className="mt-2 text-2xl font-black text-slate-900">
+                <h3 className="mt-2 text-xl font-black text-slate-900">
                   Journalism That Puts Communities First
                 </h3>
               </div>
@@ -253,16 +253,16 @@ const AboutPage = () => {
               <img
                 src={watchMannLogo}
                 alt="Founder"
-                className="h-[650px] w-full rounded-3xl object-cover shadow-2xl"
+                className="w-full rounded-3xl shadow-2xl"
               />
 
-              <div className="absolute bottom-8 left-8 rounded-3xl bg-white p-6 shadow-xl">
+              <div className="absolute bottom-4 right-8 rounded-3xl bg-white p-6 shadow-xl">
                 <p className="text-sm font-semibold uppercase tracking-widest text-red-600">
                   Founder & Editor-in-Chief
                 </p>
 
                 <h3 className="mt-2 text-2xl font-black text-slate-900">
-                  John Ferdinand
+                  Mr WatchMann News
                 </h3>
               </div>
             </div>
@@ -271,7 +271,7 @@ const AboutPage = () => {
 
             <div>
               <h3 className="text-3xl font-black text-slate-900">
-                John Ferdinand
+                Mr WatchMann News
               </h3>
 
               <p className="mt-2 text-lg font-medium text-red-600">
@@ -279,7 +279,7 @@ const AboutPage = () => {
               </p>
 
               <p className="mt-8 text-lg leading-9 text-slate-600">
-                John Ferdinand founded this newsroom with one mission: to make
+                Mr WatchMann News founded this newsroom with one mission: to make
                 reliable journalism accessible to everyone. He believes every
                 community deserves honest reporting, regardless of location or
                 influence.
@@ -309,7 +309,7 @@ const AboutPage = () => {
                   </p>
 
                   <p className="mt-2 text-lg font-bold text-slate-900">
-                    editor@yournews.com
+                    watchmann96@gmail.com
                   </p>
                 </div>
 
@@ -319,7 +319,7 @@ const AboutPage = () => {
                   </p>
 
                   <p className="mt-2 text-lg font-bold text-slate-900">
-                    +234 800 000 0000
+                    +234 802 707 3425
                   </p>
                 </div>
               </div>
@@ -526,7 +526,7 @@ const AboutPage = () => {
                 <div>
                   <h3 className="text-xl font-bold text-slate-900">Email</h3>
 
-                  <p className="mt-2 text-slate-600">editor@yournews.com</p>
+                  <p className="mt-2 text-slate-600">watchmann96@gmail.com</p>
 
                   <p className="text-slate-500">
                     For editorial inquiries and news tips.
@@ -544,7 +544,7 @@ const AboutPage = () => {
                 <div>
                   <h3 className="text-xl font-bold text-slate-900">Phone</h3>
 
-                  <p className="mt-2 text-slate-600">+234 800 000 0000</p>
+                  <p className="mt-2 text-slate-600">+234 802 707 3425</p>
 
                   <p className="text-slate-500">
                     Available during newsroom hours.

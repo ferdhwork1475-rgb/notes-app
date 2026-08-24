@@ -26,7 +26,7 @@ const NewsLibrary = () => {
       thumbnail: "",
       createdAt: "",
       readingTime: "",
-      slug: ""
+      slug: "",
     },
   ]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,6 +41,10 @@ const NewsLibrary = () => {
   useEffect(() => {
     (async () => {
       try {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
         setLoading(true);
         const response = await fetchArticles(page, category);
         const filteredResponse = response.articles.filter((articles) => {

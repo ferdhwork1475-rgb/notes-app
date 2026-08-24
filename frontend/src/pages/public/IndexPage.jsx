@@ -34,16 +34,6 @@ const IndexPage = () => {
     },
   ]);
 
-  // const l[latestNews, setLastestNews] = useState([
-  //   {
-  //     id: "",
-  //     title: "",
-  //     content: "",
-  //     description: "",
-  //     image: "",
-  //   },
-  // ]);
-
   const categories = [
     {
       title: "Politics",
@@ -125,23 +115,6 @@ const IndexPage = () => {
       }
     })();
   }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "https://gnews.io/api/v4/top-headlines?country=ng&lang=en&max=9&token=1344ebbaebabf5f81853548ecf082a20",
-  //       );
-  //       setLastestNews(response.data.articles);
-  //     } catch (error) {
-  //       toast.error("Failed to news article. Check internet connection.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   })();
-  // }, []);
-
-  
 
   const featuredArticle = articles[0];
   const secondaryArticles = articles.slice(1, 5);

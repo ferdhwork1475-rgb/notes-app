@@ -4,7 +4,8 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { verifyUser } from "../../services/authService";
 
 const Navbar = ({ setActivePage, activePage }) => {
-  const navLogo = "https://res.cloudinary.com/hmz1nkjr/image/upload/v1787245994/ChatGPT_Image_Aug_20_2026_10_13_16_AM.png";
+  // const navLogo = "https://res.cloudinary.com/hmz1nkjr/image/upload/v1787245994/ChatGPT_Image_Aug_20_2026_10_13_16_AM.png";
+  const navLogo = "https://res.cloudinary.com/hmz1nkjr/image/upload/v1787580769/news_images/wxj75p7yefpalf3hmb3y.png";
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
@@ -32,21 +33,21 @@ const Navbar = ({ setActivePage, activePage }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0b0f19]/90 backdrop-blur-md border-b border-slate-800/80">
+    <header className="sticky top-0 z-50 bg-[#010A17] backdrop-blur-md border-b border-slate-800/80">
       <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-4 sm:px-8">
         {/* Editorial Logo Area - WatchMann News */}
         <Link
           to="/"
-          className="flex items-center gap-3 group"
+          className="flex items-center group"
           onClick={() => handleNavClick("home")}
         >
           {/* <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center transform group-hover:rotate-6 transition-transform">
             <span className="text-white font-black text-sm tracking-wider">
               W
             </span>
-          </div>
+          </div> */}
 
-          <p className="text-lg font-serif font-black tracking-tight text-white uppercase">
+          {/* <p className="text-lg font-serif font-black tracking-tight text-white uppercase">
             WatchMann{" "}
             <span className="text-red-500 font-sans font-medium text-xs bg-slate-900 border border-slate-800 px-1.5 py-0.5 ml-1 rounded-sm tracking-normal normal-case">
               News
@@ -55,7 +56,7 @@ const Navbar = ({ setActivePage, activePage }) => {
           <img
             src={navLogo}
             alt="WatchMann News Logo"
-            className="w-[200px] object-cover rounded-sm"
+            className="w-[170px] h-[70px] object-contain"
           />{" "}
         </Link>
 
