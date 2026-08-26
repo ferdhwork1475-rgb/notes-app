@@ -5,6 +5,7 @@
 
     <meta name="description" content="<%= metadata.description %>" />
 
+    <link rel="canonical" href="<%= metadata.url %>" />
 
     <meta property="og:title" content="<%= metadata.title %>" />
 
@@ -21,6 +22,8 @@
 
     <meta property="og:image:alt" content="<%= metadata.title %>" />
 
+    <meta property="og:url" content="<%= metadata.url %>" />
+
     <meta property="og:type" content="article" />
 
     <meta property="og:site_name" content="<%= metadata.siteName %>" />
@@ -28,8 +31,7 @@
     <meta property="og:locale" content="en_NG" />
 
     <script>
-      console.log("<%= metadata.description %>");
-      console.log("<%= metadata.image %>");
+      window.location.replace("<%= metadata.url %>");
     </script>
   </head>
   <body></body>
