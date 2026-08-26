@@ -68,7 +68,7 @@ const EditArticle = () => {
         setPreview(response.articleData.thumbnail || "");
       } catch (error) {
         setErrorState(true);
-        toast.error("Failed to load article records");
+        toast.error("Failed to load article records... Check your internet connection.");
       } finally {
         setFetching(false);
       }
@@ -179,7 +179,7 @@ const EditArticle = () => {
       toast.success("News article updated successfully");
       navigate("/admin");
     } catch (error) {
-      toast.error("Failed to update news article");
+      toast.error("Failed to update news article... Check your internet connection.");
     } finally {
       setLoading(false);
     }

@@ -2,36 +2,34 @@
 <html lang="en">
   <head>
     <title><%= metadata.title %></title>
+
     <meta name="description" content="<%= metadata.description %>" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="<%= metadata.url %>" />
 
-    <!-- Open Graph (WhatsApp/Facebook/LinkedIn) -->
+
     <meta property="og:title" content="<%= metadata.title %>" />
-    <meta property="og:description" content="<%= metadata.description.slice(0, 200) %>" />
+
+    <meta
+      property="og:description"
+      content="<%= metadata.description.slice(0, 300) %>"
+    />
+
     <meta property="og:image" content="<%= metadata.image %>" />
-    <meta property="og:url" content="<%= metadata.url %>" />
-    <meta property="og:type" content="<%= metadata.type %>" />
-    <meta property="og:site_name" content="<%= metadata.siteName %>" />
-    <meta property="og:locale" content="<%= metadata.locale %>" />
+
     <meta property="og:image:width" content="1200" />
+
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Article Title" />
 
-    <!-- Open Graph (Twitter) -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<%= metadata.title %>" />
-    <meta name="twitter:description" content="<%= metadata.description.slice(0, 200) %>" />
-    <meta name="twitter:image" content="<%= metadata.image %>" />
-    <meta name="twitter:image:alt" content="<%= metadata.title %>" />
+    <meta property="og:image:alt" content="<%= metadata.title %>" />
 
-    <!-- Open Graph (Article Specific) -->
-    <meta property="article:published_time" content="<%= metadata.createdAt %>" />
-    <meta property="article:modified_time" content="<%= metadata.updatedAt %>" />
-    <meta property="article:section" content="<%= metadata.section %>" />
+    <meta property="og:type" content="article" />
+
+    <meta property="og:site_name" content="<%= metadata.siteName %>" />
+
+    <meta property="og:locale" content="en_NG" />
 
     <script>
-      window.location.replace("<%= metadata.url %>");
+      console.log("<%= metadata.description %>");
+      console.log("<%= metadata.image %>");
     </script>
   </head>
   <body></body>

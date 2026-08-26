@@ -28,7 +28,7 @@ const Hero = () => {
         const response = await fetchArticles(page, category);
         setArticle(response.articles[0]);
       } catch (error) {
-        toast.error("Failed to load article");
+        toast.error("Check your internet connection.");
       } finally {
         setLoading(false);
       }

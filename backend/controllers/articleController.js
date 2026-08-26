@@ -160,7 +160,7 @@ export const renderArticlePage = async (req, res, next) => {
       description: article.content,
       image: article.thumbnail.url,
       url: `https://notes-app-v944.vercel.app/articles/${article.slug}`,
-      type: "article",
+      type: "website",
       siteName: "WatchMann News",
       locale: "en_NG",
       publishedTime: article.createdAt,

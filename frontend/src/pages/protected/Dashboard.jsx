@@ -46,7 +46,7 @@ const Dashboard = () => {
         setTotalPages(response.totalPages);
         setTotalArticles(response.totalArticles);
       } catch (error) {
-        toast.error("Failed to laod articles");
+        toast.error("Failed to load articles... Check your internet connection.");
       } finally {
         setLoading(false);
       }

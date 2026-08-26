@@ -55,7 +55,7 @@ const NewsLibrary = () => {
         setTotalPages(response.totalPages);
         setTotalArticles(response.totalArticles);
       } catch (error) {
-        toast.error("Failed to load news. Check internet connection.");
+        toast.error("Failed to load news... Check your internet connection.");
       } finally {
         setLoading(false);
       }

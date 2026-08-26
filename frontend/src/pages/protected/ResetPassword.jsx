@@ -65,7 +65,7 @@ const ResetPassword = () => {
     } catch (err) {
       toast.error(
         err.response?.data?.message ||
-          "Failed to finalize new password updates.",
+          "Failed to finalize new password updates... Check your internet connection.",
       );
     } finally {
       setIsLoading(false);

@@ -108,7 +108,7 @@ const IndexPage = () => {
         const response = await fetchArticles(page, category);
         setArticles(response.articles);
       } catch (error) {
-        toast.error("Failed to news article. Check internet connection.");
+        toast.error("Failed to news article... Check your internet connection.");
         console.log(error);
       } finally {
         setLoading(false);

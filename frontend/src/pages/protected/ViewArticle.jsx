@@ -71,7 +71,7 @@ const ViewArticle = () => {
         setArticle(response.articleData);
         setRelatedArticles(response.relatedArticlesData);
       } catch (error) {
-        toast.error("Failed to load article content");
+        toast.error("Failed to load article... Check your internet connection.");
       } finally {
         setLoading(false);
       }
@@ -111,7 +111,7 @@ const ViewArticle = () => {
         toast.success("Article deleted successfully");
         navigate("/admin");
       } catch (error) {
-        toast.error("Could not complete delete action");
+        toast.error("Could not complete delete action... Check your internet connection.");
       }
     }
   };
